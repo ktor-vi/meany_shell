@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:17 by randre            #+#    #+#             */
-/*   Updated: 2024/01/08 15:06:16 by randre           ###   ########.fr       */
+/*   Updated: 2024/01/08 16:20:47 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,15 @@ int	main(void)
 	{
 		i = -1;
 		line = readline("$ ");
-		split_line = ft_split(line, ' ');
-		if (!split_line)
+		if (!ft_strcmp(line, ""))
 		{
-			split_line = malloc(1 * sizeof(char *));
-			split_line[0] = line;
+			split_line = ft_split(line, ' ');
+			if (ft_strcmp(split_line[0], "exit")
+			check_command(split_line);
+			while(split_line[++i])
+				free(split_line[i]);
+			free(split_line);
 		}
-		check_command(split_line);
-		while(split_line[++i])
-			free(split_line[i]);
-		free(split_line);
 		free(line);
 	}
 	return (0);
