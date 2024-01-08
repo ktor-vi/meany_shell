@@ -1,14 +1,16 @@
 NAME = minishell
 
 
-SRC = 	src/main.c            \
-				src/exec.c            \
+SRC = 	src/main.c \
+		src/utils.c \
+		src/check_command.c \
+		src/echo_command.c \
 
 INC = includes/minishell.h
 
 CC = cc
 
-FLAGS =   -Wall -Wextra -Werror 
+FLAGS =   -Wall -Wextra -Werror
 
 OBJ = $(SRC:.c=.o)
 
@@ -21,7 +23,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@make -C $(LIBFT_DIR)
 	@cp $(LIBFT_DIR)/libft.a .
-	$(CC) $(FLAGS) $(OBJ) libft.a -o $@ 
+	$(CC) $(FLAGS) -lreadline $(OBJ) libft.a -o $@ 
 	@rm libft.a
 
 %.o: %.c $(INC)
