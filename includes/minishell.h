@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/01/08 14:57:50 by randre           ###   ########.fr       */
+/*   Updated: 2024/01/18 10:37:05 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 # include <unistd.h>
 # include "../libft/libft.h"
 
-void	check_command(char **split_line);
+void	check_command(char **split_line, char **envp);
+void	env_command(char **envp);
 void	echo_command(char **split_line);
 int		ft_strcmp(char *s1, char *s2);
 
