@@ -6,31 +6,40 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:48:14 by randre            #+#    #+#             */
-/*   Updated: 2024/01/08 16:16:26 by randre           ###   ########.fr       */
+/*   Updated: 2024/01/18 10:24:44 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	verify_end_quote(char **split_line, int *val, int i, int j)
+void	verify_end_quote(char **split_line, int *val, int i, int j, char c)
 {
-	if (*val == 1)
+	if (*val == 1 && c == 39)
 	{
-		val = 0;
+		*val = 0;
+		return ;
+	}
+	else if (*val == 2 && c == '"')
+	{
+		*val = 0;
 		return ;
 	}
 	while (split_line[i])
 	{
 		while (split_line[i][++j])
 		{
-			if (split_line[i][j] == '"')
+			if (split_line[i][j] == c)
 			{
-				*val = 1;
+				if (split_line[i][j] == '"')
+					*val = 2;
+				else
+					*val = 1;
 				break;
 			}
 		}
-		if (*val == 1)
+		if (*val == 1 || *val == 2)
 			break;
+		j = -1;
 		i++;
 	}
 }
@@ -43,7 +52,7 @@ void	handle_env(char **split_line, int i, int j)
 	char	*true_name;
 
 	len = 0;
-	if (!split_line[i][j + 1])
+	if (!split_line[i][j + 1] || split_line[i][j + 1] == '"' || split_line[i][j + 1] == 39)
 	{
 		printf("$");
 		return ;
@@ -53,7 +62,7 @@ void	handle_env(char **split_line, int i, int j)
 		len++;
 	name = malloc((len + 1) * sizeof(char));
 	len = -1;
-	while (split_line[i][++old_j])
+	while (split_line[i][++old_j] && split_line[i][old_j] != '"')
 		name[++len] = split_line[i][old_j];
 	name[len + 1] = '\0';
 	true_name = getenv(name);
@@ -73,14 +82,29 @@ void	print_echo(char **split_line, int newline, int i)
 		j = -1;
 		while (split_line[i][++j])
 		{
-			if (split_line[i][j] == '"')
-				verify_end_quote(split_line, &in_quotes, i, j);
+			if (split_line[i][j] == '"' || split_line[i][j] == 39)
+				verify_end_quote(split_line, &in_quotes, i, j, split_line[i][j]);
 			else if (split_line[i][j] == '$')
 			{
-				handle_env(split_line, i, j);
-				break;
+				if (in_quotes != 1)
+				{
+					handle_env(split_line, i, j);
+					break;
+				}
+				else
+				{
+					
+					while (split_line[i][j] && split_line[i][j] != 39)
+					{
+						printf("%c", split_line[i][j]);
+						j++;
+					}
+					break;
+				}
 			}
-			else
+			else if ((split_line[i][j] != 92 && split_line[i][j] != '?' && split_line[i][j] != '"') && in_quotes == 0)
+				printf("%c", split_line[i][j]);
+			else if (in_quotes == 1 || in_quotes == 2)
 				printf("%c", split_line[i][j]);
 		}
 		if (split_line[i + 1])
