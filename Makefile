@@ -26,11 +26,11 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@make -C $(LIBFT_DIR)
 	@cp $(LIBFT_DIR)/libft.a .
-	$(CC) $(FLAGS) -lreadline $(OBJ) libft.a -o $@ 
+	$(CC) $(FLAGS) -lreadline -L ~/.brew/opt/readline/lib $(OBJ) libft.a -o $@ 
 	@rm libft.a
 
 %.o: %.c $(INC)
-	$(CC) $(FLAGS) -I $(INC) -o $@ -c $<
+	$(CC) $(FLAGS)  -I ~/.brew/opt/readline/include -o $@ -c $<
 
 clean:
 	@make fclean -C $(LIBFT_DIR)
