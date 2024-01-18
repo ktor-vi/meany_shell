@@ -6,6 +6,8 @@ SRC = 	src/main.c \
 		src/check_command.c \
 		src/echo_command.c \
 		src/env_command.c \
+		src/cd_command.c \
+		src/pwd_command.c
 
 INC = includes/minishell.h
 

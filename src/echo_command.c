@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:48:14 by randre            #+#    #+#             */
-/*   Updated: 2024/01/18 10:24:44 by randre           ###   ########.fr       */
+/*   Updated: 2024/01/18 10:43:21 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,7 @@ void	print_echo(char **split_line, int newline, int i)
 					break;
 				}
 				else
-				{
-					
+				{	
 					while (split_line[i][j] && split_line[i][j] != 39)
 					{
 						printf("%c", split_line[i][j]);
