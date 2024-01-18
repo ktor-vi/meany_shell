@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:17 by randre            #+#    #+#             */
-/*   Updated: 2024/01/18 11:55:11 by randre           ###   ########.fr       */
+/*   Updated: 2024/01/18 15:16:20 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ void	handle_SIGINT(int sig)
 	rl_redisplay();
 }
 
+void	handle_SIGQUIT(int sig)
+{
+	sig = 0;
+	return ;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	**split_line;
@@ -32,6 +38,7 @@ int	main(int argc, char **argv, char **envp)
 	argv = NULL;
 	line = NULL;
 	signal(SIGINT, handle_SIGINT);
+	signal(SIGQUIT, handle_SIGQUIT);
 	while (1)
 	{
 		i = -1;
