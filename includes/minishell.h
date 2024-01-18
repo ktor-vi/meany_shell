@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/01/18 10:52:22 by randre           ###   ########.fr       */
+/*   Updated: 2024/01/18 11:05:01 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <readline/history.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <sys/types.h>
+# include <signal.h>
 # include "../libft/libft.h"
 
 void	check_command(char **split_line, char **envp);
