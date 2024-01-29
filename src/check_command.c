@@ -35,6 +35,8 @@ void	check_command(char **split_line, t_envs *envs)
 		}
 		else if (ft_equalstr(split_line[0], "cd")) 
 		  cd_command(split_line);
+		else if (ft_equalstr(split_line[0], "unset")) 
+		  unset_cmd(envs, split_line[1]);
 		else if (ft_equalstr(split_line[0], "pwd"))
 		  pwd_command();
 		else if (!ft_equalstr(split_line[0], "exit"))

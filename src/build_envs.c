@@ -53,4 +53,11 @@ void free_envs(t_envs **envs)
     						free(tmp->value);
                 free(tmp);
 	}
+
+}
+void free_entry(t_entry *entry)
+{
+    						free(entry->name);
+    						free(entry->value);
+                free(entry);
 }

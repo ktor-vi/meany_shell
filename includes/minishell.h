@@ -51,15 +51,18 @@ int	getchindex(char *s, int c);
 //ENV & EXPORT
 t_envs	*build_envs(char **envp);
 void	printenv(t_entry *n);
-void free_envs(t_envs **envs);
 void	printexport(t_entry *exp);
 void	printenv(t_entry *env);
 void	export_cmd(t_envs *envs, char *var);
+void	unset_cmd(t_envs *envs, char *var);
+t_entry *find_entryprev(t_entry *lst, char *to_find);
 //ENV UTILS
 t_entry	*swap(t_entry *ptr1, t_entry *ptr2);
 void	sort_alpha_ll(t_entry **head, int count);
 t_entry  *lastentry(t_entry *lst);
 void	ft_entry_addb(t_entry **lst, t_entry *new);
 t_entry	*newentry(char *var);
+void free_entry(t_entry *entry);
+void free_envs(t_envs **envs);
 
 #endif
