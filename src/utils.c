@@ -26,12 +26,12 @@ int ft_equalstr(char *s1, char *s2) {
 
 int	getchindex(char *s, int c)
 {
-	size_t	i;
+	int i;
 
 	i = 0;
 	if (!s)
 		return (-1);
-	while (s[i])
+	while (s[i] != '\0')
 	{
 		if (s[i] == c)
 			return (i);

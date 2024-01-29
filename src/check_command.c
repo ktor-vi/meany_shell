@@ -29,10 +29,7 @@ void	check_command(char **split_line, t_envs *envs)
 		else if (ft_equalstr(split_line[0], "export"))
 		{
 			if (split_line[1])
-			{
-				write(1, "WIP\n", 14);
-				return ;
-			}
+        export_cmd(envs, split_line[1]);
 			else
 				printexport(envs->exp);
 		}

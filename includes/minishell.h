@@ -29,7 +29,6 @@ typedef struct s_entry
 	char			*name;
 	char			*value;
 	struct s_entry	*next;
-	struct s_entry	*prev;
 }					t_entry;
 
 typedef struct s_envs
@@ -55,6 +54,7 @@ void	printenv(t_entry *n);
 void free_envs(t_envs **envs);
 void	printexport(t_entry *exp);
 void	printenv(t_entry *env);
+void	export_cmd(t_envs *envs, char *var);
 //ENV UTILS
 t_entry	*swap(t_entry *ptr1, t_entry *ptr2);
 void	sort_alpha_ll(t_entry **head, int count);

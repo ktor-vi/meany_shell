@@ -7,6 +7,7 @@ SRC = 	src/main.c \
 		src/echo_command.c \
 		src/envs_commands.c \
 		src/build_envs.c \
+		src/export_unset.c \
 		src/env_utils.c \
 		src/cd_command.c \
 		src/pwd_command.c

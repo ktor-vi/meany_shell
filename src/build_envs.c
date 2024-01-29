@@ -23,7 +23,6 @@ t_envs	*build_envs(char **envp)
 	envs->exp = NULL;
 	while (envp[i])
 	{
-		printf("%s\n", envp[i]);
 		ft_entry_addb(&envs->env, newentry(envp[i]));
 		ft_entry_addb(&envs->exp, newentry(envp[i]));
 		i++;

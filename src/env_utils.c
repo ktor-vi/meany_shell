@@ -3,7 +3,7 @@
 t_entry	*newentry(char *var)
 {
 	t_entry	*new;
-	size_t	eq_pos;
+	int	eq_pos;
 
 	new = malloc(sizeof(t_entry));
 	if (!new)
@@ -11,7 +11,8 @@ t_entry	*newentry(char *var)
 	eq_pos = getchindex(var, '=');
 	new->name = ft_substr(var, 0, eq_pos);
 	new->value = ft_substr(var, eq_pos + 1, ft_strlen(var) - eq_pos);
-	new->prev= NULL;
+		new->name = ft_strtrim(new->name, "\"");
+		new->value = ft_strtrim(new->value, "\"");
 	new->next = NULL;
 	return (new);
 }
@@ -79,10 +80,7 @@ void	ft_entry_addb(t_entry **lst, t_entry *new)
                 return ;
         last = lastentry(*lst);
         if (last != NULL)
-        {
                 last->next = new;
-                new->prev = last;
-        }
         else
                 *lst = new;
 }

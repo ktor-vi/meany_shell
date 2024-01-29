@@ -15,7 +15,10 @@ void	printexport(t_entry  *exp)
 {
 	while (exp != NULL)
 	{
-		printf("%s=\"%s\"\n", exp->name, exp->value);
+		if(exp->value)
+			printf("declare -x %s=\"%s\"\n", exp->name, exp->value);
+		else
+			printf("declare -x %s\n", exp->name);
 		exp = exp->next;
 	}
 	printf("\n");
