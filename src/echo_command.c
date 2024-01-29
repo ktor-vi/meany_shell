@@ -117,7 +117,7 @@ void	echo_command(char **split_line)
 {
 	if (!split_line[1])
 		printf("\n");
-	else if (ft_strcmp(split_line[1], "-n") && split_line[2])
+	else if (ft_equalstr(split_line[1], "-n") && split_line[2])
 		print_echo(split_line, 0, 1);
 	else
 	{

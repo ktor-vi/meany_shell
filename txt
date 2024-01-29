@@ -1,0 +1,8 @@
+total 56
+-rw-r--r--  1 ktorvi  staff  1251 Jan 18 18:38 cd_command.c
+-rw-r--r--  1 ktorvi  staff  1444 Jan 26 14:30 check_command.c
+-rw-r--r--  1 ktorvi  staff  3083 Jan 18 18:38 echo_command.c
+-rw-r--r--  1 ktorvi  staff  1027 Jan 18 18:38 env_command.c
+-rw-r--r--  1 ktorvi  staff  1867 Jan 26 14:28 main.c
+-rw-r--r--  1 ktorvi  staff  1079 Jan 18 18:38 pwd_command.c
+-rw-r--r--  1 ktorvi  staff  1082 Jan 26 14:20 utils.c
