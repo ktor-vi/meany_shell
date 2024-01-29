@@ -41,18 +41,20 @@ typedef struct s_envs
 
 }					t_envs;
 
-void check_command(char **split_line, char **envp);
+void check_command(char **split_line, t_envs *envs);
 void env_command(char **envp);
 void cd_command(char **split_line);
 void pwd_command(void);
 void echo_command(char **split_line);
-int ft_equalstr(char *s1, char *s2);
 //UTILS
+int ft_equalstr(char *s1, char *s2);
 int	getchindex(char *s, int c);
 //ENV & EXPORT
 t_envs	*build_envs(char **envp);
 void	printenv(t_entry *n);
 void free_envs(t_envs **envs);
+void	printexport(t_entry *exp);
+void	printenv(t_entry *env);
 //ENV UTILS
 t_entry	*swap(t_entry *ptr1, t_entry *ptr2);
 void	sort_alpha_ll(t_entry **head, int count);

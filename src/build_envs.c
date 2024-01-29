@@ -23,6 +23,7 @@ t_envs	*build_envs(char **envp)
 	envs->exp = NULL;
 	while (envp[i])
 	{
+		printf("%s\n", envp[i]);
 		ft_entry_addb(&envs->env, newentry(envp[i]));
 		ft_entry_addb(&envs->exp, newentry(envp[i]));
 		i++;
@@ -31,17 +32,6 @@ t_envs	*build_envs(char **envp)
 	envs->env_ct = i;
 	envs->exp_ct = i;
 	return (envs);
-}
-
-
-void	printenv(t_entry *n)
-{
-	while (n != NULL)
-	{
-		printf("%s=\"%s\"\n", n->name, n->value);
-		n = n->next;
-	}
-	printf("\n");
 }
 
 void free_envs(t_envs **envs)

@@ -31,9 +31,11 @@ int main(int argc, char **argv, char **envp) {
   char *line;
   int exit_flag;
   int i;
+	t_envs *envs;
 
-  argc = 0;
-  argv = NULL;
+	(void)argc;
+	(void)argv;
+	envs = build_envs(envp);
   line = NULL;
   exit_flag = 0;
   signal(SIGINT, handle_SIGINT);
@@ -46,7 +48,7 @@ int main(int argc, char **argv, char **envp) {
       if (ft_equalstr(split_line[0], "exit"))
         exit_flag = 1;
       add_history(line);
-      check_command(split_line, envp);
+      check_command(split_line, envs);
       while (split_line[++i])
         free(split_line[i]);
       free(split_line);
