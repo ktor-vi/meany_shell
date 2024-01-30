@@ -21,6 +21,12 @@ t_envs	*build_envs(char **envp)
 	envs = malloc(sizeof(t_envs));
 	envs->env = NULL;
 	envs->exp = NULL;
+	if (!envp)
+	{
+		envs->env_ct = 0;
+		envs->exp_ct = 0;
+		return (envs);
+	}
 	while (envp[i])
 	{
 		ft_entry_addb(&envs->env, newentry(envp[i]));
@@ -33,31 +39,34 @@ t_envs	*build_envs(char **envp)
 	return (envs);
 }
 
-void free_envs(t_envs **envs)
+void	free_envs(t_envs **envs)
 {
-	t_entry *tmp;
+	t_entry	*tmp;
 
-	while((*envs)->env->next)
+	while ((*envs)->env->next)
 	{
-                tmp = (*envs)->env;
-                (*envs)->env = (*envs)->env->next;
-    						free(tmp->name);
-    						free(tmp->value);
-                free(tmp);
+		tmp = (*envs)->env;
+		(*envs)->env = (*envs)->env->next;
+		free(tmp->name);
+		free(tmp->value);
+		free(tmp);
 	}
-	while((*envs)->exp->next)
+	while ((*envs)->exp->next)
 	{
-                tmp = (*envs)->exp;
-                (*envs)->exp = (*envs)->exp->next;
-    						free(tmp->name);
-    						free(tmp->value);
-                free(tmp);
+		tmp = (*envs)->exp;
+		(*envs)->exp = (*envs)->exp->next;
+		free(tmp->name);
+		free(tmp->value);
+		free(tmp);
 	}
-
 }
-void free_entry(t_entry *entry)
+void	free_entry(t_entry *entry_prev)
 {
-    						free(entry->name);
-    						free(entry->value);
-                free(entry);
+	t_entry	*tmp;
+
+	tmp = entry_prev->next;
+	entry_prev->next = entry_prev->next->next;
+	free(tmp->name);
+	free(tmp->value);
+	free(tmp);
 }

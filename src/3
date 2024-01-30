@@ -3,20 +3,16 @@
 t_entry	*newentry(char *var)
 {
 	t_entry	*new;
-	int		eq_pos;
-	int		offset;
+	int	eq_pos;
 
-	offset = 0;
 	new = malloc(sizeof(t_entry));
 	if (!new)
 		return (NULL);
 	eq_pos = getchindex(var, '=');
-	if (var[eq_pos - 1] == '+')
-		offset = 1;
-	new->name = ft_substr(var, 0, eq_pos - offset);
+	new->name = ft_substr(var, 0, eq_pos);
 	new->value = ft_substr(var, eq_pos + 1, ft_strlen(var) - eq_pos);
-	new->name = ft_strtrim(ft_strtrim(new->name, "\""), "\'");
-	new->value = ft_strtrim(ft_strtrim(new->value, "\""), "\'");
+		new->name = ft_strtrim(new->name, "\"");
+		new->value = ft_strtrim(new->value, "\"");
 	new->next = NULL;
 	return (new);
 }
@@ -64,27 +60,27 @@ void	sort_alpha_ll(t_entry **head, int count)
 	}
 }
 
-t_entry	*lastentry(t_entry *lst)
+t_entry  *lastentry(t_entry *lst)
 {
-	t_entry	*ptr;
+        t_entry  *ptr;
 
-	ptr = lst;
-	if (ptr == NULL)
-		return (NULL);
-	while (ptr->next != NULL)
-		ptr = ptr->next;
-	return (ptr);
+        ptr = lst;
+        if (ptr == NULL)
+                return (NULL);
+        while (ptr->next != NULL)
+                ptr = ptr->next;
+        return (ptr);
 }
 
 void	ft_entry_addb(t_entry **lst, t_entry *new)
 {
-	t_entry	*last;
+        t_entry  *last;
 
-	if (new == NULL)
-		return ;
-	last = lastentry(*lst);
-	if (last != NULL)
-		last->next = new;
-	else
-		*lst = new;
+        if (new == NULL)
+                return ;
+        last = lastentry(*lst);
+        if (last != NULL)
+                last->next = new;
+        else
+                *lst = new;
 }

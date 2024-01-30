@@ -45,7 +45,7 @@ size_t	ft_strlcat(char *dst, char *src, size_t dstsize);
 void	*ft_calloc(size_t nitems, size_t size);
 char	*ft_strdup(const char *s);
 char	*ft_substr(char *s, unsigned int start, size_t len);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char *s1, char *s2);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
