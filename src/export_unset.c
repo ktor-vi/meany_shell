@@ -27,6 +27,19 @@ t_entry	*find_entryprev(t_entry *lst, char *to_find)
 	return (NULL);
 }
 
+t_entry	*find_entry(t_entry *lst, char *to_find)
+{
+	if (!lst | !to_find)
+		return (NULL);
+	while (lst)
+	{
+		if (ft_equalstr(lst->name, to_find))
+			return (lst);
+		lst = lst->next;
+	}
+	return (NULL);
+}
+
 void	append_value(t_envs *envs, char *var, int eq_pos)
 {
 	t_entry	*entry;
@@ -85,18 +98,18 @@ void	export_cmd(t_envs *envs, char *var)
 
 void	unset_cmd(t_envs *envs, char *var)
 {
-	t_entry	*env_prev;
-	t_entry	*exp_prev;
+	t_entry	*env_n;
+	t_entry	*exp_n;
 
-	env_prev = find_entryprev(envs->env, var);
-	exp_prev = find_entryprev(envs->exp, var);
+	env_n = find_entry(envs->env, var);
+	exp_n = find_entry(envs->exp, var);
 	if (getchindex(var, '=') > 0)
 		printf("unset: `%s': not a valid identifier\n", var);
 	else
 	{
-		if (env_prev)
-			free_entry(env_prev);
-		if (exp_prev)
-			free_entry(exp_prev);
+		if (env_n)
+			free_entry(env_n);
+		if (exp_n)
+			free_entry(exp_n);
 	}
 }
