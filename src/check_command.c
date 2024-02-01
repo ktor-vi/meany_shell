@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:45:36 by randre            #+#    #+#             */
-/*   Updated: 2024/01/18 10:49:48 by randre           ###   ########.fr       */
+/*   Updated: 2024/02/01 11:33:50 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	check_command(char **split_line, t_envs *envs)
 	{
 		if (split_line[1])
 		{
-			write(1, "no arguments supported\n", 14);
+			write(1, "no arguments supported\n", 23);
 			return ;
 		}
 		else

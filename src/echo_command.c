@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:48:14 by randre            #+#    #+#             */
-/*   Updated: 2024/01/18 10:43:21 by randre           ###   ########.fr       */
+/*   Updated: 2024/02/01 14:49:36 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	echo_command(char **split_line)
 		print_echo(split_line, 0, 1);
 	else
 	{
-		if (ft_strcmp(split_line[1], "-n"))
+		if (ft_equalstr(split_line[1], "-n"))
 			return ;
 		print_echo(split_line, 1, 0);
 	}
