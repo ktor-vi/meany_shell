@@ -23,3 +23,37 @@ void	printexport(t_entry  *exp)
 	}
 	printf("\n");
 }
+
+void	printtab(char  **exp)
+{
+	uint i = 0;
+	while (exp != NULL)
+	{
+		while(exp[++i])
+			printf("%s\n", exp[i]);
+	}
+	printf("\n");
+}
+
+char **ll_to_tab(t_entry *env, int ct)
+{
+	char **envp;
+	int i;
+	char *var;
+
+	i = 0;
+	envp = malloc(sizeof(char *) * ct + 1);
+	while(env)
+	{
+		var = ft_strjoin(env->name, "=");
+		var = ft_strjoin(var, env->value);
+		envp[i] = var;
+		env = env->next;
+		i++;
+	}
+	envp[i] = NULL;
+	return(envp);
+}
+
+
+
