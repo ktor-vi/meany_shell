@@ -6,27 +6,27 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:17 by randre            #+#    #+#             */
-/*   Updated: 2024/01/18 15:16:20 by randre           ###   ########.fr       */
+/*   Updated: 2024/02/01 16:34:33 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		sig;
-
 void	handle_SIGINT(int sig)
 {
-	sig = 0;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	if (sig == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 
 void	handle_SIGQUIT(int sig)
 {
-	sig = 0;
-	return ;
+	if (sig == SIGQUIT)
+		return ;
 }
 
 int	main(int argc, char **argv, char **envp)
