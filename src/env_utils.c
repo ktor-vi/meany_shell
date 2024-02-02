@@ -5,20 +5,26 @@ t_entry	*newentry(char *var)
 	t_entry	*new;
 	int		eq_pos;
 	int		offset;
+	char	*name;
+	char	*value;
 
 	offset = 0;
-	new = ft_calloc(1, sizeof(t_entry));
+	new = malloc(sizeof(t_entry));
 	if (!new)
 		return (NULL);
 	eq_pos = getchindex(var, '=');
 	if (var[eq_pos - 1] == '+')
 		offset = 1;
-	new->name = ft_substr(var, 0, eq_pos - offset);
-	new->value = ft_substr(var, eq_pos + 1, ft_strlen(var) - eq_pos);
-	new->name = ft_strtrim(ft_strtrim(new->name, "\""), "\'");
-	new->value = ft_strtrim(ft_strtrim(new->value, "\""), "\'");
+	name = ft_substr(var, 0, eq_pos - offset);
+	name = ft_strtrim(ft_strtrim(name, "\""), "\'");
+	new->name = name;
+	value = ft_substr(var, eq_pos + 1, ft_strlen(var) - eq_pos);
+	value = ft_strtrim(ft_strtrim(value, "\""), "\'");
+	new->value = value;
 	new->prev = NULL;
 	new->next = NULL;
+	// free(name);
+	// free(value);
 	return (new);
 }
 
@@ -31,7 +37,6 @@ t_entry	*swap(t_entry *ptr1, t_entry *ptr2)
 	ptr1->next = tmp;
 	ptr1->prev = ptr2;
 	ptr2->prev = ptr1;
-
 	return (ptr2);
 }
 

@@ -40,6 +40,5 @@ void	check_command(char **split_line, t_envs *envs)
 		else if (ft_equalstr(split_line[0], "pwd"))
 		  pwd_command();
 		else if (!ft_equalstr(split_line[0], "exit"))
-		       write(1,
-			"unknown command\n", 16);
+			printf("%s: command not found or WIP\n", split_line[0]);
 	}

@@ -33,7 +33,7 @@ t_envs	*build_envs(char **envp)
 	sort_alpha_ll(&envs->exp, i);
 	envs->env_ct = i;
 	envs->exp_ct = i;
-	return (envs);
+	return (envs);;
 }
 
 void	free_envs(t_envs **envs)

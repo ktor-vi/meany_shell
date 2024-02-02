@@ -93,5 +93,6 @@ t_entry				*newentry(char *var);
 void				free_entry(t_entry *entry);
 void	free_entry_alone(t_entry *entry_prev);
 void				free_envs(t_envs **envs);
-
+// EXEC UTILS
+char	*get_cmdpath(char **cmd, t_entry *envp);
 #endif

@@ -1,20 +1,23 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
+#include "../includes/minishell.h"
 
 #define MAX_ARGC 3
 
 int main(void) {
-    char *commands[][MAX_ARGC + 1] = {
-        {"ls", NULL},
-        {"wc", "-l", NULL},
-        {"xargs", "printf", "0x%x\n", NULL},
-        {"cowsay", NULL}
-    };
+    char **commands = malloc(sizeof(char *) * 3);
+    commands[0] = "ls";
+    commands[1] = "-l";
+    commands[2] =  NULL;
+        // {"wc", "-l", NULL},
+        // {"xargs", "printf", "0x%x\n", NULL},
+        // {"cowsay", NULL}
 
+    t_entry *envp = malloc(sizeof(t_entry));
+    envp->name = "PATH";
+    envp->value = getenv("PATH");
+    envp->next = NULL;
     size_t i, n;
     int prev_pipe, pfds[2];
-
+    printf("%s\n", get_cmdpath(commands, envp));
     n = sizeof(commands) / sizeof(*commands);
     prev_pipe = STDIN_FILENO;
 
@@ -33,7 +36,7 @@ int main(void) {
             close(pfds[1]);
 
             // Start command
-            execvp(commands[i][0], commands[i]);
+            execve(get_cmdpath(commands, envp), commands, NULL);
 
             perror("execvp failed");
             exit(1);
@@ -56,7 +59,7 @@ int main(void) {
     }
 
     // Start last command
-    execvp(commands[i][0], commands[i]);
+    execve(get_cmdpath(commands, envp), commands, NULL);
 
     perror("execvp failed");
     exit(1);

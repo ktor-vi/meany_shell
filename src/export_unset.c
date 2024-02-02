@@ -73,7 +73,7 @@ void	export_cmd(t_envs *envs, char *var)
 		return ;
 	eq_pos = getchindex(var, '=');
 	var_name = ft_substr(var, 0, eq_pos);
-	if (var[eq_pos - 1] == '+' && eq_pos > 0)
+	if (eq_pos > 0 && var[eq_pos - 1] == '+')
 		append_value(envs, var, eq_pos);
 	else if (eq_pos < 0 && find_entry(envs->exp, var_name) == NULL)
 	{

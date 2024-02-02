@@ -16,7 +16,7 @@ INC = includes/minishell.h
 
 CC = cc
 
-FLAGS =   # -Wall -Wextra -Werror
+FLAGS =   -g # -Wall -Wextra -Werror
 
 OBJ = $(SRC:.c=.o)
 
