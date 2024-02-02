@@ -1,7 +1,7 @@
 
 #include "../includes/minishell.h"
 
-char	*get_cmdpath(char **cmd, char **envp)
+char	*get_cmdpath(char **cmd, t_entry **envp)
 {
 	int		i;
 	int		j;

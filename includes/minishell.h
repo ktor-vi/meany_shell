@@ -28,6 +28,7 @@ typedef struct s_entry
 	char			*name;
 	char			*value;
 	struct s_entry	*next;
+	struct s_entry	*prev;
 }					t_entry;
 
 typedef struct s_envs
@@ -90,6 +91,7 @@ t_entry				*lastentry(t_entry *lst);
 void				ft_entry_addb(t_entry **lst, t_entry *new);
 t_entry				*newentry(char *var);
 void				free_entry(t_entry *entry);
+void	free_entry_alone(t_entry *entry_prev);
 void				free_envs(t_envs **envs);
 
 #endif

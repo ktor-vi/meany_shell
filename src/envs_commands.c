@@ -3,6 +3,8 @@
 
 void	printenv(t_entry *env)
 {
+	if(!env)
+		return;
 	while (env != NULL)
 	{
 		printf("%s=%s\n", env->name, env->value);
@@ -13,6 +15,8 @@ void	printenv(t_entry *env)
 
 void	printexport(t_entry  *exp)
 {
+	if(!exp)
+		return;
 	while (exp != NULL)
 	{
 		if(exp->value)

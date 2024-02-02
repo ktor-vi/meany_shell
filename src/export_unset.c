@@ -6,11 +6,12 @@ static t_entry	*only_exp_entry(char *var)
 	size_t	eq_pos;
 
 	new = malloc(sizeof(t_entry));
-	if (!new)
+	if (!new || !var)
 		return (NULL);
 	new->name = ft_strdup(var);
 	new->value = NULL;
 	new->next = NULL;
+	new->prev = NULL;
 	return (new);
 }
 
@@ -29,7 +30,7 @@ t_entry	*find_entryprev(t_entry *lst, char *to_find)
 
 t_entry	*find_entry(t_entry *lst, char *to_find)
 {
-	if (!lst | !to_find)
+	if (!lst || !to_find || lst->name == NULL)
 		return (NULL);
 	while (lst)
 	{
@@ -47,24 +48,20 @@ void	append_value(t_envs *envs, char *var, int eq_pos)
 	char	*value;
 
 	var_name = ft_substr(var, 0, eq_pos - 1);
-	entry = find_entryprev(envs->env, var_name);
+	entry = find_entry(envs->env, var_name);
 	if (!entry)
 		ft_entry_addb(&envs->env, newentry(var));
 	else
 	{
-		entry = entry->next;
 		value = ft_strjoin(entry->value, ft_strtrim(ft_strtrim(ft_substr(var,
 						eq_pos + 1, ft_strlen(var) - eq_pos), "\""), "'"));
 		entry->value = value;
-		entry = find_entryprev(envs->exp, var_name);
+		entry = find_entry(envs->exp, var_name);
 	}
 	if (!entry)
 		ft_entry_addb(&envs->exp, newentry(var));
 	else
-	{
-		entry = entry->next;
 		entry->value = value;
-	}
 }
 
 void	export_cmd(t_envs *envs, char *var)
@@ -72,44 +69,49 @@ void	export_cmd(t_envs *envs, char *var)
 	int		eq_pos;
 	char	*var_name;
 
-	eq_pos = getchindex(var, '=');
-	var_name = ft_substr(var, 0, eq_pos);
 	if (!var)
 		return ;
-	if (!find_entryprev(envs->exp, var_name))
-		envs->exp_ct++;
-	if (!find_entryprev(envs->env, var_name))
-		envs->env_ct++;
+	eq_pos = getchindex(var, '=');
+	var_name = ft_substr(var, 0, eq_pos);
 	if (var[eq_pos - 1] == '+' && eq_pos > 0)
 		append_value(envs, var, eq_pos);
-	else if (eq_pos < 0 && find_entryprev(envs->exp, var_name) == NULL)
+	else if (eq_pos < 0 && find_entry(envs->exp, var_name) == NULL)
+	{
 		ft_entry_addb(&envs->exp, only_exp_entry(var));
+		envs->exp_ct++;
+	}
 	else if (eq_pos > 0)
 	{
-		if (find_entryprev(envs->exp, var_name) && var[eq_pos - 1] != '+')
-			free_entry(find_entryprev(envs->exp, var_name));
-		if (find_entryprev(envs->env, var_name) && var[eq_pos - 1] != '+')
-			free_entry(find_entryprev(envs->env, var_name));
+		if (find_entry(envs->exp, var_name) && var[eq_pos - 1] != '+')
+			free_entry(find_entry(envs->exp, var_name));
+		if (find_entry(envs->env, var_name) && var[eq_pos - 1] != '+')
+			free_entry(find_entry(envs->env, var_name));
 		ft_entry_addb(&envs->env, newentry(var));
 		ft_entry_addb(&envs->exp, newentry(var));
 	}
-		sort_alpha_ll(&envs->exp, envs->exp_ct);
+	sort_alpha_ll(&envs->exp, envs->exp_ct);
 }
 
 void	unset_cmd(t_envs *envs, char *var)
 {
-	t_entry	*env_n;
-	t_entry	*exp_n;
+	t_entry	*env;
+	t_entry	*exp;
 
-	env_n = find_entry(envs->env, var);
-	exp_n = find_entry(envs->exp, var);
-	if (getchindex(var, '=') > 0)
+	env = find_entry(envs->env, var);
+	exp = find_entry(envs->exp, var);
+	if (!exp)
+		return;
+	else if (getchindex(var, '=') > 0)
 		printf("unset: `%s': not a valid identifier\n", var);
 	else
 	{
-		if (env_n)
-			free_entry(env_n);
-		if (exp_n)
-			free_entry(exp_n);
+		if (env)
+			free_entry(env);
+		if (exp)
+			free_entry(exp);
+		envs->exp_ct--;
+		if(envs->exp_ct == 0)
+			envs->exp = NULL;
 	}
+		// printf("freed %p\n", exp->name);
 }

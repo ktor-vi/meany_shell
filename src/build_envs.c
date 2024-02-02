@@ -1,6 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
+/* ************************************************************************** */ /*                                                                            */ /*                                                        :::      ::::::::   */
 /*   env_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
@@ -23,7 +21,6 @@ t_envs	*build_envs(char **envp)
 	envs->exp = NULL;
 	if (!envp)
 	{
-		envs->env_ct = 0;
 		envs->exp_ct = 0;
 		return (envs);
 	}
@@ -60,13 +57,18 @@ void	free_envs(t_envs **envs)
 		free(tmp);
 	}
 }
-void	free_entry(t_entry *entry_prev)
+void	free_entry(t_entry *entry)
 {
-	t_entry	*tmp;
-
-	tmp = entry_prev->next;
-	entry_prev->next = entry_prev->next->next;
-	free(tmp->name);
-	free(tmp->value);
-	free(tmp);
+	if (entry->prev)
+		entry->prev->next = entry->next;
+	if (entry->name)
+		free(entry->name);
+	entry->name = NULL;
+	if(entry->value)
+		free(entry->value);
+	entry->value = NULL;
+	if (entry)
+		free(entry);
+	entry = NULL;
 }
+

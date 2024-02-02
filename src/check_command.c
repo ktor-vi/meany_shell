@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:45:36 by randre            #+#    #+#             */
-/*   Updated: 2024/02/01 15:55:39 by randre           ###   ########.fr       */
+/*   Updated: 2024/01/18 10:49:48 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	check_command(char **split_line, t_envs *envs)
 	{
 		if (split_line[1])
 		{
-			write(1, "no arguments supported\n", 23);
+			write(1, "no arguments supported\n", 14);
 			return ;
 		}
 		else
@@ -29,21 +29,17 @@ void	check_command(char **split_line, t_envs *envs)
 		else if (ft_equalstr(split_line[0], "export"))
 		{
 			if (split_line[1])
-        		export_cmd(envs, split_line[1]);
+        export_cmd(envs, split_line[1]);
 			else
 				printexport(envs->exp);
 		}
 		else if (ft_equalstr(split_line[0], "cd")) 
-			cd_command(split_line);
-		else if (ft_equalstr(split_line[0], "unset"))
-		{
-			if (!split_line[1])
-				write(1, "not enough arguments\n", 21);
-			else
-		  		unset_cmd(envs, split_line[1]);
-		}
+		  cd_command(split_line);
+		else if (ft_equalstr(split_line[0], "unset")) 
+		  unset_cmd(envs, split_line[1]);
 		else if (ft_equalstr(split_line[0], "pwd"))
-			pwd_command();
+		  pwd_command();
 		else if (!ft_equalstr(split_line[0], "exit"))
-		    write(1, "unknown command\n", 16);
+		       write(1,
+			"unknown command\n", 16);
 	}
