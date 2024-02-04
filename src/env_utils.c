@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vphilipp <vphilipp@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/04 20:47:24 by vphilipp          #+#    #+#             */
+/*   Updated: 2024/02/04 20:54:10 by vphilipp         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 t_entry	*newentry(char *var)
@@ -23,8 +35,6 @@ t_entry	*newentry(char *var)
 	new->value = value;
 	new->prev = NULL;
 	new->next = NULL;
-	// free(name);
-	// free(value);
 	return (new);
 }
 
@@ -46,8 +56,6 @@ void	sort_alpha_ll(t_entry **head, int count)
 	t_entry	**h;
 	int		swapped;
 	int		j;
-	t_entry	*p1;
-	t_entry	*p2;
 
 	i = 0;
 	while (i <= count)
@@ -57,11 +65,9 @@ void	sort_alpha_ll(t_entry **head, int count)
 		j = 0;
 		while (j < count - i - 1)
 		{
-			p1 = *h;
-			p2 = p1->next;
-			if (strcmp(p1->name, p2->name) > 0)
+			if (strcmp((*h)->name, (*h)->next->name) > 0)
 			{
-				*h = swap(p1, p2);
+				*h = swap(*h, (*h)->next);
 				swapped = 1;
 			}
 			h = &(*h)->next;

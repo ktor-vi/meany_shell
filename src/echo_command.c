@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:48:14 by randre            #+#    #+#             */
-/*   Updated: 2024/02/01 14:49:36 by randre           ###   ########.fr       */
+/*   Updated: 2024/02/04 20:47:36 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ void	verify_end_quote(char **split_line, int *val, int i, int j, char c)
 					*val = 2;
 				else
 					*val = 1;
-				break;
+				break ;
 			}
 		}
 		if (*val == 1 || *val == 2)
-			break;
+			break ;
 		j = -1;
 		i++;
 	}
@@ -52,7 +52,8 @@ void	handle_env(char **split_line, int i, int j)
 	char	*true_name;
 
 	len = 0;
-	if (!split_line[i][j + 1] || split_line[i][j + 1] == '"' || split_line[i][j + 1] == 39)
+	if (!split_line[i][j + 1] || split_line[i][j + 1] == '"' || split_line[i][j
+		+ 1] == 39)
 	{
 		printf("$");
 		return ;
@@ -83,25 +84,27 @@ void	print_echo(char **split_line, int newline, int i)
 		while (split_line[i][++j])
 		{
 			if (split_line[i][j] == '"' || split_line[i][j] == 39)
-				verify_end_quote(split_line, &in_quotes, i, j, split_line[i][j]);
+				verify_end_quote(split_line, &in_quotes, i, j,
+					split_line[i][j]);
 			else if (split_line[i][j] == '$')
 			{
 				if (in_quotes != 1)
 				{
 					handle_env(split_line, i, j);
-					break;
+					break ;
 				}
 				else
-				{	
+				{
 					while (split_line[i][j] && split_line[i][j] != 39)
 					{
 						printf("%c", split_line[i][j]);
 						j++;
 					}
-					break;
+					break ;
 				}
 			}
-			else if ((split_line[i][j] != 92 && split_line[i][j] != '?' && split_line[i][j] != '"') && in_quotes == 0)
+			else if ((split_line[i][j] != 92 && split_line[i][j] != '?'
+					&& split_line[i][j] != '"') && in_quotes == 0)
 				printf("%c", split_line[i][j]);
 			else if (in_quotes == 1 || in_quotes == 2)
 				printf("%c", split_line[i][j]);

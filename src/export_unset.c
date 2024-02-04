@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export_unset.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vphilipp <vphilipp@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/04 20:46:42 by vphilipp          #+#    #+#             */
+/*   Updated: 2024/02/04 20:46:52 by vphilipp         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 static t_entry	*only_exp_entry(char *var)
@@ -100,7 +112,7 @@ void	unset_cmd(t_envs *envs, char *var)
 	env = find_entry(envs->env, var);
 	exp = find_entry(envs->exp, var);
 	if (!exp)
-		return;
+		return ;
 	else if (getchindex(var, '=') > 0)
 		printf("unset: `%s': not a valid identifier\n", var);
 	else
@@ -110,8 +122,8 @@ void	unset_cmd(t_envs *envs, char *var)
 		if (exp)
 			free_entry(exp);
 		envs->exp_ct--;
-		if(envs->exp_ct == 0)
+		if (envs->exp_ct == 0)
 			envs->exp = NULL;
 	}
-		// printf("freed %p\n", exp->name);
+	// printf("freed %p\n", exp->name);
 }

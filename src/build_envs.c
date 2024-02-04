@@ -1,10 +1,12 @@
-/* ************************************************************************** */ /*                                                                            */ /*                                                        :::      ::::::::   */
-/*   env_command.c                                      :+:      :+:    :+:   */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   build_envs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 10:34:52 by randre            #+#    #+#             */
-/*   Updated: 2024/01/18 10:36:15 by randre           ###   ########.fr       */
+/*   Updated: 2024/02/04 20:48:04 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +35,8 @@ t_envs	*build_envs(char **envp)
 	sort_alpha_ll(&envs->exp, i);
 	envs->env_ct = i;
 	envs->exp_ct = i;
-	return (envs);;
+	return (envs);
+	;
 }
 
 void	free_envs(t_envs **envs)
@@ -57,6 +60,7 @@ void	free_envs(t_envs **envs)
 		free(tmp);
 	}
 }
+
 void	free_entry(t_entry *entry)
 {
 	if (entry->prev)
@@ -64,11 +68,10 @@ void	free_entry(t_entry *entry)
 	if (entry->name)
 		free(entry->name);
 	entry->name = NULL;
-	if(entry->value)
+	if (entry->value)
 		free(entry->value);
 	entry->value = NULL;
 	if (entry)
 		free(entry);
 	entry = NULL;
 }
-
