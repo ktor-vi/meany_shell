@@ -52,12 +52,31 @@ void	printtab(char **exp)
 	printf("\n");
 }
 
-char	**ll_to_tab(t_entry *env, int ct)
+int ll_size(t_entry *env)
+{
+	int ct;
+
+	ct = 0;
+	while(env)
+	{
+		env = env->next;
+		ct++;
+	}
+ return ct;
+}
+char	**ll_to_tab(t_entry *env)
 {
 	char	**envp;
 	int		i;
 	char	*var;
+	int ct;
 
+	ct = ll_size(env);
+	while(env)
+	{
+		env = env->next;
+		ct++;
+	}
 	i = 0;
 	envp = malloc(sizeof(char *) * ct + 1);
 	while (env)

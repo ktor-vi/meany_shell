@@ -31,40 +31,50 @@ void	handle_SIGQUIT(int sig)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	**split_line;
-	char	*line;
-	int		exit_flag;
-	int		i;
-	t_envs	*envs;
+	char		**split_line;
+	char		*line;
+	int			i;
+	int			j;
+	t_envs		*envs;
+	t_minishell	*minishell;
 
 	(void)argc;
 	(void)argv;
 	envs = build_envs(envp);
 	line = NULL;
-	exit_flag = 0;
 	signal(SIGINT, handle_SIGINT);
 	signal(SIGQUIT, handle_SIGQUIT);
 	while (true)
 	{
+			write(1, "n\n", 2);
 		i = -1;
+		j = -1;
 		line = readline("$ ");
+		if(!line)
+			write(1, "k\n", 2);
 		if (line && !ft_equalstr(line, ""))
 		{
 			split_line = ft_split(line, ' ');
-			if (ft_equalstr(split_line[0], "exit"))
-				exit_flag = 1;
 			add_history(line);
-			check_command(split_line, envs);
+			minishell = populate(split_line, envs);
+			if (!handle_builtins(minishell->cmd, envs))
+				execute_pipes(minishell, envs->env);
 			while (split_line[++i])
 				free(split_line[i]);
 			free(split_line);
+			// while (minishell->cmd->args[++j])
+			// 	free(minishell->cmd->args[j]);
+			// free(minishell->cmd->args);
 		}
-		if (line)
-			free(line);
-		else
-			exit_flag = 1;
-		if (exit_flag == 1)
+		if(line)
 		{
+			write(1, "o\n", 2);
+			free(line);
+			line = (char *)NULL;
+		}
+		else
+		{
+			// write(1, "y\n", 2);
 			rl_clear_history();
 			exit(0);
 		}

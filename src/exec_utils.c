@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-char	*get_cmdpath(char **cmd, t_entry *envp)
+char	*get_cmdpath(char *cmd, t_entry *envp)
 {
 	int		i;
 	int		j;
@@ -29,7 +29,7 @@ char	*get_cmdpath(char **cmd, t_entry *envp)
 	while (paths[j])
 	{
 		temp_env = ft_strjoin(paths[j], "/");
-		temp_env = ft_strjoin(temp_env, cmd[0]);
+		temp_env = ft_strjoin(temp_env, cmd);
 		if (access(temp_env, X_OK) == 0)
 			return (temp_env);
 		free(temp_env);

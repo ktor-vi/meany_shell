@@ -42,3 +42,37 @@ void	check_command(char **split_line, t_envs *envs)
 	else if (!ft_equalstr(split_line[0], "exit"))
 		printf("%s: command not found or WIP\n", split_line[0]);
 }
+
+int	handle_builtins(t_command *cmd, t_envs *envs)
+{
+	if (ft_equalstr(cmd->args[0], "echo"))
+		echo_command(cmd->args);
+	else if (ft_equalstr(cmd->args[0], "env"))
+	{
+		if (cmd->args[1])
+		{
+			write(1, "no arguments supported\n", 14);
+			return 1;
+		}
+		else
+			printenv(envs->env);
+	}
+	else if (ft_equalstr(cmd->args[0], "export"))
+	{
+		if (cmd->args[1])
+			export_cmd(envs, cmd->args[1]);
+		else
+			printexport(envs->exp);
+	}
+	else if (ft_equalstr(cmd->args[0], "cd"))
+		cd_command(cmd->args);
+	else if (ft_equalstr(cmd->args[0], "unset"))
+		unset_cmd(envs, cmd->args[1]);
+	else if (ft_equalstr(cmd->args[0], "pwd"))
+		pwd_command();
+	else if (ft_equalstr(cmd->args[0], "exit"))
+		printf("exit\n");
+	else
+		return 0;
+	return(1);
+}

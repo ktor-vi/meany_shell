@@ -1,62 +1,83 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   piping.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vphilipp <vphilipp@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/05 06:51:50 by vphilipp          #+#    #+#             */
+/*   Updated: 2024/02/05 06:51:51 by vphilipp         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
-#define MAX_ARGC 3
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
-int	main(void)
+void execute_pipes(t_minishell *minishell, t_entry *envp)
 {
-	char	**commands;
-	t_entry	*envp;
+    t_command *h = minishell->cmd;
+    int prev_pipe = STDIN_FILENO;
+    int pfds[2];
 
-	commands = malloc(sizeof(char *) * 3);
-	commands[0] = "ls";
-	commands[1] = "-l";
-	commands[2] = NULL;
-	// {"wc", "-l", NULL},
-	// {"xargs", "printf", "0x%x\n", NULL},
-	// {"cowsay", NULL}
-	envp = malloc(sizeof(t_entry));
-	envp->name = "PATH";
-	envp->value = getenv("PATH");
-	envp->next = NULL;
-	size_t i, n;
-	int prev_pipe, pfds[2];
-	printf("%s\n", get_cmdpath(commands, envp));
-	n = sizeof(commands) / sizeof(*commands);
-	prev_pipe = STDIN_FILENO;
-	for (i = 0; i < n - 1; i++)
-	{
-		pipe(pfds);
-		if (fork() == 0)
-		{
-			// Redirect previous pipe to stdin
-			if (prev_pipe != STDIN_FILENO)
-			{
-				dup2(prev_pipe, STDIN_FILENO);
-				close(prev_pipe);
-			}
-			// Redirect stdout to current pipe
-			dup2(pfds[1], STDOUT_FILENO);
-			close(pfds[1]);
-			// Start command
-			execve(get_cmdpath(commands, envp), commands, NULL);
-			perror("execvp failed");
-			exit(1);
-		}
-		// Close read end of previous pipe (not needed in the parent)
-		close(prev_pipe);
-		// Close write end of current pipe (not needed in the parent)
-		close(pfds[1]);
-		// Save read end of current pipe to use in next iteration
-		prev_pipe = pfds[0];
-	}
-	// Get stdin from last pipe
-	if (prev_pipe != STDIN_FILENO)
-	{
-		dup2(prev_pipe, STDIN_FILENO);
-		close(prev_pipe);
-	}
-	// Start last command
-	execve(get_cmdpath(commands, envp), commands, NULL);
-	perror("execvp failed");
-	exit(1);
+    while (h->to_pipe == true)
+    {
+        pipe(pfds);
+        pid_t child_pid = fork();
+
+        if (child_pid == -1)
+        {
+            perror("fork failed");
+            exit(EXIT_FAILURE);
+        }
+
+        if (child_pid == 0)
+        {
+            // Child process
+            if (prev_pipe != STDIN_FILENO)
+            {
+                dup2(prev_pipe, STDIN_FILENO);
+                close(prev_pipe);
+            }
+
+            dup2(pfds[1], STDOUT_FILENO);
+            close(pfds[0]);
+            close(pfds[1]);
+
+            execve(h->path, h->args, ll_to_tab(envp));
+            perror("execve failed");
+            exit(EXIT_FAILURE);
+        }
+        else
+        {
+            // Parent process
+            close(prev_pipe);
+            close(pfds[1]);
+            prev_pipe = pfds[0];
+            h = h->next;
+        }
+    }
+
+    // Parent process: close the last pipe
+    close(prev_pipe);
+    // Wait for all child processes to finish
+    while (waitpid(-1, NULL, 0) != -1)
+    {
+        // Handle child process termination status if needed
+    }
+
+    // Execute the last command after the loop
+    if (prev_pipe != STDIN_FILENO)
+    {
+        dup2(prev_pipe, STDIN_FILENO);
+        close(prev_pipe);
+    }
+
+    execve(h->path, h->args, ll_to_tab(envp));
+    perror("execve failed");
+    exit(EXIT_FAILURE);
 }
