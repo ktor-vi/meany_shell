@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: ktorvi <ktorvi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/01/18 11:05:01 by randre           ###   ########.fr       */
+/*   Updated: 2024/02/17 14:18:25 by ktorvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <unistd.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -49,8 +50,7 @@ typedef struct s_command
 	pid_t				pid;
 	bool				to_pipe;
 	bool				end;
-	int					fd_in;
-	int					fd_out;
+	int					pfds[2];
 	int					exit_code;
 	struct s_command	*next;
 	struct s_command	*prev;
@@ -73,12 +73,13 @@ typedef struct s_minishell
 	int					envp;
 }						t_minishell;
 
-void	print_all_cmd(t_minishell *minishell);
-t_command	*lastcmd(t_command *lst);
-void	ft_cmd_addb(t_minishell **mini, t_command *new);
-void	print_all_cmd(t_minishell *minishell);
-t_minishell	*populate(char **split_line, t_envs *envs);
-t_command	*new_command(char **split_line, t_envs *envs, int s, int e);
+void					print_all_cmd(t_minishell *minishell);
+t_command				*lastcmd(t_command *lst);
+void					ft_cmd_addb(t_minishell **mini, t_command *new);
+void					print_all_cmd(t_minishell *minishell);
+t_minishell				*populate(char **split_line, t_envs *envs);
+t_command				*new_command(char **split_line, t_envs *envs, int s,
+							int e);
 void					check_command(char **split_line, t_envs *envs);
 void					env_command(char **envp);
 void					cd_command(char **split_line);
@@ -87,6 +88,9 @@ void					echo_command(char **split_line);
 // UTILS
 int						ft_equalstr(char *s1, char *s2);
 int						getchindex(char *s, int c);
+void					free_tab(char **tab);
+void					kb_quit(void);
+void					reset_line(char *line);
 // ENV & EXPORT
 t_envs					*build_envs(char **envp);
 void					printenv(t_entry *n);
@@ -104,11 +108,18 @@ t_entry					*newentry(char *var);
 void					free_entry(t_entry *entry);
 void					free_entry_alone(t_entry *entry_prev);
 void					free_envs(t_envs **envs);
-char	**ll_to_tab(t_entry *env);
-int ll_size(t_entry *env);
-// EXEC 
-int 	handle_builtins(t_command *cmd, t_envs *envs);
-void execute_pipes(t_minishell *minishell, t_entry *envp);
+char					**ll_to_tab(t_entry *env);
+int						ll_size(t_entry *env);
+// EXEC
+int						handle_builtins(t_command *cmd, t_envs *envs);
+void					execute_pipes(t_minishell *minishell, t_entry *envp);
 // EXEC UTILS
 char					*get_cmdpath(char *cmd, t_entry *envp);
+// EXEC HELPERS
+void					dup2in_error(void);
+void					dup2out_error(void);
+void					forkfail_error(void);
+void					create_pipe(int pfds[2]);
+void					parent_process(int prev_pipe, int pfds[2],
+							t_command **h);
 #endif

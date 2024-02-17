@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ktorvi <ktorvi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 06:51:50 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/02/05 06:51:51 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/02/17 13:32:44by ktorvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,56 +17,85 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-void	execute_pipes(t_minishell *minishell, t_entry *envp)
+void	child_process(int prev_pipe, int pfds[2], t_command *h, t_entry *envp)
 {
-	t_command	*h;
-	int			prev_pipe;
-	int			pfds[2];
-	pid_t		child_pid;
-	pid_t		last_child_pid;
+	pid_t	child_pid;
 
-	h = minishell->cmd;
-	prev_pipe = STDIN_FILENO;
-	while (h->to_pipe == true)
+	child_pid = fork();
+	if (child_pid == -1)
+		forkfail_error();
+	if (child_pid == 0)
 	{
-		if (pipe(pfds) == -1)
-			exit(EXIT_FAILURE);
-		child_pid = fork();
-		if (child_pid == -1)
-			exit(EXIT_FAILURE);
-		if (child_pid == 0)
-		{
-			close(pfds[0]); // Close the unused read end of the pipe
-			if (prev_pipe != STDIN_FILENO && dup2(prev_pipe, STDIN_FILENO) ==
-				-1)
-				exit(EXIT_FAILURE);
-			if (dup2(pfds[1], STDOUT_FILENO) == -1)
-				exit(EXIT_FAILURE);
-			close(pfds[1]);
-			execve(h->path, h->args, ll_to_tab(envp));
-			perror("execve failed");
-			exit(EXIT_FAILURE);
-		}
-		else
-		{
-			close(prev_pipe); // Close only the read end of the previous pipe
-			close(pfds[1]);
-			prev_pipe = pfds[0];
-			h = h->next;
-		}
+		close(pfds[0]);
+		if (prev_pipe != STDIN_FILENO && dup2(prev_pipe, STDIN_FILENO) == -1)
+			dup2in_error();
+		if (dup2(pfds[1], STDOUT_FILENO) == -1)
+			dup2out_error();
+		close(pfds[1]);
+		execve(h->path, h->args, ll_to_tab(envp));
+		perror("execve failed");
+		exit(EXIT_FAILURE);
 	}
+}
+
+void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_entry *envp)
+{
+	pid_t	child_pid;
+
+	child_pid = fork();
+	if (child_pid == -1)
+		forkfail_error();
+	if (child_pid == 0)
+	{
+		close(pfds[0]);
+		if (prev_pipe != STDIN_FILENO && dup2(prev_pipe, STDIN_FILENO) == -1)
+			dup2in_error();
+		close(prev_pipe);
+		if (dup2(pfds[1], STDOUT_FILENO) == -1)
+			dup2out_error();
+		close(pfds[1]);
+		execve(h->path, h->args, ll_to_tab(envp));
+		perror("execve failed");
+		exit(EXIT_FAILURE);
+	}
+}
+
+void	execute_last_command(t_command *h, int prev_pipe, t_entry *envp)
+{
+	pid_t	last_child_pid;
+
 	last_child_pid = fork();
 	if (last_child_pid == -1)
-		exit(EXIT_FAILURE);
+		forkfail_error();
 	if (last_child_pid == 0)
 	{
 		if (prev_pipe != STDIN_FILENO && dup2(prev_pipe, STDIN_FILENO) == -1)
-			exit(EXIT_FAILURE);
+			dup2in_error();
 		execve(h->path, h->args, ll_to_tab(envp));
 		perror("execve failed");
 		exit(EXIT_FAILURE);
 	}
 	else
+	{
 		close(prev_pipe);
+	}
 	waitpid(last_child_pid, NULL, 0);
+}
+
+void	execute_pipes(t_minishell *minishell, t_entry *envp)
+{
+	t_command	*h;
+	int			prev_pipe;
+	int			pfds[2];
+
+	h = minishell->cmd;
+	prev_pipe = STDIN_FILENO;
+	while (h->to_pipe == true)
+	{
+		create_pipe(pfds);
+		execute_child(h, prev_pipe, pfds, envp);
+		parent_process(prev_pipe, pfds, &h);
+		prev_pipe = pfds[0];
+	}
+	execute_last_command(h, prev_pipe, envp);
 }

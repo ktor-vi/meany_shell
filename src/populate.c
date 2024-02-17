@@ -46,7 +46,7 @@ t_command	*new_command(char **split_line, t_envs *envs, int s, int e)
 		return (new);
 	}
 	else
-		new->args = malloc((e - s) * sizeof(char *));
+		new->args = malloc((e - s + 1) * sizeof(char *));
 	while (i < new->args_ct)
 	{
 		new->args[i] = ft_strdup(split_line[s + i]);

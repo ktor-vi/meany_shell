@@ -15,7 +15,6 @@
 static t_entry	*only_exp_entry(char *var)
 {
 	t_entry	*new;
-	size_t	eq_pos;
 
 	new = malloc(sizeof(t_entry));
 	if (!new || !var)

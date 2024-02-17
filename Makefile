@@ -10,6 +10,7 @@ SRC = 	src/main.c       \
 		src/export_unset.c   \
 		src/env_utils.c      \
 		src/exec_utils.c     \
+		src/exec_helpers.c   \
 		src/cd_command.c     \
 		src/pwd_command.c    \
 		src/populate.c       \
@@ -19,7 +20,7 @@ INC = includes/minishell.h
 
 CC = cc
 
-FLAGS =   -g # -Wall -Wextra -Werror
+FLAGS =   -g -fsanitize=address -Wall -Wextra -Werror
 
 OBJ = $(SRC:.c=.o)
 
