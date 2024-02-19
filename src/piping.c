@@ -33,7 +33,7 @@ void	child_process(int prev_pipe, int pfds[2], t_command *h, t_entry *envp)
 			dup2out_error();
 		close(pfds[1]);
 		execve(h->path, h->args, ll_to_tab(envp));
-		//perror("execve failed");
+		perror("execve failed");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -55,7 +55,7 @@ void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_entry *envp)
 			dup2out_error();
 		close(pfds[1]);
 		execve(h->path, h->args, ll_to_tab(envp));
-		//perror("execve failed");
+		perror("execve failed");
 		exit(EXIT_FAILURE);
 	}
 }
@@ -72,7 +72,7 @@ void	execute_last_command(t_command *h, int prev_pipe, t_entry *envp)
 		if (prev_pipe != STDIN_FILENO && dup2(prev_pipe, STDIN_FILENO) == -1)
 			dup2in_error();
 		execve(h->path, h->args, ll_to_tab(envp));
-		//perror("execve failed");
+		perror("execve failed");
 		exit(EXIT_FAILURE);
 	}
 	else
