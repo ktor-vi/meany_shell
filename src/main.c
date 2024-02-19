@@ -58,11 +58,8 @@ int	main(int argc, char **argv, char **envp)
 			add_history(line);
 			minishell = populate(split_line, envs);
 			minishell->st_in = dup(STDIN_FILENO);
-			if (!handle_builtins(minishell->cmd, envs))
-			{
-				execute_pipes(minishell, envs->env);
+				execute_pipes(minishell, envs);
 				dup2(minishell->st_in, STDIN_FILENO);
-			}
 			free_tab(split_line);
 		}
 		if (line)

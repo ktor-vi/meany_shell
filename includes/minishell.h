@@ -88,6 +88,8 @@ void					cd_command(char **);
 void					pwd_command(t_command *cmd);
 void					echo_command(char **split_line, t_command *cmd);
 // UTILS
+int	is_builtin(t_command *cmd);
+int	is_builtin_char(char **split_line);
 int						ft_equalstr(char *s1, char *s2);
 int						getchindex(char *s, int c);
 void					free_tab(char **tab);
@@ -114,7 +116,7 @@ char					**ll_to_tab(t_entry *env);
 int						ll_size(t_entry *env);
 // EXEC
 int						handle_builtins(t_command *cmd, t_envs *envs);
-void					execute_pipes(t_minishell *minishell, t_entry *envp);
+void					execute_pipes(t_minishell *minishell, t_envs *envs);
 // EXEC UTILS
 char					*get_cmdpath(char *cmd, t_entry *envp);
 // EXEC HELPERS
