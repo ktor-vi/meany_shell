@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:49:03 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/02/19 10:29:39 by randre           ###   ########.fr       */
+/*   Updated: 2024/02/19 10:46:45 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,19 @@ void	printenv(t_entry *env, t_command *cmd)
 	ft_printf(cmd->fd, "\n");
 }
 
-void	printexport(t_entry *exp)
+void	printexport(t_entry *exp, t_command *cmd)
 {
 	if (!exp)
 		return ;
 	while (exp != NULL)
 	{
 		if (exp->value)
-			printf("declare -x %s=\"%s\"\n", exp->name, exp->value);
+			ft_printf(cmd->fd, "declare -x %s=\"%s\"\n", exp->name, exp->value);
 		else
-			printf("declare -x %s\n", exp->name);
+			ft_printf(cmd->fd, "declare -x %s\n", exp->name);
 		exp = exp->next;
 	}
-	printf("\n");
+	ft_printf(cmd->fd, "\n");
 }
 
 void	printtab(char **exp)

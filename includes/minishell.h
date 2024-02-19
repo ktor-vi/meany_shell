@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/02/19 10:32:40 by randre           ###   ########.fr       */
+/*   Updated: 2024/02/19 10:43:00 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void					reset_line(char *line);
 // ENV & EXPORT
 t_envs					*build_envs(char **envp);
 void					printenv(t_entry *n, t_command *cmd);
-void					printexport(t_entry *exp);
+void					printexport(t_entry *exp, t_command *cmd);
 void					printenv(t_entry *env, t_command *cmd);
 void					export_cmd(t_envs *envs, char *var);
 void					unset_cmd(t_envs *envs, char *var);
