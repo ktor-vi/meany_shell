@@ -77,6 +77,7 @@ void	execute_last_command(t_command *h, int prev_pipe, t_entry *envp)
 	{
 		if (prev_pipe != STDIN_FILENO && dup2(prev_pipe, STDIN_FILENO) == -1)
 			dup2in_error();
+		dup2(h->fd, STDOUT_FILENO);
 		execve(h->path, h->args, ll_to_tab(envp));
 		if (errno == EFAULT)
 			ft_printf(STDERR_FILENO, "command not found: %s\n", h->args[0]);
