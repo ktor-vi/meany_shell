@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:45:36 by randre            #+#    #+#             */
-/*   Updated: 2024/02/19 10:46:14 by randre           ###   ########.fr       */
+/*   Updated: 2024/02/19 11:20:36 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	handle_builtins(t_command *cmd, t_envs *envs)
 	while (cmd != NULL)
 	{
 		if (ft_equalstr(cmd->args[0], "echo"))
-			echo_command(cmd->args);
+			echo_command(cmd->args, cmd);
 		else if (ft_equalstr(cmd->args[0], "env"))
 		{
 			/*if (cmd->args[1])

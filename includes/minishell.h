@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/02/19 10:43:00 by randre           ###   ########.fr       */
+/*   Updated: 2024/02/19 11:20:27 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void					check_command(char **split_line, t_envs *envs);
 void					env_command(char **envp);
 void					cd_command(char **);
 void					pwd_command(t_command *cmd);
-void					echo_command(char **split_line);
+void					echo_command(char **split_line, t_command *cmd);
 // UTILS
 int						ft_equalstr(char *s1, char *s2);
 int						getchindex(char *s, int c);

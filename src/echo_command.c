@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:48:14 by randre            #+#    #+#             */
-/*   Updated: 2024/02/19 08:06:40 by randre           ###   ########.fr       */
+/*   Updated: 2024/02/19 11:22:37 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	verify_end_quote(char **split_line, int *val, int i, int j, char c)
 	}
 }
 
-void	handle_env(char **split_line, int i, int j)
+void	handle_env(char **split_line, int i, int j, int fd)
 {
 	char	*name;
 	int		len;
@@ -55,7 +55,7 @@ void	handle_env(char **split_line, int i, int j)
 	if (!split_line[i][j + 1] || split_line[i][j + 1] == '"' || split_line[i][j
 		+ 1] == 39)
 	{
-		printf("$");
+		ft_printf(fd, "$");
 		return ;
 	}
 	old_j = j;
@@ -69,10 +69,10 @@ void	handle_env(char **split_line, int i, int j)
 	true_name = getenv(name);
 	free(name);
 	if (true_name)
-		printf("%s", true_name);
+		ft_printf(fd, "%s", true_name);
 }
 
-void	print_echo(char **split_line, int newline, int i)
+void	print_echo(char **split_line, int newline, int i, int fd)
 {
 	int	in_quotes;
 	int	j;
@@ -90,14 +90,14 @@ void	print_echo(char **split_line, int newline, int i)
 			{
 				if (in_quotes != 1)
 				{
-					handle_env(split_line, i, j);
+					handle_env(split_line, i, j, fd);
 					break ;
 				}
 				else
 				{
 					while (split_line[i][j] && split_line[i][j] != 39)
 					{
-						printf("%c", split_line[i][j]);
+						ft_printf(fd, "%c", split_line[i][j]);
 						j++;
 					}
 					break ;
@@ -105,27 +105,27 @@ void	print_echo(char **split_line, int newline, int i)
 			}
 			else if ((split_line[i][j] != 92 && split_line[i][j] != '?'
 					&& split_line[i][j] != '"') && in_quotes == 0)
-				printf("%c", split_line[i][j]);
+				ft_printf(fd, "%c", split_line[i][j]);
 			else if (in_quotes == 1 || in_quotes == 2)
-				printf("%c", split_line[i][j]);
+				ft_printf(fd, "%c", split_line[i][j]);
 		}
 		if (split_line[i + 1])
-			printf(" ");
+			ft_printf(fd, " ");
 	}
 	if (newline)
-		printf("\n");
+		ft_printf(fd, "\n");
 }
 
-void	echo_command(char **split_line)
+void	echo_command(char **split_line, t_command *cmd)
 {
 	if (!split_line[1])
-		printf("\n");
+		ft_printf(cmd->fd, "\n");
 	else if (ft_equalstr(split_line[1], "-n") && split_line[2])
-		print_echo(split_line, 0, 1);
+		print_echo(split_line, 0, 1, cmd->fd);
 	else
 	{
 		if (ft_equalstr(split_line[1], "-n"))
 			return ;
-		print_echo(split_line, 1, 0);
+		print_echo(split_line, 1, 0, cmd->fd);
 	}
 }
