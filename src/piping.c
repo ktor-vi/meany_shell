@@ -55,7 +55,7 @@ void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_entry *envp)
 			dup2out_error();
 		close(pfds[1]);
 		execve(h->path, h->args, ll_to_tab(envp));
-		perror("execve failed");
+		//perror("execve failed");
 		exit(EXIT_FAILURE);
 	}
 }
