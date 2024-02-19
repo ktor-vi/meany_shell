@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.s19.be>         +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:48:14 by randre            #+#    #+#             */
-/*   Updated: 2024/02/04 20:47:36 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/02/19 08:06:40 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	handle_env(char **split_line, int i, int j)
 	true_name = getenv(name);
 	free(name);
 	if (true_name)
-		printf("%s", getenv(name));
+		printf("%s", true_name);
 }
 
 void	print_echo(char **split_line, int newline, int i)
