@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd_command.c                                      :+:      :+:    :+:   */
+/*   ft_printf_handle_2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/18 10:49:57 by randre            #+#    #+#             */
-/*   Updated: 2024/02/19 10:04:02 by randre           ###   ########.fr       */
+/*   Created: 2023/09/23 08:45:22 by randre            #+#    #+#             */
+/*   Updated: 2024/02/19 10:23:40 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "ft_printf.h"
+#include <unistd.h>
 
-void	pwd_command(t_command *cmd)
+int	ft_phandle(int fd, va_list args)
 {
-	char	*str;
+	size_t	nbr;
 
-	str = malloc(2048 * sizeof(char));
-	if (!str)
-		return ;
-	getcwd(str, 2048);
-	write(cmd->fd, str, ft_strlen(str));
-	write(cmd->fd, "\n", 1);
-	if (cmd->fd != 0)
-		close(cmd->fd);
-	free(str);
+	nbr = va_arg(args, size_t);
+	if (!nbr)
+	{
+		write(fd, "0x0", 3);
+		return (3);
+	}
+	else
+	{
+		write(fd, "0x", 2);
+		return (ft_hexa(fd, nbr, "0123456789abcdef") + 2);
+	}
 }

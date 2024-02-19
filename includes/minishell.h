@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktorvi <ktorvi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/02/17 14:18:25 by ktorvi           ###   ########.fr       */
+/*   Updated: 2024/02/19 10:32:40 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
+# include "../ft_printf/ft_printf.h"
 # include <errno.h>
 # include <signal.h>
 # include <stdbool.h>
@@ -48,6 +49,7 @@ typedef struct s_command
 	char				**args;
 	int					args_ct;
 	pid_t				pid;
+	int					fd;
 	bool				to_pipe;
 	bool				end;
 	int					pfds[2];
@@ -79,11 +81,11 @@ void					ft_cmd_addb(t_minishell **mini, t_command *new);
 void					print_all_cmd(t_minishell *minishell);
 t_minishell				*populate(char **split_line, t_envs *envs);
 t_command				*new_command(char **split_line, t_envs *envs, int s,
-							int e);
+							int e, int fd);
 void					check_command(char **split_line, t_envs *envs);
 void					env_command(char **envp);
-void					cd_command(char **split_line);
-void					pwd_command(void);
+void					cd_command(char **);
+void					pwd_command(t_command *cmd);
 void					echo_command(char **split_line);
 // UTILS
 int						ft_equalstr(char *s1, char *s2);
@@ -93,9 +95,9 @@ void					kb_quit(void);
 void					reset_line(char *line);
 // ENV & EXPORT
 t_envs					*build_envs(char **envp);
-void					printenv(t_entry *n);
+void					printenv(t_entry *n, t_command *cmd);
 void					printexport(t_entry *exp);
-void					printenv(t_entry *env);
+void					printenv(t_entry *env, t_command *cmd);
 void					export_cmd(t_envs *envs, char *var);
 void					unset_cmd(t_envs *envs, char *var);
 t_entry					*find_entryprev(t_entry *lst, char *to_find);

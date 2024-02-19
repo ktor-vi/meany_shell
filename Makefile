@@ -26,14 +26,17 @@ OBJ = $(SRC:.c=.o)
 
 LIBFT_DIR = libft
 
-LIBS = -L $(LIBFT_DIR)
+PRINTF_DIR = ft_printf
+
+LIBS = -L $(LIBFT_DIR) $(PRINTF_DIR)
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
 	@make -C $(LIBFT_DIR)
+	@make -C $(PRINTF_DIR)
 	@cp $(LIBFT_DIR)/libft.a .
-	$(CC) $(FLAGS) -lreadline -L ~/.brew/opt/readline/lib $(OBJ) libft.a -o $@
+	$(CC) $(FLAGS) -lreadline -L ~/.brew/opt/readline/lib $(OBJ) ft_printf/libftprintf.a libft.a -o $@
 	@rm libft.a
 
 %.o: %.c $(INC)
@@ -41,9 +44,11 @@ $(NAME): $(OBJ)
 
 clean:
 	@make fclean -C $(LIBFT_DIR)
+	@make fclean -C $(PRINTF_DIR)
 	rm -f $(OBJ)
 
 fclean: clean
+	@make fclean -C $(PRINTF_DIR)
 	@make fclean -C $(LIBFT_DIR)
 	rm -f $(NAME)
 

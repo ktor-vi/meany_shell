@@ -1,15 +1,32 @@
 
 #include "../includes/minishell.h"
+#include <fcntl.h>
+
+int	redirect_handle(char **split_line, int j)
+{
+	int	fd;
+
+	fd = open(split_line[j + 1], O_WRONLY);
+	if (fd < 0)
+	{
+		fd = open(split_line[j + 1], O_CREAT, 0666);
+		close(fd);
+		fd = open(split_line[j + 1], O_WRONLY);
+	}
+	return (fd);
+}
 
 t_minishell	*populate(char **split_line, t_envs *envs)
 {
 	int			i;
 	int			j;
+	int			fd;
 	int			args_ct;
 	t_minishell	*minishell;
 
 	i = 0;
 	j = 0;
+	fd = 1;
 	args_ct = 0;
 	while (split_line[args_ct] != NULL)
 		args_ct++;
@@ -20,17 +37,20 @@ t_minishell	*populate(char **split_line, t_envs *envs)
 	{
 		if (ft_equalstr(split_line[j], "|"))
 		{
-			ft_cmd_addb(&minishell, new_command(split_line, envs, i, j));
+			ft_cmd_addb(&minishell, new_command(split_line, envs, i, j, fd));
 			minishell->n_pipes++;
 			i = j + 1;
+			fd = 1;
 		}
+		else if (ft_equalstr(split_line[j], ">"))
+			fd = redirect_handle(split_line, j);
 		j++;
 	}
-	ft_cmd_addb(&minishell, new_command(split_line, envs, i, j));
+	ft_cmd_addb(&minishell, new_command(split_line, envs, i, j, fd));
 	return (minishell);
 }
 
-t_command	*new_command(char **split_line, t_envs *envs, int s, int e)
+t_command	*new_command(char **split_line, t_envs *envs, int s, int e, int fd)
 {
 	t_command	*new;
 	int			i;
@@ -38,6 +58,7 @@ t_command	*new_command(char **split_line, t_envs *envs, int s, int e)
 	i = 0;
 	new = malloc(sizeof(t_command));
 	new->args_ct = e - s;
+	new->fd = fd;
 	new->path = get_cmdpath(split_line[s], envs->env);
 	if (s == e)
 	{

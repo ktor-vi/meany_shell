@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   envs_commands.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.s19.be>         +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:49:03 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/02/04 20:49:05 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/02/19 10:29:39 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	printenv(t_entry *env)
+void	printenv(t_entry *env, t_command *cmd)
 {
 	if (!env)
 		return ;
 	while (env != NULL)
 	{
-		printf("%s=%s\n", env->name, env->value);
+		ft_printf(cmd->fd, "%s=%s\n", env->name, env->value);
 		env = env->next;
 	}
-	printf("\n");
+	ft_printf(cmd->fd, "\n");
 }
 
 void	printexport(t_entry *exp)
