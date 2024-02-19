@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.s19.be>         +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:45:36 by randre            #+#    #+#             */
-/*   Updated: 2024/02/04 20:47:42 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/02/19 08:35:18 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,9 @@ int	handle_builtins(t_command *cmd, t_envs *envs)
 	else if (ft_equalstr(cmd->args[0], "exit"))
 		printf("exit\n");
 	else
+	{
+		printf("command not found: %s\n", cmd->args[0]);
 		return 0;
+	}
 	return(1);
 }
