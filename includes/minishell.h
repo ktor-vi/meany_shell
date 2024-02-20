@@ -87,6 +87,7 @@ void					cd_command(char **);
 void					pwd_command(t_command *cmd);
 void					echo_command(char **split_line, t_command *cmd);
 // UTILS
+void	handle_sigint(int sig);
 int						is_builtin(t_command *cmd);
 int						is_builtin_char(char **split_line);
 int						ft_equalstr(char *s1, char *s2);

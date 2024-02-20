@@ -26,18 +26,18 @@ void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 		forkfail_error();
 	if (child_pid == 0)
 	{
-		close(pfds[0]);
 		if (prev_pipe != STDIN_FILENO && dup2(prev_pipe, STDIN_FILENO) == -1)
 			dup2in_error();
-		close(prev_pipe);
 		if (dup2(pfds[1], STDOUT_FILENO) == -1)
 			dup2out_error();
-		close(pfds[1]);
 		execve(h->path, h->args, ll_to_tab(envs->env));
 		if (errno == EFAULT)
 			ft_printf(STDERR_FILENO, "command not found: %s\n", h->args[0]);
 		else
 			perror("execve failed");
+		close(pfds[0]);
+		close(pfds[1]);
+		close(prev_pipe);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -55,12 +55,12 @@ void	execute_last_command(t_command *h, int prev_pipe, t_envs *envs)
 			dup2in_error();
 		if (dup2(h->fd, STDOUT_FILENO) == -1)
 			dup2out_error();
-		close(prev_pipe);
 		execve(h->path, h->args, ll_to_tab(envs->env));
 		if (errno == EFAULT)
 			ft_printf(STDERR_FILENO, "command not found: %s\n", h->args[0]);
 		else
 			perror("execve failed");
+		close(prev_pipe);
 		exit(EXIT_FAILURE);
 	}
 	else

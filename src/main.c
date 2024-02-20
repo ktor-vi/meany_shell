@@ -20,16 +20,24 @@ void	handle_sigint(int sig)
 	if (sig == SIGINT)
 	{
 		printf("\n");
-		rl_on_new_line();
 		rl_replace_line("", 0);
+		rl_on_new_line();
 		rl_redisplay();
 	}
 }
 
+void	handle_sigint2(int sig)
+{
+	if (sig == SIGINT)
+	{
+		ft_putendl_fd("", 1);
+	}
+}
 void	handle_sigquit(int sig)
 {
 	if (sig == SIGQUIT)
 	{
+		signal(SIGQUIT, SIG_IGN);
 		return ;
 	}
 }
@@ -45,11 +53,12 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	envs = build_envs(envp);
 	line = NULL;
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, handle_sigquit);
 	while (true)
 	{
+		signal(SIGINT, handle_sigint);
+		signal(SIGQUIT, handle_sigquit);
 		line = readline("$ ");
+		signal(SIGINT, handle_sigint2);
 		if (!line)
 			kb_quit();
 		else if (!ft_equalstr(line, ""))
@@ -58,8 +67,8 @@ int	main(int argc, char **argv, char **envp)
 			add_history(line);
 			minishell = populate(split_line, envs);
 			minishell->st_in = dup(STDIN_FILENO);
-				execute_pipes(minishell, envs);
-				dup2(minishell->st_in, STDIN_FILENO);
+			execute_pipes(minishell, envs);
+			dup2(minishell->st_in, STDIN_FILENO);
 			free_tab(split_line);
 		}
 		if (line)
