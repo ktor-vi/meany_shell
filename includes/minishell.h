@@ -13,8 +13,8 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../libft/libft.h"
 # include "../ft_printf/ft_printf.h"
+# include "../libft/libft.h"
 # include <errno.h>
 # include <signal.h>
 # include <stdbool.h>
@@ -52,7 +52,6 @@ typedef struct s_command
 	int					fd;
 	bool				to_pipe;
 	bool				end;
-	int					pfds[2];
 	int					exit_code;
 	struct s_command	*next;
 	struct s_command	*prev;
@@ -88,8 +87,8 @@ void					cd_command(char **);
 void					pwd_command(t_command *cmd);
 void					echo_command(char **split_line, t_command *cmd);
 // UTILS
-int	is_builtin(t_command *cmd);
-int	is_builtin_char(char **split_line);
+int						is_builtin(t_command *cmd);
+int						is_builtin_char(char **split_line);
 int						ft_equalstr(char *s1, char *s2);
 int						getchindex(char *s, int c);
 void					free_tab(char **tab);
@@ -124,6 +123,5 @@ void					dup2in_error(void);
 void					dup2out_error(void);
 void					forkfail_error(void);
 void					create_pipe(int pfds[2]);
-void					parent_process(int prev_pipe, int pfds[2],
-							t_command **h);
+void					parent_process(int prev_pipe, int pfds[2]);
 #endif

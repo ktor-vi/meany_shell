@@ -21,24 +21,18 @@ t_minishell	*populate(char **split_line, t_envs *envs)
 	int			i;
 	int			j;
 	int			fd;
-	int			args_ct;
 	t_minishell	*minishell;
 
 	i = 0;
 	j = 0;
 	fd = STDOUT_FILENO;
-	args_ct = 0;
-	while (split_line[args_ct] != NULL)
-		args_ct++;
 	minishell = malloc(sizeof(t_minishell));
 	minishell->cmd = NULL;
-	minishell->n_pipes = 0;
 	while (split_line[j] != NULL)
 	{
 		if (ft_equalstr(split_line[j], "|"))
 		{
 			ft_cmd_addb(&minishell, new_command(split_line, envs, i, j, fd));
-			minishell->n_pipes++;
 			i = j + 1;
 			fd = STDOUT_FILENO;
 		}
@@ -74,7 +68,7 @@ t_command	*new_command(char **split_line, t_envs *envs, int s, int e, int fd)
 	while (i < new->args_ct)
 	{
 		if (ft_equalstr(split_line[s + i], ">"))
-			break;
+			break ;
 		new->args[i] = ft_strdup(split_line[s + i]);
 		i++;
 	}

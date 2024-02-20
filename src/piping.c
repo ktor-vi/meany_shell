@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktorvi <ktorvi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/05 06:51:50 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/02/17 13:32:44by ktorvi           ###   ########.fr       */
+/*   Created: 2024/02/19 18:12:22 by vphilipp          #+#    #+#             */
+/*   Updated: 2024/02/19 18:12:23 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	execute_builtin(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 		dup2out_error();
 	handle_builtins(h, envs);
 	dup2(temp_fd, STDOUT_FILENO);
-	close(temp_fd); // Close the temporary file descriptor
+	close(temp_fd);
 }
 
 void	execute_last_builtin(t_command *h, int prev_pipe, t_envs *envs)
@@ -92,7 +92,7 @@ void	execute_last_builtin(t_command *h, int prev_pipe, t_envs *envs)
 	temp_fd = dup(STDOUT_FILENO);
 	handle_builtins(h, envs);
 	dup2(temp_fd, STDOUT_FILENO);
-	close(temp_fd); // Close the temporary file descriptor
+	close(temp_fd);
 }
 
 void	execute_pipes(t_minishell *minishell, t_envs *envs)
@@ -110,8 +110,9 @@ void	execute_pipes(t_minishell *minishell, t_envs *envs)
 			execute_child(h, prev_pipe, pfds, envs);
 		else
 			execute_builtin(h, prev_pipe, pfds, envs);
-		parent_process(prev_pipe, pfds, &h);
+		parent_process(prev_pipe, pfds);
 		prev_pipe = pfds[0];
+		h = h->next;
 	}
 	if (!is_builtin(h))
 		execute_last_command(h, prev_pipe, envs);

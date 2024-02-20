@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_helpers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktorvi <ktorvi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 14:17:43 by ktorvi            #+#    #+#             */
-/*   Updated: 2024/02/17 14:17:44 by ktorvi           ###   ########.fr       */
+/*   Updated: 2024/02/20 11:51:24 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void	create_pipe(int pfds[2])
 	}
 }
 
-void	parent_process(int prev_pipe, int pfds[2], t_command **h)
+void	parent_process(int prev_pipe, int pfds[2])
 {
 	close(pfds[1]);
-	close(prev_pipe);
-	*h = (*h)->next;
+	if (prev_pipe != STDIN_FILENO)
+		close(prev_pipe);
 }

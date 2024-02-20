@@ -20,6 +20,8 @@ char	*get_cmdpath(char *cmd, t_entry *envp)
 	char	*temp_env;
 
 	i = 0;
+	if(access(cmd, X_OK) == 0)
+		return (cmd);
 	while (ft_strnstr(envp->name, "PATH", 4) == 0)
 		envp = envp->next;
 	path = ft_strdup(envp->value);
