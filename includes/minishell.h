@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/02/19 11:20:27 by randre           ###   ########.fr       */
+/*   Updated: 2024/02/22 17:22:40 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,28 @@
 # include <unistd.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+
+typedef enum
+{
+	TOKEN_WORD,
+	TOKEN_DQUOTES,
+	TOKEN_SQUOTES,
+	TOKEN_RCHEVRON,
+	TOKEN_DRCHEVRON,
+	TOKEN_LCHEVRON,
+	TOKEN_DLCHEVRON,
+	TOKEN_VAR,
+	TOKEN_PIPE,
+}	TokenType;
+
+typedef struct s_token
+{
+	TokenType			type;
+	int					in_quotes;
+	char				*line;
+	struct s_token		*prev;
+	struct s_token		*next;
+}						t_token;
 
 typedef struct s_entry
 {
@@ -74,20 +96,22 @@ typedef struct s_minishell
 	int					envp;
 }						t_minishell;
 
+t_minishell				*parser(t_token *token, t_envs *envs);
 void					print_all_cmd(t_minishell *minishell);
 t_command				*lastcmd(t_command *lst);
 void					ft_cmd_addb(t_minishell **mini, t_command *new);
 void					print_all_cmd(t_minishell *minishell);
 t_minishell				*populate(char **split_line, t_envs *envs);
-t_command				*new_command(char **split_line, t_envs *envs, int s,
-							int e, int fd);
+t_command				*new_command(char **split_line, int y, int to_pipe, int fd);
 void					check_command(char **split_line, t_envs *envs);
 void					env_command(char **envp);
 void					cd_command(char **);
 void					pwd_command(t_command *cmd);
 void					echo_command(char **split_line, t_command *cmd);
 // UTILS
-void	handle_sigint(int sig);
+void					verify_quotes(char *line, int i, int *val);
+char					*ft_strndup(const char *s, int n);
+void					handle_sigint(int sig);
 int						is_builtin(t_command *cmd);
 int						is_builtin_char(char **split_line);
 int						ft_equalstr(char *s1, char *s2);

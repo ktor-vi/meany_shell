@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 06:15:09 by randre            #+#    #+#             */
-/*   Updated: 2023/09/19 18:04:00 by randre           ###   ########.fr       */
+/*   Updated: 2024/02/22 17:29:28 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ size_t	ft_strlen(const char *str)
 	size_t	i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	while (*str)
 	{
 		i++;
