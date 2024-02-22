@@ -71,6 +71,8 @@ char	**ll_to_tab(t_entry *env)
 	char	*var;
 	int ct;
 
+	if (!env)
+		return (NULL);
 	ct = ll_size(env);
 	while(env)
 	{

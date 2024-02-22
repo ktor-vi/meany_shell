@@ -35,6 +35,8 @@ t_entry	*newentry(char *var)
 	new->value = value;
 	new->prev = NULL;
 	new->next = NULL;
+	if (ft_equalstr(new->name, "SHLVL"))
+		new->value = ft_itoa(ft_atoi(new->value) + 1);
 	return (new);
 }
 
