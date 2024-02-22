@@ -22,8 +22,10 @@ char	*get_cmdpath(char *cmd, t_entry *envp)
 	i = 0;
 	if(access(cmd, X_OK) == 0)
 		return (cmd);
-	while (ft_strnstr(envp->name, "PATH", 4) == 0)
+	while (envp && ft_strnstr(envp->name, "PATH", 4) == 0 )
 		envp = envp->next;
+	if (!envp)
+		return (NULL);
 	path = ft_strdup(envp->value);
 	paths = ft_split(path, ':');
 	while (paths[i])
@@ -35,7 +37,7 @@ char	*get_cmdpath(char *cmd, t_entry *envp)
 		free(temp_env);
 		i++;
 	}
-	free(paths);
+	free_tab(paths);
 	free(path);
 	return (NULL);
 }

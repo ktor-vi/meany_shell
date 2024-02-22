@@ -41,6 +41,7 @@ void	handle_sigquit(int sig)
 		return ;
 	}
 }
+int g_exit_codes[2];
 
 int	main(int argc, char **argv, char **envp)
 {
