@@ -74,6 +74,8 @@ t_command	*new_command(char **split_line, t_envs *envs, int s, int e, int fd)
 	}
 	if (ft_equalstr(split_line[e], "|"))
 		new->to_pipe = true;
+	else
+		new->to_pipe = false;
 	new->args[i] = NULL;
 	return (new);
 }

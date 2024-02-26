@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 13:18:26 by randre            #+#    #+#             */
-/*   Updated: 2024/02/22 17:47:29 by randre           ###   ########.fr       */
+/*   Updated: 2024/02/26 13:41:06 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void	get_token_type(t_token *token)
 	int	i;
 
 	i = -1;
-	verify_quotes(token->line, 0, &token->in_quotes);
 	while (token->line[++i])
 	{
 		if (token->line[i] == '>')
@@ -112,6 +111,14 @@ void	get_token_type(t_token *token)
 	token->type = TOKEN_WORD;
 }
 
+int	isspecial(char c)
+{
+	if  (c == '>' || c == '<' || c == '|')
+		return (1);
+	else
+		return (0);
+}
+
 t_token	*lexer(char *line)
 {
 	int		i;
@@ -132,10 +139,15 @@ t_token	*lexer(char *line)
 	{
 		if (line[i] == '"' || line[i] == 39)
 			verify_quotes(line, i, &in_quotes);
-		printf("char : %c, quotes : %d\n", line[i], in_quotes);
+		//printf("char : %c, quotes : %d\n", line[i], in_quotes);
+		/*if (isspecial(line[i]) && in_quotes == 0)
+		{
+			
+		}*/
 		if (isspace(line[i]) && in_quotes == 0)
 		{
 			token->line = ft_strndup(&line[i - j], j);
+			token->space = 1;
 			get_token_type(token);
 			new_token(token);
 			token = token->next;
@@ -170,18 +182,13 @@ int main(void)
 	int			j;
 	int			i;
 
-	j = 0;
+	j = 1;
 	i = 0;
 	h = minishell->cmd;
 	while (h)
 	{
-		printf("Command %d : \n Path : %s, to pipe : %d - end %d\n", i, h->path,
+		printf("Command %d : %s\nto pipe : %d - end %d\n", i,  h->args[0],
 			h->to_pipe, h->end);
-		while ((h->args)[j])
-		{
-			printf("%d -- %s\n", j, (h->args)[j]);
-			j++;
-		}
 		j = 0;
 		h = h->next;
 	}

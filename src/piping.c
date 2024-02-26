@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.s19.be>         +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:12:22 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/02/19 18:12:23 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/02/26 12:47:53 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void	execute_pipes(t_minishell *minishell, t_envs *envs)
 
 	h = minishell->cmd;
 	prev_pipe = STDIN_FILENO;
+
 	while (h->to_pipe == true)
 	{
 		create_pipe(pfds);

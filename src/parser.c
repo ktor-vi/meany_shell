@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 15:05:45 by randre            #+#    #+#             */
-/*   Updated: 2024/02/22 17:44:10 by randre           ###   ########.fr       */
+/*   Updated: 2024/02/26 13:46:59 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ t_command	*new_command(char **split_line, int y, int to_pipe, int fd)
 	i = 0;
 	while (split_line[y])
 	{
-		ft_printf(1, "%s", split_line[y]);
-		new->args[i] = malloc(sizeof(char) * 2048);
+		new->args[i] = malloc((ft_strlen(split_line[y] + 1) * sizeof(char)));
 		new->args[i] = ft_strdup(split_line[y]);
 		y++;
 		i++;
@@ -129,6 +128,7 @@ t_minishell	*parser(t_token *token, t_envs *envs)
 
 	split_line = ft_calloc(2048, 1);
 	minishell = malloc(sizeof(t_minishell) * 1);
+	minishell->cmd = NULL;
 	y = 0;
 	start_y = 0;
 	in_quotes = 0;
@@ -137,12 +137,11 @@ t_minishell	*parser(t_token *token, t_envs *envs)
 	{
 		i = 0;
 		split_line[y] = ft_calloc(2048, sizeof(char));
-		/*if (!token->line)
-			break;*/
-		ft_printf(1, "Line %s", token->line);
+		if (!token->line)
+			break;
+		ft_printf(1, "Line : %s\n Type : %u\n\n", token->line, token->type);
 		while (token->line[i])
 		{
-			write(1, "dd\n", 3);
 			// if (token->type == TOKEN_RCHEVRON)
 			// {
 			// 	while (token->line[i] != '>')
@@ -178,9 +177,8 @@ t_minishell	*parser(t_token *token, t_envs *envs)
 			// }
 			if (token->type == TOKEN_WORD)
 			{
-				write(1, "ee", 2);
 				split_line[y] = ft_noqstrdup(token->line, token);
-				ft_printf(1, "line : %s", split_line[y]);
+				//ft_printf(1, "line : %s", split_line[y]);
 				y++;
 				break;
 			}
@@ -188,5 +186,11 @@ t_minishell	*parser(t_token *token, t_envs *envs)
 		token = token->next;
 	}
 	ft_cmd_addb(&minishell, new_command(split_line, start_y, 0, fd));
+	while (y--)
+	{
+		write(1, "1\n", 2);
+		free(split_line[y]);
+	}
+	free(split_line);
 	return (minishell);
 }

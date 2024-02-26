@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/02/22 17:22:40 by randre           ###   ########.fr       */
+/*   Updated: 2024/02/26 13:39:39 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_token
 {
 	TokenType			type;
 	int					in_quotes;
+	int					space;
 	char				*line;
 	struct s_token		*prev;
 	struct s_token		*next;
@@ -72,8 +73,8 @@ typedef struct s_command
 	int					args_ct;
 	pid_t				pid;
 	int					fd;
-	bool				to_pipe;
-	bool				end;
+	int					to_pipe;
+	int					end;
 	int					exit_code;
 	struct s_command	*next;
 	struct s_command	*prev;
