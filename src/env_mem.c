@@ -23,6 +23,7 @@ void	free_envs(t_envs **envs)
 	}
 }
 
+
 void	free_entry(t_entry *entry)
 {
 	if (entry->prev)
