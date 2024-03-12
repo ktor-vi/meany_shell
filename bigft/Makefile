@@ -94,37 +94,31 @@ define print_completion
 @printf "$(GREEN)Compilation of $(YELLOW)$(NAME) $(GREEN)complete ✔️$(CLR_RMV)"
 endef
 
+all:	nothing                   ${NAME}
+
+re:			fclean all
+
 %.o: %.c $(DEPS)
 	@$(CC) $(FLAGS) -c $< -o $@
 	@$(call progress_bar)
 
-
-${NAME}:	$(LIBFT_LIBRARY_DIR) $(OBJS)
-	                                                    @echo "$(YELLOW)Done!$(CLR_RMV)"
-	                                                    @ar rcs $(NAME) $(OBJS)
-			@echo "$(GREEN)$(NAME) created ✔️"
-
-all:	nothing                   ${NAME}
-
-bonus:		all
-
 clean:
-			@ ${RM} *.o */*.o */*/*.o
-			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)objs ✔️"
+	@if [ -z "$$(find $(OBJS))" ]; then \
+		rm $(OBJS); \
+		echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)objs ✔️"; \
+	fi
 
 fclean:		clean
 			@ ${RM} ${NAME}
 			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)binary ✔️"
-
-re:			fclean all
-
-$(LIBFT_LIBRARY_DIR):
-	@echo "$(YELLOW)Building libft...$(CLR_RMV)"  # Implicit dependency for libft build
-	@echo "$(YELLOW)Building libft...$(CLR_RMV)"
+${NAME}:	$(OBJS)
+	                                                    @echo "$(YELLOW)Done!$(CLR_RMV)"
+	                                                    @ar rcs $(NAME) $(OBJS)
+			@echo "$(GREEN)$(NAME) created ✔️"
 nothing:
 	@if [ -f "$(NAME)" ] && [ -z "$$(find $(SRCS) -newer $(NAME))" ]; then \
-		echo "$(CYAN)Nothing has been updated.$(CLR_RMV)";  \
-		fi 
+	                          echo "\r$(CYAN)bigft is up to date$(CLR_RMV)"; \
+                          fi 
 .PHONY:		all clean fclean re nothing
 
 

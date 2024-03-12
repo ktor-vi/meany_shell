@@ -84,9 +84,6 @@ clean:
 	@make clean -C $(LIBFT_LIBRARY_DIR)
 	@rm -rf $(OBJS)
 	@echo "$(GREEN)Deleting $(YELLOW)$(NAME)$(CLR_RMV) objects ✔️"
-	@if [ -f "$(BONUS)" ] && [ -z "$(find $(BONUS_OBJS) -newer $(BONUS))" ]; then \
-		echo "$(GREEN)Deleting $(YELLOW)$(BONUS_OBJS)$(CLR_RMV) objects ✔️"; \
-		rm -rf $(BONUS_OBJS); fi
 
 fclean: clean
 	@make fclean -C $(LIBFT_LIBRARY_DIR)
@@ -95,22 +92,11 @@ fclean: clean
 
 # Targets for building libft and minishell
 # Target for building main minishell executable
-$(NAME): $(LIBFT_LIBRARY_DIR) $(OBJS)
+$(NAME): $(OBJS)
 	@echo "$(YELLOW)Done!$(CLR_RMV)"
 	@make  -C $(LIBFT_LIBRARY_DIR)
 	@$(CC) $(FLAGS) $(OBJS) bigft/libft.a -o $@
 	@$(call print_completion)
-
-# Target for building "meanyshell" (adjust source files as needed)
-$(BONUS): $(BONUS_OBJS)
-	@echo "$(YELLOW)Done!$(CLR_RMV)"
-	@make -C $(LIBFT_LIBRARY_DIR)  # Remove extra space
-	@$(CC) $(FLAGS) $(BONUS_OBJS) -o $@
-	@$(call print_completionb)
-
-$(LIBFT_LIBRARY_DIR):
-	@echo "$(YELLOW)Building libft...$(CLR_RMV)"$(LIBFT_LIBRARY_DIR):  # Implicit dependency for libft build
-	@echo "$(YELLOW)Building libft...$(CLR_RMV)"
 
 nothing:
 	@if [ -f "$(NAME)" ] && [ -z "$$(find $(SRC) -newer $(NAME))" ]; then \
