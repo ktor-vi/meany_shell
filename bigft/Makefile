@@ -103,10 +103,8 @@ re:			fclean all
 	@$(call progress_bar)
 
 clean:
-	@if [ -z "$$(find $(OBJS))" ]; then \
-		rm $(OBJS); \
-		echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)objs ✔️"; \
-	fi
+			@ ${RM} *.o */*.o */*/*.o
+			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)objs ✔️"
 
 fclean:		clean
 			@ ${RM} ${NAME}
