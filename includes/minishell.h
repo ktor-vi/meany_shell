@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/03/12 14:09:55 by randre           ###   ########.fr       */
+/*   Updated: 2024/03/12 15:19:45 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,28 +26,6 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
-typedef enum
-{
-	TOKEN_WORD,
-	TOKEN_DQUOTES,
-	TOKEN_SQUOTES,
-	TOKEN_RCHEVRON,
-	TOKEN_DRCHEVRON,
-	TOKEN_LCHEVRON,
-	TOKEN_DLCHEVRON,
-	TOKEN_VAR,
-	TOKEN_PIPE,
-}	TokenType;
-
-typedef struct s_token
-{
-	TokenType			type;
-	int					in_quotes;
-	int					space;
-	char				*line;
-	struct s_token		*prev;
-	struct s_token		*next;
-}						t_token;
 
 typedef struct s_entry
 {
@@ -66,9 +44,16 @@ typedef struct s_envs
 
 }						t_envs;
 
+typedef struct	s_arg
+{
+	char	*line;
+	int		in_quotes;
+}						t_args;
+
 typedef struct s_command
 {
 	char				*path;
+	t_args				**arg;
 	char				**args;
 	int					args_ct;
 	pid_t				pid;
@@ -97,7 +82,6 @@ typedef struct s_minishell
 	int					envp;
 }						t_minishell;
 
-t_minishell				*parser(t_token *token, t_envs *envs);
 char					**lexer(char *line);
 void					print_all_cmd(t_minishell *minishell);
 t_command				*lastcmd(t_command *lst);

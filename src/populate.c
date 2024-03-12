@@ -47,6 +47,94 @@ t_minishell	*populate(char **split_line, t_envs *envs)
 	return (minishell);
 }
 
+int	closed_quotes(char *line)
+{
+	int	i;
+	int	type;
+
+	i = 0;
+	if (!line)
+		return (0);
+	while (line[i] != '"' && line[i] != 39 && line[i])
+		i++;
+	if (!line[i])
+		return (0);
+	else if (line[i] == '"')
+		type = 2;
+	else if (line[i] == 39)
+		type = 1;
+	while (line[i])
+	{
+		if (line[i] == '"' && type == 2)
+			return (1);
+		else if (line[i] == 39 && type == 1)
+			return (2);
+		else
+			i++;
+	}
+	return (0);
+}
+
+char	*ft_strqtrim(char *line)
+{
+	char	*trimmed;
+	char	*start;
+	int		type;
+
+	trimmed = malloc((ft_strlen(line) + 1) * sizeof(char));
+	type = 0;
+	start = trimmed;
+	while (*line)
+	{
+		if (*line != 39 && *line != '"')
+		{
+			*trimmed = *line;
+			line++;
+			trimmed++;
+		}
+		else if (*line == 39)
+		{
+			if (type == 0)
+			{
+				type = 1;
+				line++;
+			}
+			else if (type == 1)
+			{
+				type = 0;
+				line++;
+			}
+			else
+			{
+				*trimmed = *line;
+				line++;
+				trimmed++;
+			}
+		}
+		else if (*line == '"')
+		{
+			if (type == 0)
+			{
+				type = 2;
+				line++;
+			}
+			else if (type == 2)
+			{
+				type = 0;
+				line++;
+			}
+			else
+			{
+				*trimmed = *line;
+				line++;
+				trimmed++;
+			}
+		}
+	}
+	*trimmed = 0;
+	return (start);
+}
+
 t_command	*new_command(char **split_line, t_envs *envs, int s, int e, int fd)
 {
 	t_command	*new;
@@ -55,21 +143,28 @@ t_command	*new_command(char **split_line, t_envs *envs, int s, int e, int fd)
 	i = 0;
 	new = malloc(sizeof(t_command));
 	new->args_ct = e - s;
+	if (new->args_ct == 0)
+		new->args_ct = 1;
+	new->arg = malloc(new->args_ct * sizeof(t_args*));
+	new->args = malloc((new->args_ct + 1) * sizeof(char *));
 	new->fd = fd;
 	new->path = get_cmdpath(ft_strtrim(split_line[s], " "), envs->env);
-	if (s == e)
-	{
-		new->args[i] = ft_strdup(split_line[s + i]);
-		new->args_ct = 1;
-		return (new);
-	}
-	else
-		new->args = malloc((e - s + 1) * sizeof(char *));
 	while (i < new->args_ct)
 	{
 		if (ft_equalstr(split_line[s + i], ">"))
 			break ;
-		new->args[i] = ft_strdup(split_line[s + i]);
+		new->arg[i] = malloc(1 * sizeof(t_args));
+		new->arg[i]->in_quotes = closed_quotes(split_line[s + 1]);
+		if (new->arg[i]->in_quotes)
+		{
+			new->arg[i]->line = ft_strqtrim(ft_strdup(split_line[s + i]));
+			new->args[i] = ft_strqtrim(ft_strdup(split_line[s + i]));
+		}
+		else
+		{
+			new->arg[i]->line = ft_strdup(split_line[s + i]);
+			new->args[i] = ft_strdup(split_line[s + i]);
+		}
 		i++;
 	}
 	if (ft_equalstr(split_line[e], "|"))
