@@ -1,18 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   beta_lexer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/22 13:18:26 by randre            #+#    #+#             */
-/*   Updated: 2024/02/22 17:47:29 by randre           ###   ########.fr       */
+/*   Created: 2024/03/12 11:09:44 by randre            #+#    #+#             */
+/*   Updated: 2024/03/12 14:02:52 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-#include <string.h>
 #include <ctype.h>
+#include "../includes/minishell.h"
+
+char	*ft_strndup(char *str, int start, int end)
+{
+	char	*sstart;
+	char	*s;
+
+	s = malloc(((end - start) + 1) * sizeof(char));
+	sstart = s;
+	while(start != end)
+	{
+		*s = str[start];
+		start++;
+		s++;
+	}
+	*s = 0;
+	return (sstart);
+}
 
 void	verify_quotes(char *line, int i, int *val)
 {
@@ -41,148 +57,66 @@ void	verify_quotes(char *line, int i, int *val)
 	return ;
 }
 
-char	*ft_strndup(const char *s, int n)
+int	ft_isspecial(char c)
 {
-	char	*str;
-	char	*start;
-
-	if (!s)
-		return (NULL);
-	str = malloc((n + 1) * sizeof(char));
-	if (!str)
-		return (NULL);
-	start = str;
-	while (n--)
-	{
-		*str = *s;
-		s++;
-		str++;
-	}
-	*str = '\0';
-	return (start);
+	if (c == '>' || c == '<' || c == '|')
+		return (1);
+	return (0);
 }
 
-void	new_token(t_token *token)
+char	**lexer(char *line)
 {
-	t_token	*new;
-	
-	new = malloc(sizeof(t_token) * 1);
-	token->next = new;
-	new->next = NULL;
-	new->prev = token;
-	new->line = NULL;
-	//new->type = NULL;
-}
-
-void	get_token_type(t_token *token)
-{
-	int	i;
+	int i;
+	int	y;
+	int	j;
+	char **split_line;
+	int in_quotes;
 
 	i = -1;
-	verify_quotes(token->line, 0, &token->in_quotes);
-	while (token->line[++i])
-	{
-		if (token->line[i] == '>')
-		{
-			if (token->line[i + 1] == '>')
-				token->type = TOKEN_DRCHEVRON;
-			else
-				token->type = TOKEN_RCHEVRON;
-			return ;
-		}
-		if (token->line[i] == '<')
-		{
-			if (token->line[i + 1] == '<')
-				token->type = TOKEN_DLCHEVRON;
-			else
-				token->type = TOKEN_LCHEVRON;
-			return ;
-		}
-		if (token->line[i] == '|')
-		{
-			token->type = TOKEN_PIPE;
-			return ;
-		}
-		if (token->line[i] == '$')
-		{
-			token->type = TOKEN_VAR;
-			return ;
-		}
-	}
-	token->type = TOKEN_WORD;
-}
-
-t_token	*lexer(char *line)
-{
-	int		i;
-	int		j;
-	int		in_quotes;
-	t_token	*token;
-	t_token	*start;
-
-	i = 0;
 	j = 0;
-	token = malloc(sizeof(t_token) * 1);
-	start = token;
-	token->prev = NULL;
+	y = 0;
 	in_quotes = 0;
-	if (!line)
-		return (NULL);
-	while (line[i] != 0)
+	split_line = malloc((ft_strlen(line) + 1) * sizeof(char*));
+	while(line[++i])
 	{
 		if (line[i] == '"' || line[i] == 39)
 			verify_quotes(line, i, &in_quotes);
-		printf("char : %c, quotes : %d\n", line[i], in_quotes);
-		if (isspace(line[i]) && in_quotes == 0)
+		if (ft_isspecial(line[i]) && !in_quotes)
 		{
-			token->line = ft_strndup(&line[i - j], j);
-			get_token_type(token);
-			new_token(token);
-			token = token->next;
-			i++;
-			if (isspace(line[i]))
-				while (isspace(line[i]))
-					i++;
-			if (!line[i])
-				break ;
-			j = 0;
+			if (!isspace(line[i - 1]))
+			{
+				split_line[j] = ft_strndup(line, y, i);
+				j++;
+			}
+			if (line[i + 1] == line[i])
+			{
+				split_line[j] = ft_strndup(line, i, i + 2);
+				i = i + 2;
+			}
+			else
+			{
+				split_line[j] = ft_strndup(line, i, i + 1);
+				i = i + 1;
+			}
+			y = i;
+			j = j + 1;
 		}
-		else
+		else if (isspace(line[i]) && !in_quotes)
 		{
+			split_line[j] = ft_strndup(line, y, i);
 			i++;
+			while (isspace(line[i]))
+				i++;
+			i--;
 			j++;
+			y = i + 1;
+		}
+		if (line[i + 1] == 0)
+		{
+			split_line[j] = ft_strndup(line, y, i + 1);
+			split_line[j + 1] = NULL;
+			break;
 		}
 	}
-	token->line = ft_strndup(&line[i - j], j);
-	get_token_type(token);
-	new_token(token);
-	return (start);
-}
-
-int main(void)
-{
-	char *line;
-	t_minishell	*minishell;
-
-	line = readline("$ ");
-	minishell = parser(lexer(line), NULL);
-	t_command	*h;
-	int			j;
-	int			i;
-
-	j = 0;
-	i = 0;
-	h = minishell->cmd;
-	while (h)
-	{
-		printf("Command %d : \n Path : %s, to pipe : %d - end %d\n", i, h->path,
-			h->to_pipe, h->end);
-		while ((h->args)[j])
-		{
-			printf("%d -- %s\n", j, (h->args)[j]);
-			j++;
-		}
-		j = 0;
-		h = h->next;
-	}
+	return (split_line);
 }

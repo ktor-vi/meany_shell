@@ -15,6 +15,7 @@ SRC = 	src/main.c       \
 		src/pwd_command.c    \
 		src/populate.c       \
 		src/piping.c         \
+		src/beta_lexer.c	\
 
 INC = includes/minishell.h
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.s19.be>         +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:35:42 by vphilipp          #+#    #+#             */
-/*   Updated: 2023/10/25 16:32:23 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/03/12 13:58:48 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,5 @@ char	*ft_strtrim(char *s1, char *set)
 	while (k < calculate(s1, set) && s1[i] != '\0')
 		trimmed[k++] = s1[i++];
 	trimmed[k] = '\0';
-	free(s1);
 	return (trimmed);
 }

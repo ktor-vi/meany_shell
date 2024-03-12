@@ -56,7 +56,7 @@ t_command	*new_command(char **split_line, t_envs *envs, int s, int e, int fd)
 	new = malloc(sizeof(t_command));
 	new->args_ct = e - s;
 	new->fd = fd;
-	new->path = get_cmdpath(split_line[s], envs->env);
+	new->path = get_cmdpath(ft_strtrim(split_line[s], " "), envs->env);
 	if (s == e)
 	{
 		new->args[i] = ft_strdup(split_line[s + i]);
