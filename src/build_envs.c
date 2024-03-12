@@ -12,6 +12,46 @@
 
 #include "../includes/minishell.h"
 
+static t_entry	*shlvl(void)
+{
+	t_entry	*shlvl;
+
+	shlvl = malloc(sizeof(t_entry));
+	if (!shlvl)
+		return (NULL);
+	shlvl->name = ft_strdup("SHLVL");
+	shlvl->value = ft_strdup("1");
+	shlvl->prev = NULL;
+	shlvl->next = NULL;
+	return (shlvl);
+}
+
+static t_entry	*pwd(void)
+{
+	char	*str;
+	t_entry	*pwd;
+
+	pwd = malloc(sizeof(t_entry));
+	str = malloc(2048 * sizeof(char));
+	if (!str || !pwd)
+		return (NULL);
+	getcwd(str, 2048);
+	pwd->name = ft_strdup("PWD");
+	pwd->value = ft_strdup(str);
+	pwd->prev = NULL;
+	pwd->next = NULL;
+	free(str);
+	return (pwd);
+}
+
+static t_envs	*empty_envs(t_envs *envs)
+{
+	ft_entry_addb(&envs->env, pwd());
+	ft_entry_addb(&envs->exp, pwd());
+	ft_entry_addb(&envs->env, shlvl());
+	ft_entry_addb(&envs->exp, shlvl());
+	return (envs);
+}
 t_envs	*build_envs(char **envp)
 {
 	t_envs	*envs;
@@ -21,11 +61,8 @@ t_envs	*build_envs(char **envp)
 	envs = malloc(sizeof(t_envs));
 	envs->env = NULL;
 	envs->exp = NULL;
-	if (!envp)
-	{
-		envs->exp_ct = 0;
-		return (envs);
-	}
+	if (!envp[i])
+		return (empty_envs(envs));
 	while (envp[i])
 	{
 		ft_entry_addb(&envs->env, newentry(envp[i]));
@@ -36,42 +73,4 @@ t_envs	*build_envs(char **envp)
 	envs->env_ct = i;
 	envs->exp_ct = i;
 	return (envs);
-	;
-}
-
-void	free_envs(t_envs **envs)
-{
-	t_entry	*tmp;
-
-	while ((*envs)->env->next)
-	{
-		tmp = (*envs)->env;
-		(*envs)->env = (*envs)->env->next;
-		free(tmp->name);
-		free(tmp->value);
-		free(tmp);
-	}
-	while ((*envs)->exp->next)
-	{
-		tmp = (*envs)->exp;
-		(*envs)->exp = (*envs)->exp->next;
-		free(tmp->name);
-		free(tmp->value);
-		free(tmp);
-	}
-}
-
-void	free_entry(t_entry *entry)
-{
-	if (entry->prev)
-		entry->prev->next = entry->next;
-	if (entry->name)
-		free(entry->name);
-	entry->name = NULL;
-	if (entry->value)
-		free(entry->value);
-	entry->value = NULL;
-	if (entry)
-		free(entry);
-	entry = NULL;
 }

@@ -9,6 +9,7 @@ SRC = 	src/main.c       \
 		src/build_envs.c     \
 		src/export_unset.c   \
 		src/env_utils.c      \
+		src/env_mem.c        \
 		src/exec_utils.c     \
 		src/exec_helpers.c   \
 		src/cd_command.c     \
