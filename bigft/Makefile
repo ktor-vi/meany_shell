@@ -104,11 +104,9 @@ re:			fclean all
 
 clean:
 			@ ${RM} *.o */*.o */*/*.o
-			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)objs ✔️"
 
 fclean:		clean
 			@ ${RM} ${NAME}
-			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)binary ✔️"
 ${NAME}:	$(OBJS)
 	                                                    @echo "$(YELLOW)Done!$(CLR_RMV)"
 	                                                    @ar rcs $(NAME) $(OBJS)

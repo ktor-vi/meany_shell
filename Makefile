@@ -24,8 +24,8 @@ INC = includes/minishell.h
 CC = gcc -w
 
 FLAGS = -g -fsanitize=address \
-        -lreadline -L ~/.brew/opt/readline/lib  \
-        -I/Users/vphilipp/.brew/opt/readline/include
+        -lreadline -L/opt/homebrew/opt/readline/lib  \
+        -I/opt/homebrew/opt/readline/include
 
 LIBFT_LIBRARY_DIR = bigft/  # Descriptive variable name
 
@@ -35,11 +35,12 @@ OBJS := $(patsubst src/%.c, objs/%.o, ${SRC})
 BONUS_OBJS := $(BONUS_SRCS:.c=.o)
 
 DEPS := $(INC) 
-# Color codes for terminal output (use with caution)
+
 GREEN := \033[1;32m
 YELLOW := \033[1;33m
 CYAN := \033[1;36m
 CLR_RMV := \033[0m
+RED		:= \033[1;31m
 
 total_files := $(words $(SRC))
 current_file := 0
@@ -55,17 +56,7 @@ define print_completion
 @printf "\n$(GREEN)Compilation of $(YELLOW)$(NAME) $(GREEN)complete ✔️\n$(CLR_RMV)"
 endef
 
-define print_completionb
-@printf "\n$(GREEN)Compilation of $(YELLOW)$(BONUS) $(GREEN)complete ✔️\n$(CLR_RMV)"
-endef
 
-define print_completionl
-@printf "$(GREEN)Compilation of $(YELLOW)libft.a $(GREEN)complete ✔️\n$(CLR_RMV)"
-endef
-
-define print_completionp
-@printf "\n$(GREEN)Compilation of $(YELLOW)libftprintf.a $(GREEN)complete ✔️\n$(CLR_RMV)"
-endef
 
 .PHONY: all clean fclean nothing nothingb bonus re
 
@@ -82,16 +73,16 @@ objs/%.o: src/%.c $(DEPS)
 
 clean:
 	@make clean -C $(LIBFT_LIBRARY_DIR)
+	@ echo "$(GREEN)Deleting $(YELLOW)bigft $(CLR_RMV)objs ✔️"
 	@rm -rf $(OBJS)
-	@echo "$(GREEN)Deleting $(YELLOW)$(NAME)$(CLR_RMV) objects ✔️"
+	@echo "$(GREEN)Deleting $(YELLOW)$(NAME)$(CLR_RMV) objs ✔️"
 
 fclean: clean
 	@make fclean -C $(LIBFT_LIBRARY_DIR)
+	@ echo "$(GREEN)Deleting $(YELLOW)bigft $(CLR_RMV)binary ✔️"
 	@rm -rf $(NAME)
 	@echo "$(GREEN)Deleting $(YELLOW)$(NAME)$(CLR_RMV) binary ✔️"
 
-# Targets for building libft and minishell
-# Target for building main minishell executable
 $(NAME): $(OBJS)
 	@echo "$(YELLOW)Done!$(CLR_RMV)"
 	@make  -C $(LIBFT_LIBRARY_DIR)
