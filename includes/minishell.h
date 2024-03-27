@@ -14,8 +14,11 @@
 # define MINISHELL_H
 
 # include "../bigft/ft_printf/ft_printf.h"
+# include "../bigft/get_next_line/get_next_line.h"
 # include "../bigft/libft/libft.h"
 # include <errno.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
@@ -23,9 +26,6 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-
 
 typedef struct s_entry
 {
@@ -44,10 +44,10 @@ typedef struct s_envs
 
 }						t_envs;
 
-typedef struct	s_arg
+typedef struct s_arg
 {
-	char	*line;
-	int		in_quotes;
+	char				*line;
+	int					in_quotes;
 }						t_args;
 
 typedef struct s_command
@@ -89,7 +89,8 @@ void					init_cmds(char *split_line);
 void					ft_cmd_addb(t_minishell **mini, t_command *new);
 void					print_all_cmd(t_minishell *minishell);
 t_minishell				*populate(char **split_line, t_envs *envs);
-t_command				*new_command(char **split_line, t_envs *envs, int s, int e, int fd);
+t_command				*new_command(char **split_line, t_envs *envs, int s,
+							int e, int fd);
 void					check_command(char **split_line, t_envs *envs);
 void					env_command(char **envp);
 void					cd_command(char **);

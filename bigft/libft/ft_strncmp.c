@@ -16,6 +16,8 @@ int	ft_strncmp(char *s1, char *s2, size_t n)
 {
 	unsigned int	i;
 
+	if (!s2 || !s1)
+		return (3333);
 	i = 0;
 	while (i < n && s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
 	{
