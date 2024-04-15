@@ -39,7 +39,6 @@ SRCS        :=            ft_printf/ft_printf.c \
                           libft/ft_lstmap_bonus.c \
                           libft/ft_lstnew_bonus.c \
                           libft/ft_lstsize_bonus.c \
-                          libft/ft_memchr.c \
                           libft/ft_memcmp.c \
                           libft/ft_memcpy.c \
                           libft/ft_memmove.c \

@@ -6,14 +6,20 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:48:14 by randre            #+#    #+#             */
-/*   Updated: 2024/02/19 11:22:37 by randre           ###   ########.fr       */
+/*   Updated: 2024/04/15 15:16:30 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+inline static int is_special(char c)
+{
+	return (c == '\\' || c == '"' || c == 39);
+}
+
 void	verify_end_quote(char **split_line, int *val, int i, int j, char c)
 {
+	write(1, "yes\n", 4);
 	if (*val == 1 && c == 39)
 	{
 		*val = 0;
@@ -24,6 +30,8 @@ void	verify_end_quote(char **split_line, int *val, int i, int j, char c)
 		*val = 0;
 		return ;
 	}
+	else if (*val != 0)
+		return ;
 	while (split_line[i])
 	{
 		while (split_line[i][++j])
@@ -83,6 +91,7 @@ void	print_echo(char **split_line, int newline, int i, int fd)
 		j = -1;
 		while (split_line[i][++j])
 		{
+			ft_printf(0, "\nCHAR : %c\n", split_line[i][j]);
 			if (split_line[i][j] == '"' || split_line[i][j] == 39)
 				verify_end_quote(split_line, &in_quotes, i, j,
 					split_line[i][j]);
@@ -103,11 +112,16 @@ void	print_echo(char **split_line, int newline, int i, int fd)
 					break ;
 				}
 			}
-			else if ((split_line[i][j] != 92 && split_line[i][j] != '?'
-					&& split_line[i][j] != '"') && in_quotes == 0)
+			else if (!is_special(split_line[i][j]) && in_quotes == 0)
+			{
+				write(1, "\ntest1\n", 7);
 				ft_printf(fd, "%c", split_line[i][j]);
+			}
 			else if (in_quotes == 1 || in_quotes == 2)
+			{
+				write(1, "test\n", 5);
 				ft_printf(fd, "%c", split_line[i][j]);
+			}
 		}
 		if (split_line[i + 1])
 			ft_printf(fd, " ");

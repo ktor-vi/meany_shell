@@ -151,10 +151,10 @@ t_command	*new_command(char **split_line, t_envs *envs, int s, int e, int fd)
 	new->path = get_cmdpath(ft_strtrim(split_line[s], " "), envs->env);
 	while (i < new->args_ct)
 	{
-		if (ft_equalstr(split_line[s + i], ">"))
+		if (ft_equalstr(split_line[s + i], ">") || ft_equalstr(split_line[s + i], ">>") || ft_equalstr(split_line[s + i], "<") || ft_equalstr(split_line[s + i], "<<"))
 			break ;
 		new->arg[i] = malloc(1 * sizeof(t_args));
-		new->arg[i]->in_quotes = closed_quotes(split_line[s + 1]);
+		new->arg[i]->in_quotes = closed_quotes(split_line[s + i]);
 		if (new->arg[i]->in_quotes)
 		{
 			new->arg[i]->line = ft_strqtrim(ft_strdup(split_line[s + i]));

@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 11:09:44 by randre            #+#    #+#             */
-/*   Updated: 2024/03/12 14:39:40 by randre           ###   ########.fr       */
+/*   Updated: 2024/04/15 15:49:57 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char	**lexer(char *line)
 				split_line[j] = ft_strndup(line, y, i);
 				j++;
 			}
-			if (line[i + 1] == line[i])
+			if ((line[i + 1] == line[i]) && line[i] != '|')
 			{
 				split_line[j] = ft_strndup(line, i, i + 2);
 				i = i + 2;
@@ -96,7 +96,10 @@ char	**lexer(char *line)
 			else
 			{
 				split_line[j] = ft_strndup(line, i, i + 1);
-				i = i + 1;
+				if (line[i] == '|' && line[i + 1] == '|')
+					i = i + 2;
+				else
+					i++;
 			}
 			y = i;
 			j = j + 1;

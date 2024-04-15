@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.s19.be>         +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:19:44 by ktorvi            #+#    #+#             */
-/*   Updated: 2023/10/25 16:31:45 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/03/29 15:54:44 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	*ft_memchr(const void *s, int c, size_t n)
 	i = 0;
 	while (i < n)
 	{
-		temp = (unsigned char *)&s[i];
+		temp = (unsigned char *)s;
 		if (*temp == (unsigned char)c)
 			return (temp);
 		i++;
