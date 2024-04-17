@@ -4,7 +4,7 @@ BONUS = meanyshell
 SRC =  src/main.c \
        src/utils.c \
        src/check_command.c \
-       src/echo_command.c \
+       src/new_echo.c \
        src/envs_commands.c \
        src/build_envs.c \
        src/export_unset.c \

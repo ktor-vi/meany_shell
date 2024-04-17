@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:17 by randre            #+#    #+#             */
-/*   Updated: 2024/04/15 15:49:54 by randre           ###   ########.fr       */
+/*   Updated: 2024/04/17 00:51:37 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			split_line = lexer(line);
 			add_history(line);
-			free(line);
+			//free(line);
 			minishell = populate(split_line, envs);
 			minishell->st_in = dup(STDIN_FILENO);
 			execute_pipes(minishell, envs);

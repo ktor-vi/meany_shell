@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktorvi <ktorvi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 14:28:12 by randre            #+#    #+#             */
-/*   Updated: 2024/02/17 13:06:36 by ktorvi           ###   ########.fr       */
+/*   Updated: 2024/04/17 00:39:37 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	free_tab(char **tab)
 void	kb_quit(void)
 {
 	rl_clear_history();
-	write(1, "exit\n", 5);
+	if (isatty(STDIN_FILENO))
+		write(2, "exit\n", 5);
 	exit(0);
 }
 
