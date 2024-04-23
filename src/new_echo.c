@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 00:56:33 by randre            #+#    #+#             */
-/*   Updated: 2024/04/17 02:28:13 by randre           ###   ########.fr       */
+/*   Updated: 2024/04/23 14:07:40 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	is_n(char *line)
 
 inline static int is_special(char c)
 {
-	return (c == '\\' || c == '"' || c == 39);
+	return (c == '\\' || c == '"' || c == 39 || c == '?' || c == '$');
 }
 
 static void	true_print(t_command *cmd, int i)
@@ -41,22 +41,24 @@ static void	true_print(t_command *cmd, int i)
 	{
 		if (is_special(cmd->args[i][y]))
 		{
-			if (cmd->arg[i]->in_quotes == 2)
+			if (cmd->arg[i]->in_quotes == 1)
 			{
-				// expand verif
+				y += ft_expand(cmd->args[i][y], y, cmd->args[i]);
+				if (y > ft_strlen(cmd->args[i]))
+					break;
 				ft_printf(cmd->fd, "%c", cmd->args[i][y]);
 			}
-			else if (cmd->arg[i]->in_quotes == 1)
-			{
-				// no expend
+			else if (cmd->arg[i]->in_quotes == 2)
 				ft_printf(cmd->fd, "%c", cmd->args[i][y]);
+			else
+			{
+				y += ft_expand(cmd->args[i][y], y, cmd->args[i]);
+				if (y > ft_strlen(cmd->args[i]))
+					break;
 			}
 		}
 		else
-		{
-			// expend verif
 			ft_printf(cmd->fd, "%c", cmd->args[i][y]);
-		}
 	}
 }
 

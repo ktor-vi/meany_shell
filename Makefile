@@ -16,7 +16,8 @@ SRC =  src/main.c \
        src/pwd_command.c \
        src/populate.c \
        src/lexer.c \
-       src/piping.c
+       src/piping.c \
+	   src/expand.c
 
 
 INC = includes/minishell.h
@@ -29,7 +30,7 @@ FLAGS =  \
 
 LIBFT_LIBRARY_DIR = bigft/  # Descriptive variable name
 
-LIBS = -L $(LIBFT_LIBRARY_DIR) -L/Users/vphilipp/.brew/opt/readline/lib
+LIBS = -L $(LIBFT_LIBRARY_DIR) -L ~/.brew/opt/readline/lib
 
 OBJS := $(patsubst src/%.c, objs/%.o, ${SRC})
 BONUS_OBJS := $(BONUS_SRCS:.c=.o)
@@ -67,7 +68,7 @@ bonus: nothing $(BONUS)
 re: fclean all
 
 objs/%.o: src/%.c $(DEPS)
-	@$(CC) $(FLAGS) -c $< -o $@
+	@$(CC) $(FLAGS) $(LIBS) -c $< -o $@
 	$(call progress_bar)
 
 
@@ -86,7 +87,7 @@ fclean: clean
 $(NAME): $(OBJS)
 	@echo "$(YELLOW)Done!$(CLR_RMV)"
 	@make  -C $(LIBFT_LIBRARY_DIR)
-	@$(CC) $(FLAGS) $(OBJS) bigft/libft.a -o $@
+	@$(CC) $(FLAGS) $(LIBS) $(OBJS) bigft/libft.a -o $@
 	@$(call print_completion)
 
 nothing:

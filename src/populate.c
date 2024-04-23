@@ -65,7 +65,7 @@ int	closed_quotes(char *line)
 		type = 1;
 	i++;
 	if (!line[i])
-		return ;
+		return (0);
 	while (line[i])
 	{
 		if (line[i] == '"' && type == 2)

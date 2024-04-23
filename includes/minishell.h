@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/03/12 15:19:45 by randre           ###   ########.fr       */
+/*   Updated: 2024/04/23 13:57:03 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ void					export_cmd(t_envs *envs, char *var);
 void					unset_cmd(t_envs *envs, char *var);
 t_entry					*find_entryprev(t_entry *lst, char *to_find);
 // ENV UTILS
+int						ft_expand(char c, int i, char *line);
 t_entry					*swap(t_entry *ptr1, t_entry *ptr2);
 void					sort_alpha_ll(t_entry **head, int count);
 t_entry					*lastentry(t_entry *lst);

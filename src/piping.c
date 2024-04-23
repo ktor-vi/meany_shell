@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:12:22 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/02/26 12:47:53 by randre           ###   ########.fr       */
+/*   Updated: 2024/04/23 13:38:44 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 			dup2out_error();
 		execve(h->path, h->args, ll_to_tab(envs->env));
 		if (errno == EFAULT)
-			ft_printf(STDERR_FILENO, "command not found: %s\n", h->args[0]);
+			ft_printf(STDERR_FILENO, "%s: command not found", h->args[0]);
 		else
 			perror("execve failed");
 		close(pfds[0]);
@@ -57,7 +57,7 @@ void	execute_last_command(t_command *h, int prev_pipe, t_envs *envs)
 			dup2out_error();
 		execve(h->path, h->args, ll_to_tab(envs->env));
 		if (errno == EFAULT)
-			ft_printf(STDERR_FILENO, "command not found: %s\n", h->args[0]);
+			ft_printf(STDERR_FILENO, "%s: command not found", h->args[0]);
 		else
 			perror("execve failed");
 		close(prev_pipe);
