@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 00:56:33 by randre            #+#    #+#             */
-/*   Updated: 2024/04/23 14:07:40 by randre           ###   ########.fr       */
+/*   Updated: 2024/04/23 14:29:53 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,8 @@ static void	true_print(t_command *cmd, int i)
 	{
 		if (is_special(cmd->args[i][y]))
 		{
-			if (cmd->arg[i]->in_quotes == 1)
-			{
-				y += ft_expand(cmd->args[i][y], y, cmd->args[i]);
-				if (y > ft_strlen(cmd->args[i]))
-					break;
+			if (cmd->arg[i]->in_quotes != 0)
 				ft_printf(cmd->fd, "%c", cmd->args[i][y]);
-			}
-			else if (cmd->arg[i]->in_quotes == 2)
-				ft_printf(cmd->fd, "%c", cmd->args[i][y]);
-			else
-			{
-				y += ft_expand(cmd->args[i][y], y, cmd->args[i]);
-				if (y > ft_strlen(cmd->args[i]))
-					break;
-			}
 		}
 		else
 			ft_printf(cmd->fd, "%c", cmd->args[i][y]);
