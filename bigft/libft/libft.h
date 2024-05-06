@@ -36,6 +36,7 @@ int					ft_toupper(int c);
 int					ft_tolower(int c);
 char				*ft_strchr(char *s, int c);
 char				*ft_strrchr(char *s, int c);
+int					ft_strcmp(char *s1, char *s2);
 int					ft_strncmp(char *s1, char *s2, size_t n);
 char				*ft_strnstr(char *str, char *to_find, size_t len);
 void				*ft_memchr(void *s, int c, size_t n);

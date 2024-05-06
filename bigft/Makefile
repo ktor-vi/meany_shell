@@ -56,6 +56,7 @@ SRCS        :=            ft_printf/ft_printf.c \
                           libft/ft_strlcpy.c \
                           libft/ft_strlen.c \
                           libft/ft_strmapi.c \
+                          libft/ft_strcmp.c \
                           libft/ft_strncmp.c \
                           libft/ft_strnstr.c \
                           libft/ft_strrchr.c \
