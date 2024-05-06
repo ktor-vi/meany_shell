@@ -44,16 +44,12 @@ static t_entry	*pwd(void)
 	return (pwd);
 }
 
-static void check_oldpwd(char **envp, t_envs *envs)
+static void	oldpwd(char **envp, t_envs *envs)
 {
 	t_entry	*oldpwd;
-	int k = -1;
+	int		k;
 
-	while (envp[++k])
-	{
-		if (ft_strncmp(envp[k], "OLDPWD", 6) == 0)
-			return ;
-	}
+	k = -1;
 	oldpwd = malloc(sizeof(t_entry));
 	if (!oldpwd)
 		return ;
@@ -64,6 +60,7 @@ static void check_oldpwd(char **envp, t_envs *envs)
 	ft_entry_addb(&envs->env, oldpwd);
 	ft_entry_addb(&envs->exp, oldpwd);
 }
+
 static t_envs	*empty_envs(t_envs *envs)
 {
 	ft_entry_addb(&envs->env, pwd());
@@ -72,6 +69,7 @@ static t_envs	*empty_envs(t_envs *envs)
 	ft_entry_addb(&envs->exp, shlvl());
 	return (envs);
 }
+
 t_envs	*build_envs(char **envp)
 {
 	t_envs	*envs;
@@ -85,11 +83,16 @@ t_envs	*build_envs(char **envp)
 		empty_envs(envs);
 	while (envp[i])
 	{
+		if (ft_strncmp(envp[i], "OLDPWD", 6) == 0)
+		{
+			i++;
+			continue ;
+		}
 		ft_entry_addb(&envs->env, newentry(envp[i]));
 		ft_entry_addb(&envs->exp, newentry(envp[i]));
 		i++;
 	}
-	check_oldpwd(envp, envs);
+	oldpwd(envp, envs);
 	sort_alpha_ll(&envs->exp, ll_size(envs->exp));
 	envs->env_ct = ll_size(envs->env);
 	envs->exp_ct = ll_size(envs->exp);
