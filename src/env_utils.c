@@ -12,6 +12,23 @@
 
 #include "../includes/minishell.h"
 
+char	*envs_search(t_envs *envs, char *to_find)
+{
+	t_entry	*entry;
+
+	entry = envs->exp;
+	while (entry->next != NULL)
+	{
+		if (ft_equalstr(entry->name, to_find))
+		{
+			ft_strlen(entry->value);
+			return (entry->value);
+}
+		entry = entry->next;
+	}
+	return (NULL);
+}
+
 t_entry	*newentry(char *var)
 {
 	t_entry	*new;
@@ -67,7 +84,8 @@ void	sort_alpha_ll(t_entry **head, int count)
 		j = 0;
 		while (j < count - i - 1)
 		{
-			if (strcmp((*h)->name, (*h)->next->name) > 0)
+			if (ft_strncmp((*h)->name, (*h)->next->name,
+					ft_strlen((*h)->next->name)) > 0)
 			{
 				*h = swap(*h, (*h)->next);
 				swapped = 1;

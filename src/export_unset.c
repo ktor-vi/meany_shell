@@ -52,6 +52,28 @@ t_entry	*find_entry(t_entry *lst, char *to_find)
 	return (NULL);
 }
 
+char	*validate_var(char *var, char *entry)
+{
+	int	i;
+
+	i = 0;
+	if (ft_isdigit(var[0]))
+	{
+		printf("export: `%s': not a valid identifier\n", entry);
+		return (NULL);
+	}
+	while (var[i])
+	{
+		if (var[i] == '/')
+		{
+			printf("export: `%s': not a valid identifier\n", entry);
+			return (NULL);
+		}
+		i++;
+	}
+	return (var);
+}
+
 void	append_value(t_envs *envs, char *var, int eq_pos)
 {
 	t_entry	*entry;
@@ -83,14 +105,15 @@ void	export_cmd(t_envs *envs, char *var)
 	if (!var)
 		return ;
 	eq_pos = getchindex(var, '=');
-	var_name = ft_substr(var, 0, eq_pos);
+	var_name = validate_var(ft_strtrim(ft_substr(var, 0, eq_pos), var), " \"'");
+	var_name = validate_var(ft_substr(var, 0, eq_pos), var);
+	// printf("var_name: %s\n", var_name);
+	if (!var_name)
+		return ;
 	if (eq_pos > 0 && var[eq_pos - 1] == '+')
 		append_value(envs, var, eq_pos);
 	else if (eq_pos < 0 && find_entry(envs->exp, var_name) == NULL)
-	{
 		ft_entry_addb(&envs->exp, only_exp_entry(var));
-		envs->exp_ct++;
-	}
 	else if (eq_pos > 0)
 	{
 		if (find_entry(envs->exp, var_name) && var[eq_pos - 1] != '+')
@@ -100,7 +123,7 @@ void	export_cmd(t_envs *envs, char *var)
 		ft_entry_addb(&envs->env, newentry(var));
 		ft_entry_addb(&envs->exp, newentry(var));
 	}
-	sort_alpha_ll(&envs->exp, envs->exp_ct);
+	sort_alpha_ll(&envs->exp, ll_size(envs->exp));
 }
 
 void	unset_cmd(t_envs *envs, char *var)

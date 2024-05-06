@@ -82,7 +82,10 @@ typedef struct s_minishell
 	int					envp;
 }						t_minishell;
 
-char					**lexer(char *line);
+int						g_exit_codes[2];
+
+// PARSING
+char					**lexer(char *line, t_envs *envs);
 void					print_all_cmd(t_minishell *minishell);
 t_command				*lastcmd(t_command *lst);
 void					init_cmds(char *split_line);
@@ -107,6 +110,7 @@ void					free_tab(char **tab);
 void					kb_quit(void);
 void					reset_line(char *line);
 // ENV & EXPORT
+char					*envs_search(t_envs *envs, char *to_find);
 t_envs					*build_envs(char **envp);
 void					printenv(t_entry *n, t_command *cmd);
 void					printexport(t_entry *exp, t_command *cmd);
@@ -115,7 +119,7 @@ void					export_cmd(t_envs *envs, char *var);
 void					unset_cmd(t_envs *envs, char *var);
 t_entry					*find_entryprev(t_entry *lst, char *to_find);
 // ENV UTILS
-char					*ft_expand(char c, int *i, char *line);
+char					*ft_expand(char c, int *i, char *line, t_envs *envs);
 t_entry					*swap(t_entry *ptr1, t_entry *ptr2);
 void					sort_alpha_ll(t_entry **head, int count);
 t_entry					*lastentry(t_entry *lst);
