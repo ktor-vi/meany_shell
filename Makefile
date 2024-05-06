@@ -28,7 +28,7 @@ FLAGS = # -Wall -Wextra -Werror
 
 LIBFT_LIBRARY_DIR = bigft  # Descriptive variable name
 
-LIBS =   -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -lreadline
+LIBS =   bigft/libft.a -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -lreadline
 
 
 OBJS := $(patsubst src/%.c, objs/%.o, ${SRC})
@@ -86,7 +86,7 @@ fclean: clean
 $(NAME): $(OBJS)
 	@echo "$(YELLOW)Done!$(CLR_RMV)"
 	@make  -C $(LIBFT_LIBRARY_DIR)
-	@$(CC) $(FLAGS) $(LIBS) $(OBJS) bigft/libft.a -o $@
+	@$(CC) $(FLAGS) $(LIBS) $(OBJS)  -o $@
 	@$(call print_completion)
 
 nothing:
