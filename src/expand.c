@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:43:02 by randre            #+#    #+#             */
-/*   Updated: 2024/04/23 14:53:08 by randre           ###   ########.fr       */
+/*   Updated: 2024/04/26 16:06:48 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ char	*ft_expand(char c, int *i, char *line)
 		res = getenv(true_line);
 		if (res)
 		{
+			*i += ft_strlen(true_line);
 			free(true_line);
 			true_line = ft_strdup(res);
 			return (true_line);

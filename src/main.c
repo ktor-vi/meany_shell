@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:17 by randre            #+#    #+#             */
-/*   Updated: 2024/04/17 00:51:37 by randre           ###   ########.fr       */
+/*   Updated: 2024/05/06 15:22:20 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,27 +54,34 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	envs = build_envs(envp);
 	line = NULL;
+	minishell = malloc(1 * sizeof(t_minishell));
+	mini_init(minishell);
 	while (true)
 	{
 		signal(SIGINT, handle_sigint);
 		signal(SIGQUIT, handle_sigquit);
 		line = readline("$ ");
+		minishell->args = ft_strtrim(line, " ");
+		free(line);
 		signal(SIGINT, handle_sigint2);
-		if (!line)
+		if (!minishell->args)
 			kb_quit();
-		else if (!ft_equalstr(line, ""))
+		else if (!ft_equalstr(minishell->args, ""))
 		{
-			split_line = lexer(line);
-			add_history(line);
+			add_history(minishell->args);
+			if (!count_quotes(minishell->args))
+				ft_error(2);
+			if (!token_reader(minishell))
+				ft_error(1);
 			//free(line);
-			minishell = populate(split_line, envs);
-			minishell->st_in = dup(STDIN_FILENO);
-			execute_pipes(minishell, envs);
-			dup2(minishell->st_in, STDIN_FILENO);
-			free_tab(split_line);
+			//minishell = populate(split_line, envs);
+			//minishell->st_in = dup(STDIN_FILENO);
+			//execute_pipes(minishell, envs);
+			//dup2(minishell->st_in, STDIN_FILENO);
+			//free_tab(split_line);
 		}
-		if (line)
-			reset_line(line);
+		if (minishell->args)
+			reset_line(minishell->args);
 	}
 	return (0);
 }

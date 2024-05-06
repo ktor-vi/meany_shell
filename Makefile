@@ -15,9 +15,13 @@ SRC =  src/main.c \
        src/cd_command.c \
        src/pwd_command.c \
        src/populate.c \
-       src/lexer.c \
        src/piping.c \
-	   src/expand.c
+	   src/expand.c \
+	   src/synthax_errors.c \
+	   src/new_lexer_1.c \
+	   src/new_lexer_2.c \
+	   src/lexer_utils.c \
+	   src/utils_2.c \
 
 
 INC = includes/minishell.h
