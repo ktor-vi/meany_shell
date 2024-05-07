@@ -30,7 +30,7 @@ t_minishell	*populate(char **split_line, t_envs *envs)
 	minishell->cmd = NULL;
 	while (split_line[j] != NULL)
 	{
-		if (ft_equalstr(split_line[j], "|"))
+		if (strcmp(split_line[j], "|") == 0)
 		{
 			ft_cmd_addb(&minishell, new_command(split_line, envs, i, j, fd));
 			i = j + 1;

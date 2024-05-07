@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ctype.h>
 #include "../includes/minishell.h"
+#include <ctype.h>
 
 char	*ft_strndup(char *str, int start, int end)
 {
@@ -20,7 +20,7 @@ char	*ft_strndup(char *str, int start, int end)
 
 	s = malloc(((end - start) + 1) * sizeof(char));
 	sstart = s;
-	while(start != end)
+	while (start != end)
 	{
 		*s = str[start];
 		start++;
@@ -35,10 +35,10 @@ void	verify_quotes(char *line, int i, int *val)
 	if ((*val == 1 && line[i] == '"') || (*val == 2 && line[i] == 39))
 	{
 		*val = 0;
-		return ; 
+		return ;
 	}
 	i++;
-	while(line[i])
+	while (line[i])
 	{
 		if (line[i] == '"')
 		{
@@ -64,20 +64,20 @@ int	ft_isspecial(char c)
 	return (0);
 }
 
-char	**lexer(char *line)
+char	**lexer(char *line, t_envs *envs)
 {
-	int i;
-	int	y;
-	int	j;
-	char **split_line;
-	int in_quotes;
+	int		i;
+	int		y;
+	int		j;
+	char	**split_line;
+	int		in_quotes;
 
-	i = -1;
 	j = 0;
+	i = -1;
 	y = 0;
 	in_quotes = 0;
-	split_line = malloc((ft_strlen(line) + 1) * sizeof(char*));
-	while(line[++i])
+	split_line = malloc((ft_strlen(line) + 1) * sizeof(char *));
+	while (line[++i])
 	{
 		if (line[i] == '"' || line[i] == 39)
 			verify_quotes(line, i, &in_quotes);
@@ -114,23 +114,23 @@ char	**lexer(char *line)
 			j++;
 			y = i + 1;
 		}
-		/*if (in_quotes != 2)
+		if (in_quotes != 2)
 		{
 			if (line[i] == '$')
 			{
-				split_line[j] = ft_expand(line[i], &i, line);
+				split_line[j] = ft_expand(line[i], &i, line, envs);
 				j++;
 				if (line[i] == 0)
-					break;
+					break ;
 				while (isspace(line[i]))
 					i++;
 			}
-		}*/
+		}
 		if (line[i + 1] == 0)
 		{
 			split_line[j] = ft_strndup(line, y, i + 1);
 			split_line[j + 1] = NULL;
-			break;
+			break ;
 		}
 	}
 	return (split_line);

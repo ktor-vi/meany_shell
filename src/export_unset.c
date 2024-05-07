@@ -97,31 +97,34 @@ void	append_value(t_envs *envs, char *var, int eq_pos)
 		entry->value = value;
 }
 
-void	export_cmd(t_envs *envs, char *var)
+void	export_cmd(t_envs *envs, char **vars)
 {
 	int		eq_pos;
 	char	*var_name;
+	int		i;
 
-	if (!var)
+	i = -1;
+	if (!vars)
 		return ;
-	eq_pos = getchindex(var, '=');
-	var_name = validate_var(ft_strtrim(ft_substr(var, 0, eq_pos), var), " \"'");
-	var_name = validate_var(ft_substr(var, 0, eq_pos), var);
-	// printf("var_name: %s\n", var_name);
-	if (!var_name)
-		return ;
-	if (eq_pos > 0 && var[eq_pos - 1] == '+')
-		append_value(envs, var, eq_pos);
-	else if (eq_pos < 0 && find_entry(envs->exp, var_name) == NULL)
-		ft_entry_addb(&envs->exp, only_exp_entry(var));
-	else if (eq_pos > 0)
+	while (vars[++i])
 	{
-		if (find_entry(envs->exp, var_name) && var[eq_pos - 1] != '+')
-			free_entry(find_entry(envs->exp, var_name));
-		if (find_entry(envs->env, var_name) && var[eq_pos - 1] != '+')
-			free_entry(find_entry(envs->env, var_name));
-		ft_entry_addb(&envs->env, newentry(var));
-		ft_entry_addb(&envs->exp, newentry(var));
+		eq_pos = getchindex(vars[i], '=');
+		var_name = validate_var(ft_substr(vars[i], 0, eq_pos), vars[i]);
+		if (!var_name)
+			return ;
+		if (eq_pos > 0 && vars[i][eq_pos - 1] == '+')
+			append_value(envs, vars[i], eq_pos);
+		else if (eq_pos < 0 && find_entry(envs->exp, var_name) == NULL)
+			ft_entry_addb(&envs->exp, only_exp_entry(vars[i]));
+		else if (eq_pos > 0)
+		{
+			if (find_entry(envs->exp, var_name) && vars[i][eq_pos - 1] != '+')
+				free_entry(find_entry(envs->exp, var_name));
+			if (find_entry(envs->env, var_name) && vars[i][eq_pos - 1] != '+')
+				free_entry(find_entry(envs->env, var_name));
+			ft_entry_addb(&envs->env, newentry(vars[i]));
+			ft_entry_addb(&envs->exp, newentry(vars[i]));
+		}
 	}
 	sort_alpha_ll(&envs->exp, ll_size(envs->exp));
 }

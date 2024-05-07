@@ -64,7 +64,7 @@ int	main(int argc, char **argv, char **envp)
 			kb_quit();
 		else if (!ft_equalstr(line, ""))
 		{
-			split_line = lexer(line);
+			split_line = lexer(line, envs);
 			add_history(line);
 			//free(line);
 			minishell = populate(split_line, envs);

@@ -25,6 +25,7 @@ static int	ft_bfrspace(char *line, int i)
 		y++;
 		i++;
 	}
+	ft_printf(1, "hello%cllll", line[i]);
 	return (y);
 }
 
@@ -51,7 +52,7 @@ char	*ft_copy(char *line, int *i)
 	return (true_line);
 }
 
-char	*ft_expand(char c, int *i, char *line)
+char	*ft_expand(char c, int *i, char *line, t_envs *envs)
 {
 	int		diff;
 	int		length;
@@ -72,8 +73,8 @@ char	*ft_expand(char c, int *i, char *line)
 			true_line = ft_strdup(res);
 			return (true_line);
 		}
-		/*else
-			search for var in envp*/
+		else
+			return(envs_search(envs, true_line));
 		free(true_line);
 	}
 	else

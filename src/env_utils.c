@@ -22,7 +22,7 @@ char	*envs_search(t_envs *envs, char *to_find)
 		if (ft_equalstr(entry->name, to_find))
 		{
 			ft_strlen(entry->value);
-			return (entry->value);
+			return (ft_strdup(entry->value));
 }
 		entry = entry->next;
 	}
