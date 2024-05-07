@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 11:09:44 by randre            #+#    #+#             */
-/*   Updated: 2024/05/07 16:20:17 by randre           ###   ########.fr       */
+/*   Updated: 2024/05/07 17:29:01 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ char	**lexer(char *line, t_envs *envs)
 			while (isspace(line[i]))
 				i++;
 			i--;
+			if (line[i + 1] == 0)
+				break;
 			j++;
 			y = i + 1;
 		}
