@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/04/23 14:27:38 by randre           ###   ########.fr       */
+/*   Updated: 2024/05/08 13:50:54 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ typedef struct s_minishell
 	int					envp;
 }						t_minishell;
 
-int						g_exit_codes[2];
+//int						g_exit_codes[2];
 
 // PARSING
 char					**lexer(char *line, t_envs *envs);
@@ -142,4 +142,6 @@ void					dup2out_error(void);
 void					forkfail_error(void);
 void					create_pipe(int pfds[2]);
 void					parent_process(int prev_pipe, int pfds[2]);
+// ERRORS
+int						ft_error(int code, char **split_line, char *line, int i);
 #endif
