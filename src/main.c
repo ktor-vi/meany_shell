@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:17 by randre            #+#    #+#             */
-/*   Updated: 2024/04/17 00:51:37 by randre           ###   ########.fr       */
+/*   Updated: 2024/05/08 13:23:55 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,13 @@ int	main(int argc, char **argv, char **envp)
 			kb_quit();
 		else if (!ft_equalstr(line, ""))
 		{
+			int	i = 0;
 			split_line = lexer(line, envs);
+			while (split_line[i] != NULL)
+			{
+				ft_printf(1, "STR :%s:END", split_line[i]);
+				i++;
+			}
 			add_history(line);
 			//free(line);
 			minishell = populate(split_line, envs);

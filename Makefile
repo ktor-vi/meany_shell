@@ -20,7 +20,7 @@ SRC =  src/main.c \
 	src/expand.c
 
 
-INC = -Iincludes/minishell.h  -I ~/.brew/opt/readline/include
+INC = -I includes/minishell.h  -I ~/.brew/opt/readline/include
 
 CC = cc -g -fsanitize=address
 
