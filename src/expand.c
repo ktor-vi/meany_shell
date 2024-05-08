@@ -74,7 +74,7 @@ char	*ft_expand(char c, int *i, char *line, t_envs *envs)
 			return (true_line);
 		}
 		else
-			return(envs_search(envs, true_line));
+			return(ft_strdup(envs_search(envs, true_line)));
 		free(true_line);
 	}
 	else

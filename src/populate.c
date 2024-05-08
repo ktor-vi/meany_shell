@@ -149,7 +149,7 @@ t_command	*new_command(char **split_line, t_envs *envs, int s, int e, int fd)
 	if (new->args_ct == 0)
 		new->args_ct = 1;
 	new->arg = malloc(new->args_ct * sizeof(t_args*));
-	new->args = malloc((new->args_ct + 1) * sizeof(char *));
+	new->args = ft_calloc((new->args_ct + 1) , sizeof(char *));
 	new->fd = fd;
 	new->path = get_cmdpath(ft_strtrim(split_line[s], " "), envs->env);
 	while (i < new->args_ct)

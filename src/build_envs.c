@@ -57,7 +57,6 @@ static void	oldpwd(char **envp, t_envs *envs)
 	oldpwd->value = NULL;
 	oldpwd->prev = NULL;
 	oldpwd->next = NULL;
-	ft_entry_addb(&envs->env, oldpwd);
 	ft_entry_addb(&envs->exp, oldpwd);
 }
 

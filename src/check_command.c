@@ -50,7 +50,7 @@ int	handle_builtins(t_command *cmd, t_envs *envs)
 		else if (ft_equalstr(cmd->args[0], "export"))
 		{
 			if (cmd->args[1] && !ft_equalstr(cmd->args[1], ">"))
-				export_cmd(envs, cmd->args[1]);
+				export_cmd(envs, cmd->args);
 			else
 				printexport(envs->exp, cmd);
 		}

@@ -110,6 +110,7 @@ void					free_tab(char **tab);
 void					kb_quit(void);
 void					reset_line(char *line);
 // ENV & EXPORT
+void	printtab(char **exp);
 char					*envs_search(t_envs *envs, char *to_find);
 t_envs					*build_envs(char **envp);
 void					printenv(t_entry *n, t_command *cmd);

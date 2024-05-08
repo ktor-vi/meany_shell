@@ -14,27 +14,34 @@
 
 void	printenv(t_entry *env, t_command *cmd)
 {
+	t_entry	*tmp;
+
 	if (!env)
 		return ;
-	while (env != NULL)
+	tmp = env;
+	while (tmp != NULL)
 	{
-		ft_printf(cmd->fd, "%s=%s\n", env->name, env->value);
-		env = env->next;
+		ft_printf(cmd->fd, "%s=%s\n", tmp->name, tmp->value);
+		tmp = tmp->next;
 	}
 	ft_printf(cmd->fd, "\n");
 }
 
 void	printexport(t_entry *exp, t_command *cmd)
 {
+	t_entry	*tmp;
+
 	if (!exp)
 		return ;
-	while (exp != NULL)
+	tmp = exp;
+	while (tmp != NULL)
 	{
-		if (exp->value)
-			ft_printf(cmd->fd, "declare -x %s=\"%s\"\n", exp->name, exp->value);
+		// ft_printf(1, "node %p, next: %p\n", tmp, tmp->next);
+		if (tmp->value)
+			ft_printf(cmd->fd, "declare -x %s=\"%s\"\n", tmp->name, tmp->value);
 		else
-			ft_printf(cmd->fd, "declare -x %s\n", exp->name);
-		exp = exp->next;
+			ft_printf(cmd->fd, "declare -x %s\n", tmp->name);
+		tmp = tmp->next;
 	}
 	ft_printf(cmd->fd, "\n");
 }
@@ -44,37 +51,37 @@ void	printtab(char **exp)
 	uint	i;
 
 	i = 0;
-	while (exp != NULL)
-	{
-		while (exp[++i])
+		while (exp[i])
+		{
 			printf("%s\n", exp[i]);
-	}
+			i++;
+		}
 	printf("\n");
 }
 
-int ll_size(t_entry *env)
+int	ll_size(t_entry *env)
 {
-	int ct;
+	int	ct;
 
 	ct = 0;
-	while(env)
+	while (env)
 	{
 		env = env->next;
 		ct++;
 	}
- return ct;
+	return (ct);
 }
 char	**ll_to_tab(t_entry *env)
 {
 	char	**envp;
 	int		i;
 	char	*var;
-	int ct;
+	int		ct;
 
 	if (!env)
 		return (NULL);
 	ct = ll_size(env);
-	while(env)
+	while (env)
 	{
 		env = env->next;
 		ct++;

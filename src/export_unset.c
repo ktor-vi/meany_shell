@@ -59,14 +59,24 @@ char	*validate_var(char *var, char *entry)
 	i = 0;
 	if (ft_isdigit(var[0]))
 	{
-		printf("export: `%s': not a valid identifier\n", entry);
+		ft_printf(2, "export: `%s': not a valid identifier\n", entry);
 		return (NULL);
 	}
 	while (var[i])
 	{
 		if (var[i] == '/')
 		{
-			printf("export: `%s': not a valid identifier\n", entry);
+			ft_printf(2, "export: `%s': not a valid identifier\n", entry);
+			return (NULL);
+		}
+		i++;
+	}
+	i = 0;
+	while (var[i])
+	{
+		if (var[i] == '%')
+		{
+			ft_printf(2, "export: `%s': not a valid identifier\n", entry);
 			return (NULL);
 		}
 		i++;
@@ -97,34 +107,44 @@ void	append_value(t_envs *envs, char *var, int eq_pos)
 		entry->value = value;
 }
 
-void	export_cmd(t_envs *envs, char **vars)
+int	export_cases(t_envs *envs, char *var)
 {
 	int		eq_pos;
 	char	*var_name;
-	int		i;
 
-	i = -1;
+	eq_pos = getchindex(var, '=');
+	var_name = validate_var(ft_substr(var, 0, eq_pos), var);
+	if (!var_name)
+		return (1);
+	if (eq_pos > 0 && var[eq_pos - 1] == '+')
+		append_value(envs, var, eq_pos);
+	else if (eq_pos < 0 && find_entry(envs->exp, var_name) == NULL)
+		ft_entry_addb(&envs->exp, only_exp_entry(var));
+	else if (eq_pos > 0)
+	{
+		if (find_entry(envs->exp, var_name) && var[eq_pos - 1] != '+')
+			free_entry(find_entry(envs->exp, var_name));
+		if (find_entry(envs->env, var_name) && var[eq_pos - 1] != '+')
+			free_entry(find_entry(envs->env, var_name));
+		ft_entry_addb(&envs->env, newentry(var));
+		ft_entry_addb(&envs->exp, newentry(var));
+	}
+	free(var_name);
+	var_name = NULL;
+	return (0);
+}
+
+void	export_cmd(t_envs *envs, char **vars)
+{
+	int	i;
+
+	i = 0;
 	if (!vars)
 		return ;
 	while (vars[++i])
 	{
-		eq_pos = getchindex(vars[i], '=');
-		var_name = validate_var(ft_substr(vars[i], 0, eq_pos), vars[i]);
-		if (!var_name)
-			return ;
-		if (eq_pos > 0 && vars[i][eq_pos - 1] == '+')
-			append_value(envs, vars[i], eq_pos);
-		else if (eq_pos < 0 && find_entry(envs->exp, var_name) == NULL)
-			ft_entry_addb(&envs->exp, only_exp_entry(vars[i]));
-		else if (eq_pos > 0)
-		{
-			if (find_entry(envs->exp, var_name) && vars[i][eq_pos - 1] != '+')
-				free_entry(find_entry(envs->exp, var_name));
-			if (find_entry(envs->env, var_name) && vars[i][eq_pos - 1] != '+')
-				free_entry(find_entry(envs->env, var_name));
-			ft_entry_addb(&envs->env, newentry(vars[i]));
-			ft_entry_addb(&envs->exp, newentry(vars[i]));
-		}
+		if (export_cases(envs, vars[i]))
+			return;
 	}
 	sort_alpha_ll(&envs->exp, ll_size(envs->exp));
 }
