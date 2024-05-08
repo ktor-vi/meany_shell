@@ -58,7 +58,9 @@ typedef struct s_command
 	int					args_ct;
 	pid_t				pid;
 	int					fd;
+	int 				heredoc;
 	int					to_pipe;
+	char *eof;
 	int					end;
 	int					exit_code;
 	struct s_command	*next;
