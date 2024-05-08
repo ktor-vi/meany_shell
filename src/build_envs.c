@@ -44,7 +44,7 @@ static t_entry	*pwd(void)
 	return (pwd);
 }
 
-static void	oldpwd(char **envp, t_envs *envs)
+static void	oldpwd(t_envs *envs)
 {
 	t_entry	*oldpwd;
 	int		k;
@@ -91,7 +91,7 @@ t_envs	*build_envs(char **envp)
 		ft_entry_addb(&envs->exp, newentry(envp[i]));
 		i++;
 	}
-	oldpwd(envp, envs);
+	oldpwd(envs);
 	sort_alpha_ll(&envs->exp, ll_size(envs->exp));
 	envs->env_ct = ll_size(envs->env);
 	envs->exp_ct = ll_size(envs->exp);

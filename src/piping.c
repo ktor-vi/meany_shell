@@ -30,9 +30,11 @@ void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 			dup2in_error();
 		if (dup2(pfds[1], STDOUT_FILENO) == -1)
 			dup2out_error();
+		if (h->heredoc == true)
+			ft_here_doc_piped(h, envs, pfds);
 		execve(h->path, h->args, ll_to_tab(envs->env));
 		if (errno == EFAULT)
-			ft_printf(STDERR_FILENO, "%s: command not found", h->args[0]);
+			ft_printf(STDERR_FILENO, "%s: command not found\n", h->args[0]);
 		else
 			perror("execve failed");
 		close(pfds[0]);
@@ -45,6 +47,7 @@ void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 void	execute_last_command(t_command *h, int prev_pipe, t_envs *envs)
 {
 	pid_t	last_child_pid;
+	int		pfds[2];
 
 	last_child_pid = fork();
 	if (last_child_pid == -1)
@@ -55,9 +58,11 @@ void	execute_last_command(t_command *h, int prev_pipe, t_envs *envs)
 			dup2in_error();
 		if (dup2(h->fd, STDOUT_FILENO) == -1)
 			dup2out_error();
+		if (h->heredoc == true)
+			ft_here_doc_last(h, envs);
 		execve(h->path, h->args, ll_to_tab(envs->env));
 		if (errno == EFAULT)
-			ft_printf(STDERR_FILENO, "%s: command not found", h->args[0]);
+			ft_printf(STDERR_FILENO, "%s: command not found\n", h->args[0]);
 		else
 			perror("execve failed");
 		close(prev_pipe);
@@ -103,7 +108,6 @@ void	execute_pipes(t_minishell *minishell, t_envs *envs)
 
 	h = minishell->cmd;
 	prev_pipe = STDIN_FILENO;
-
 	while (h->to_pipe == true)
 	{
 		create_pipe(pfds);
