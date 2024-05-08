@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 11:09:44 by randre            #+#    #+#             */
-/*   Updated: 2024/04/23 15:02:46 by randre           ###   ########.fr       */
+/*   Updated: 2024/05/07 17:29:01 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	**lexer(char *line, t_envs *envs)
 	i = -1;
 	y = 0;
 	in_quotes = 0;
-	split_line = malloc((ft_strlen(line) + 1) * sizeof(char *));
+	split_line = ft_calloc((ft_strlen(line) + 1), sizeof(char *));
 	while (line[++i])
 	{
 		if (line[i] == '"' || line[i] == 39)
@@ -111,6 +111,8 @@ char	**lexer(char *line, t_envs *envs)
 			while (isspace(line[i]))
 				i++;
 			i--;
+			if (line[i + 1] == 0)
+				break;
 			j++;
 			y = i + 1;
 		}
@@ -118,12 +120,17 @@ char	**lexer(char *line, t_envs *envs)
 		{
 			if (line[i] == '$')
 			{
+				ft_printf(1, "BFR : %d\n", i);
 				split_line[j] = ft_expand(line[i], &i, line, envs);
-				j++;
+				ft_printf(1, "AFTR : %d\n", i);
+				if (split_line[j])
+					j++;
 				if (line[i] == 0)
 					break ;
 				while (isspace(line[i]))
 					i++;
+				y = i;
+				i--;
 			}
 		}
 		if (line[i + 1] == 0)
