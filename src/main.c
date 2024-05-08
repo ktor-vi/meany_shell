@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:17 by randre            #+#    #+#             */
-/*   Updated: 2024/04/17 00:51:37 by randre           ###   ########.fr       */
+/*   Updated: 2024/05/08 13:51:53 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,23 @@ int	main(int argc, char **argv, char **envp)
 			kb_quit();
 		else if (!ft_equalstr(line, ""))
 		{
-			split_line = lexer(line, envs);
+			//int	i = 0;
 			add_history(line);
-			//free(line);
-			minishell = populate(split_line, envs);
-			minishell->st_in = dup(STDIN_FILENO);
-			execute_pipes(minishell, envs);
-			dup2(minishell->st_in, STDIN_FILENO);
-			free_tab(split_line);
+			split_line = lexer(line, envs);
+			if (split_line)
+			{
+				/*while (split_line[i] != NULL)
+				{
+					ft_printf(1, "STR :%s:END", split_line[i]);
+					i++;
+				}*/
+				//free(line);
+				minishell = populate(split_line, envs);
+				minishell->st_in = dup(STDIN_FILENO);
+				execute_pipes(minishell, envs);
+				dup2(minishell->st_in, STDIN_FILENO);
+				free_tab(split_line);
+			}
 		}
 		if (line)
 			reset_line(line);
