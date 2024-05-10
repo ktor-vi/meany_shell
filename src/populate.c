@@ -166,6 +166,8 @@ t_command	*new_command(char **split_line, t_envs *envs, int s, int e, int fd)
 				new->eof = ft_strdup(split_line[s + i + 1]);
 				break;
 			}
+			else
+				break;
 		}
 		new->arg[i] = malloc(1 * sizeof(t_args));
 		new->arg[i]->in_quotes = closed_quotes(split_line[s + i]);
