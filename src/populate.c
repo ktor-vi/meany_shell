@@ -163,7 +163,7 @@ t_command	*new_command(char **split_line, t_envs *envs, int s, int e, int fd)
 			if(ft_equalstr(split_line[s + i], "<<"))
 			{
 				new->heredoc = true;
-				new->eof = ft_strdup(split_line[s + i + 1]);
+				new->eof = ft_strqtrim(split_line[s + i + 1]);
 				break;
 			}
 			else
