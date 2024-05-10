@@ -15,7 +15,7 @@ void	ft_here_doc_last(t_command *h, t_envs *envs)
 	pid = fork();
 	if (pid == 0)
 	{
-		while (ft_strncmp(line, h->eof, ft_strlen(h->eof)) != 0)
+		while (ft_strcmp(line, h->eof) != 0)
 		{
 			write(pfds[1], line, ft_strlen(line));
 			free(line);
