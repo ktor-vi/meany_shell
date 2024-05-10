@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/05/08 13:50:54 by randre           ###   ########.fr       */
+/*   Updated: 2024/05/09 09:41:24 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ int						ll_size(t_entry *env);
 // EXEC
 int						handle_builtins(t_command *cmd, t_envs *envs);
 void					execute_pipes(t_minishell *minishell, t_envs *envs);
-void				ft_here_doc_last(t_command *h, t_envs *envs);
+void	ft_here_doc_last(t_command *h, t_envs *envs);
 void				ft_here_doc_piped(t_command *h, t_envs *envs,
 							int *pfds);
 // EXEC UTILS

@@ -24,7 +24,7 @@ SRC =  src/main.c \
 
 INC = -Iincludes/minishell.h  -I ~/.brew/opt/readline/include
 
-CC = cc -g -fsanitize=address
+CC = gcc -g #-fsanitize=address
 
 FLAGS = # -Wall -Wextra -Werror 
 

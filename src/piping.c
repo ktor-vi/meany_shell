@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:12:22 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/04/23 13:38:44 by randre           ###   ########.fr       */
+/*   Updated: 2024/05/09 10:28:22 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,12 @@ void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 			dup2in_error();
 		if (dup2(pfds[1], STDOUT_FILENO) == -1)
 			dup2out_error();
+		write(STDIN_FILENO, "ok\n", 3);
 		if (h->heredoc == true)
+		{
+			write(STDIN_FILENO, "ok\n", 3);
 			ft_here_doc_piped(h, envs, pfds);
+		}
 		execve(h->path, h->args, ll_to_tab(envs->env));
 		if (errno == EFAULT)
 			ft_printf(STDERR_FILENO, "%s: command not found\n", h->args[0]);
@@ -47,14 +51,14 @@ void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 void	execute_last_command(t_command *h, int prev_pipe, t_envs *envs)
 {
 	pid_t	last_child_pid;
-	int		pfds[2];
 
 	last_child_pid = fork();
 	if (last_child_pid == -1)
 		forkfail_error();
 	if (last_child_pid == 0)
 	{
-		if (prev_pipe != STDIN_FILENO && dup2(prev_pipe, STDIN_FILENO) == -1)
+		if (prev_pipe != STDIN_FILENO && dup2(prev_pipe, STDIN_FILENO) == -1
+			&& h->heredoc == false)
 			dup2in_error();
 		if (dup2(h->fd, STDOUT_FILENO) == -1)
 			dup2out_error();
@@ -111,10 +115,10 @@ void	execute_pipes(t_minishell *minishell, t_envs *envs)
 	while (h->to_pipe == true)
 	{
 		create_pipe(pfds);
-		if (!is_builtin(h))
-			execute_child(h, prev_pipe, pfds, envs);
-		else
+		if (is_builtin(h))
 			execute_builtin(h, prev_pipe, pfds, envs);
+		else
+			execute_child(h, prev_pipe, pfds, envs);
 		parent_process(prev_pipe, pfds);
 		prev_pipe = pfds[0];
 		h = h->next;
@@ -123,4 +127,6 @@ void	execute_pipes(t_minishell *minishell, t_envs *envs)
 		execute_last_command(h, prev_pipe, envs);
 	else
 		execute_last_builtin(h, prev_pipe, envs);
+	close(pfds[0]);
+	close(pfds[1]);
 }
