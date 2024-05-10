@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/05/08 13:50:54 by randre           ###   ########.fr       */
+/*   Updated: 2024/05/08 14:08:20 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ int						ft_equalstr(char *s1, char *s2);
 int						getchindex(char *s, int c);
 void					free_tab(char **tab);
 void					kb_quit(void);
+char					*ft_strqtrim(char *line);
 void					reset_line(char *line);
 // ENV & EXPORT
 void	printtab(char **exp);

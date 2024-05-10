@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 11:09:44 by randre            #+#    #+#             */
-/*   Updated: 2024/05/08 13:59:32 by randre           ###   ########.fr       */
+/*   Updated: 2024/05/10 14:06:04 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,12 +111,12 @@ char	**lexer(char *line, t_envs *envs)
 					ft_error(1, split_line, line, i + 1);
 					return (NULL);
 				}
-				else
-					i++;
 			}
+			i++;
 			while (isspace(line[i]))
 				i++;
-			y = i;
+			i--;
+			y = i + 1;
 			j = j + 1;
 		}
 		else if (isspace(line[i]) && !in_quotes)
@@ -135,9 +135,7 @@ char	**lexer(char *line, t_envs *envs)
 		{
 			if (line[i] == '$')
 			{
-				ft_printf(1, "BFR : %d\n", i);
 				split_line[j] = ft_expand(line[i], &i, line, envs);
-				ft_printf(1, "AFTR : %d\n", i);
 				if (split_line[j])
 					j++;
 				if (line[i] == 0)

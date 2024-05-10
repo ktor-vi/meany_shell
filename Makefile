@@ -25,7 +25,7 @@ INC = includes/minishell.h
 
 CC = gcc -w
 
-FLAGS =  \
+FLAGS =  -Wall -Wextra -Werror\
         -lreadline -L/opt/homebrew/opt/readline/lib  \
         -I/opt/homebrew/opt/readline/include
 

@@ -4,15 +4,18 @@
 
 int	redirect_handle(char **split_line, int j)
 {
-	int	fd;
+	int		fd;
+	char	*true_name;
 
-	fd = open(split_line[j + 1], O_WRONLY);
+	true_name = ft_strqtrim(ft_strdup(split_line[j + 1]));
+	fd = open(true_name, O_WRONLY);
 	if (fd < 0)
 	{
-		fd = open(split_line[j + 1], O_CREAT, 0666);
+		fd = open(true_name, O_CREAT, 0666);
 		close(fd);
-		fd = open(split_line[j + 1], O_WRONLY);
+		fd = open(true_name, O_WRONLY);
 	}
+	free(true_name);
 	return (fd);
 }
 
