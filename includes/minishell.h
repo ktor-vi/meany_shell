@@ -58,7 +58,9 @@ typedef struct s_command
 	int					args_ct;
 	pid_t				pid;
 	int					fd;
+	int					heredoc;
 	int					to_pipe;
+	char				*eof;
 	int					end;
 	int					exit_code;
 	struct s_command	*next;
@@ -82,7 +84,7 @@ typedef struct s_minishell
 	int					envp;
 }						t_minishell;
 
-//int						g_exit_codes[2];
+// int						g_exit_codes[2];
 
 // PARSING
 char					**lexer(char *line, t_envs *envs);
@@ -111,7 +113,7 @@ void					kb_quit(void);
 char					*ft_strqtrim(char *line);
 void					reset_line(char *line);
 // ENV & EXPORT
-void	printtab(char **exp);
+void					printtab(char **exp);
 char					*envs_search(t_envs *envs, char *to_find);
 t_envs					*build_envs(char **envp);
 void					printenv(t_entry *n, t_command *cmd);
@@ -135,6 +137,9 @@ int						ll_size(t_entry *env);
 // EXEC
 int						handle_builtins(t_command *cmd, t_envs *envs);
 void					execute_pipes(t_minishell *minishell, t_envs *envs);
+void				ft_here_doc_last(t_command *h, t_envs *envs);
+void				ft_here_doc_piped(t_command *h, t_envs *envs,
+							int *pfds);
 // EXEC UTILS
 char					*get_cmdpath(char *cmd, t_entry *envp);
 // EXEC HELPERS
@@ -144,5 +149,6 @@ void					forkfail_error(void);
 void					create_pipe(int pfds[2]);
 void					parent_process(int prev_pipe, int pfds[2]);
 // ERRORS
-int						ft_error(int code, char **split_line, char *line, int i);
+int						ft_error(int code, char **split_line, char *line,
+							int i);
 #endif

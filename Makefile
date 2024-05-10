@@ -2,36 +2,39 @@ NAME = minishell
 BONUS = meanyshell
 
 SRC =  src/main.c \
-       src/utils.c \
-       src/check_command.c \
-       src/new_echo.c \
-       src/envs_commands.c \
-       src/build_envs.c \
-       src/export_unset.c \
-       src/env_utils.c \
-       src/env_mem.c \
-       src/exec_utils.c \
-       src/exec_helpers.c \
-       src/cd_command.c \
-       src/pwd_command.c \
-       src/populate.c \
-       src/piping.c \
-	   src/expand.c \
-	   src/lexer.c \
-	   src/synthax_errors.c
+	src/utils.c \
+	src/check_command.c \
+	src/new_echo.c \
+	src/envs_commands.c \
+	src/build_envs.c \
+	src/export_unset.c \
+	src/env_utils.c \
+	src/env_mem.c \
+	src/exec_utils.c \
+	src/exec_helpers.c \
+	src/cd_command.c \
+	src/pwd_command.c \
+	src/populate.c \
+	src/lexer.c \
+	src/piping.c \
+	src/expand.c \
+	src/synthax_errors.c \
+	src/heredoc.c \
 
 
-INC = includes/minishell.h
+INC = -Iincludes/minishell.h  -I ~/.brew/opt/readline/include
 
-CC = gcc -w
+CC = cc -g -fsanitize=address
+
+FLAGS = # -Wall -Wextra -Werror 
 
 FLAGS =  -Wall -Wextra -Werror\
         -lreadline -L/opt/homebrew/opt/readline/lib  \
         -I/opt/homebrew/opt/readline/include
+LIBFT_LIBRARY_DIR = bigft  # Descriptive variable name
 
-LIBFT_LIBRARY_DIR = bigft/  # Descriptive variable name
+LIBS =   bigft/libft.a -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -lreadline
 
-LIBS = -L $(LIBFT_LIBRARY_DIR) -L ~/.brew/opt/readline/lib
 
 OBJS := $(patsubst src/%.c, objs/%.o, ${SRC})
 BONUS_OBJS := $(BONUS_SRCS:.c=.o)
@@ -68,9 +71,9 @@ bonus: nothing $(BONUS)
 
 re: fclean all
 
-objs/%.o: src/%.c $(DEPS)
-	@$(CC) $(FLAGS) $(LIBS) -c $< -o $@
-	$(call progress_bar)
+objs/%.o:    src/%.c
+	@$(CC) $(FLAGS) $(INC)  -o $@ -c $< 
+	@$(call progress_bar)
 
 
 clean:
@@ -88,11 +91,11 @@ fclean: clean
 $(NAME): $(OBJS)
 	@echo "$(YELLOW)Done!$(CLR_RMV)"
 	@make  -C $(LIBFT_LIBRARY_DIR)
-	@$(CC) $(FLAGS) $(LIBS) $(OBJS) bigft/libft.a -o $@
+	@$(CC) $(FLAGS) $(LIBS) $(OBJS)  -o $@
 	@$(call print_completion)
 
 nothing:
 	@if [ -f "$(NAME)" ] && [ -z "$$(find $(SRC) -newer $(NAME))" ]; then \
 		echo "$(CYAN)Nothing has been updated.$(CLR_RMV)"; \
-	fi
+		fi
 .PHONY: all re clean fclean nothing nothingb bonus
