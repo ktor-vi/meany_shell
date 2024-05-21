@@ -30,13 +30,12 @@ void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 			dup2in_error();
 		if (dup2(pfds[1], STDOUT_FILENO) == -1)
 			dup2out_error();
-		write(STDIN_FILENO, "ok\n", 3);
-		if (h->heredoc == true)
-		{
-			write(STDIN_FILENO, "ok\n", 3);
+		if (h->heredoc == -1)
+			exit(EXIT_SUCCESS);
+		if (h->heredoc == 0)
+			execve(h->path, h->args, ll_to_tab(envs->env));
+		if (h->heredoc == 1)
 			ft_here_doc_piped(h, envs, pfds);
-		}
-		execve(h->path, h->args, ll_to_tab(envs->env));
 		if (errno == EFAULT)
 			ft_printf(STDERR_FILENO, "%s: command not found\n", h->args[0]);
 		else
@@ -62,9 +61,13 @@ void	execute_last_command(t_command *h, int prev_pipe, t_envs *envs)
 			dup2in_error();
 		if (dup2(h->fd, STDOUT_FILENO) == -1)
 			dup2out_error();
-		if (h->heredoc == true)
+		if (h->heredoc == -1)
+			exit(EXIT_SUCCESS);
+		ft_printf(1, "heredoc: %d\n", h->heredoc);
+		if (h->heredoc == 1)
 			ft_here_doc_last(h, envs);
-		execve(h->path, h->args, ll_to_tab(envs->env));
+		if (h->heredoc == 0)
+			execve(h->path, h->args, ll_to_tab(envs->env));
 		if (errno == EFAULT)
 			ft_printf(STDERR_FILENO, "%s: command not found\n", h->args[0]);
 		else

@@ -16,6 +16,31 @@ int	redirect_handle(char **split_line, int j)
 	return (fd);
 }
 
+void	assign_here_doc(t_command *h, char **split_line, int i)
+{
+	int	k;
+
+	k = -1;
+	h->eof = NULL;
+	h->heredoc = 0;
+	while (split_line[++k])
+	{
+		if (ft_equalstr(split_line[i + k], "<<") && ft_equalstr(split_line[i],
+				"<<"))
+		{
+			h->heredoc = 1;
+			h->eof = ft_strdup(split_line[i + 1]);
+			break ;
+		}
+		else if (ft_equalstr(split_line[i + k], "<<")
+			&& !ft_equalstr(split_line[i], "<<"))
+		{
+			h->heredoc = -1;
+			break ;
+		}
+	}
+}
+
 t_minishell	*populate(char **split_line, t_envs *envs)
 {
 	int			i;
@@ -148,22 +173,17 @@ t_command	*new_command(char **split_line, t_envs *envs, int s, int e, int fd)
 	new->args_ct = e - s;
 	if (new->args_ct == 0)
 		new->args_ct = 1;
-	new->arg = malloc(new->args_ct * sizeof(t_args*));
-	new->args = ft_calloc((new->args_ct + 1) , sizeof(char *));
+	new->arg = malloc(new->args_ct * sizeof(t_args *));
+	new->args = ft_calloc((new->args_ct + 1), sizeof(char *));
 	new->fd = fd;
-	new->heredoc = false;	
 	new->path = get_cmdpath(ft_strtrim(split_line[s], " "), envs->env);
 	while (i < new->args_ct)
 	{
-		if (ft_equalstr(split_line[s + i], ">") || ft_equalstr(split_line[s + i], ">>") || ft_equalstr(split_line[s + i], "<") || ft_equalstr(split_line[s + i], "<<"))
-		{
-			if(ft_equalstr(split_line[s + i], "<<"))
-			{
-				new->heredoc = true;
-				new->eof = ft_strdup(split_line[s + i + 1]);
-				break;
-			}
-		}
+		assign_here_doc(new, split_line, s + i);
+		if (ft_equalstr(split_line[s + i], ">") || ft_equalstr(split_line[s
+				+ i], ">>") || ft_equalstr(split_line[s + i], "<")
+			|| ft_equalstr(split_line[s + i], "<<"))
+			break ;
 		new->arg[i] = malloc(1 * sizeof(t_args));
 		new->arg[i]->in_quotes = closed_quotes(split_line[s + i]);
 		if (new->arg[i]->in_quotes)
@@ -183,6 +203,8 @@ t_command	*new_command(char **split_line, t_envs *envs, int s, int e, int fd)
 	else
 		new->to_pipe = false;
 	new->args[i] = NULL;
+	ft_printf(1, "%s here: %d, eof: %s\n", new->args[0], new->heredoc,
+		new->eof);
 	return (new);
 }
 
