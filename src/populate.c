@@ -4,15 +4,18 @@
 
 int	redirect_handle(char **split_line, int j)
 {
-	int	fd;
+	int		fd;
+	char	*true_name;
 
-	fd = open(split_line[j + 1], O_WRONLY);
+	true_name = ft_strqtrim(ft_strdup(split_line[j + 1]));
+	fd = open(true_name, O_WRONLY);
 	if (fd < 0)
 	{
-		fd = open(split_line[j + 1], O_CREAT, 0666);
+		fd = open(true_name, O_CREAT, 0666);
 		close(fd);
-		fd = open(split_line[j + 1], O_WRONLY);
+		fd = open(true_name, O_WRONLY);
 	}
+	free(true_name);
 	return (fd);
 }
 
@@ -32,7 +35,7 @@ void	assign_here_doc(t_command *h, char **split_line, int i)
 			h->eof = ft_strdup(split_line[i + 1]);
 			break ;
 		}
-		else if (ft_equalstr(split_line[i + k], "<<")
+			else if (ft_equalstr(split_line[i + k], "<<")
 			&& !ft_equalstr(split_line[i], "<<"))
 		{
 			h->heredoc = -1;
@@ -179,11 +182,17 @@ t_command	*new_command(char **split_line, t_envs *envs, int s, int e, int fd)
 	new->path = get_cmdpath(ft_strtrim(split_line[s], " "), envs->env);
 	while (i < new->args_ct)
 	{
-		assign_here_doc(new, split_line, s + i);
-		if (ft_equalstr(split_line[s + i], ">") || ft_equalstr(split_line[s
-				+ i], ">>") || ft_equalstr(split_line[s + i], "<")
-			|| ft_equalstr(split_line[s + i], "<<"))
-			break ;
+		if (ft_equalstr(split_line[s + i], ">") || ft_equalstr(split_line[s + i], ">>") || ft_equalstr(split_line[s + i], "<") || ft_equalstr(split_line[s + i], "<<"))
+		{
+			if(ft_equalstr(split_line[s + i], "<<"))
+			{
+				new->heredoc = true;
+				new->eof = ft_strqtrim(split_line[s + i + 1]);
+				break;
+			}
+			else
+				break;
+		}
 		new->arg[i] = malloc(1 * sizeof(t_args));
 		new->arg[i]->in_quotes = closed_quotes(split_line[s + i]);
 		if (new->arg[i]->in_quotes)

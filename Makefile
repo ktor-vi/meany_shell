@@ -22,12 +22,15 @@ SRC =  src/main.c \
 	src/heredoc.c \
 
 
-INC = -Iincludes/minishell.h  -I ~/.brew/opt/readline/include
+INC = -I includes  -I ~/.brew/opt/readline/include
 
 CC = gcc -g #-fsanitize=address
 
 FLAGS = # -Wall -Wextra -Werror 
 
+FLAGS =  \
+        -lreadline -L/opt/homebrew/opt/readline/lib  \
+        -I/opt/homebrew/opt/readline/include
 LIBFT_LIBRARY_DIR = bigft  # Descriptive variable name
 
 LIBS =   bigft/libft.a -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -lreadline
@@ -69,7 +72,7 @@ bonus: nothing $(BONUS)
 re: fclean all
 
 objs/%.o:    src/%.c
-	@$(CC) $(FLAGS) $(INC)  -o $@ -c $< 
+	@$(CC) $(FLAGS) $(INC) -o $@ -c $< 
 	@$(call progress_bar)
 
 
@@ -88,7 +91,7 @@ fclean: clean
 $(NAME): $(OBJS)
 	@echo "$(YELLOW)Done!$(CLR_RMV)"
 	@make  -C $(LIBFT_LIBRARY_DIR)
-	@$(CC) $(FLAGS) $(LIBS) $(OBJS)  -o $@
+	@$(CC) $(FLAGS) $(LIBS) $(OBJS) bigft/libft.a -o $@
 	@$(call print_completion)
 
 nothing:
