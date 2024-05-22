@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   new_echo.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 00:56:33 by randre            #+#    #+#             */
-/*   Updated: 2024/04/23 14:29:53 by randre           ###   ########.fr       */
+/*   Updated: 2024/05/22 11:17:39 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	is_n(char *line)
 	return (1);
 }
 
-inline static int is_special(char c)
+inline static int	is_special(char c)
 {
 	return (c == '\\' || c == '"' || c == 39 || c == '?' || c == '$');
 }

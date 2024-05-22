@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 10:31:20 by vphilipp          #+#    #+#             */
-/*   Updated: 2023/08/09 13:47:12 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/22 11:21:07 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@ int	ft_strcmp(char *s1, char *s2)
 	int	i;
 
 	i = 0;
-	if(!s1 || !s2)
+	if (!s1 || !s2)
 		return (1);
 	while (s1[i] == s2[i])
 	{

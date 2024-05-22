@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envs_commands.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:49:03 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/02/19 10:46:45 by randre           ###   ########.fr       */
+/*   Updated: 2024/05/22 11:17:11 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	printexport(t_entry *exp, t_command *cmd)
 	tmp = exp;
 	while (tmp != NULL)
 	{
-		// ft_printf(1, "node %p, next: %p\n", tmp, tmp->next);
 		if (tmp->value)
 			ft_printf(cmd->fd, "declare -x %s=\"%s\"\n", tmp->name, tmp->value);
 		else
@@ -51,11 +50,11 @@ void	printtab(char **exp)
 	uint	i;
 
 	i = 0;
-		while (exp[i])
-		{
-			printf("%s\n", exp[i]);
-			i++;
-		}
+	while (exp[i])
+	{
+		printf("%s\n", exp[i]);
+		i++;
+	}
 	printf("\n");
 }
 

@@ -61,6 +61,7 @@ typedef struct s_command
 	int					heredoc;
 	int					to_pipe;
 	char				*eof;
+	char *next_tok;
 	int					end;
 	int					exit_code;
 	struct s_command	*next;
@@ -94,6 +95,14 @@ void					init_cmds(char *split_line);
 void					ft_cmd_addb(t_minishell **mini, t_command *new);
 void					print_all_cmd(t_minishell *minishell);
 t_minishell				*populate(char **split_line, t_envs *envs);
+int	calc_offset(char **split_line, int pos);
+t_command	*build_command(char **split_line,  int pos, int fd);
+t_command	*alloc_command(char **split_line, int pos, int fd);
+
+int	is_builtin_char_pos(char **split_line, int pos) ;
+t_minishell	*populate_cmds(char **split_line, t_envs *envs);
+void	post_parse(t_minishell *minishell, t_envs *envs);
+void set_paths(t_command*cmds, t_envs * envs);
 t_command				*new_command(char **split_line, t_envs *envs, int s,
 							int e, int fd);
 void					check_command(char **split_line, t_envs *envs);
@@ -137,9 +146,7 @@ int						ll_size(t_entry *env);
 // EXEC
 int						handle_builtins(t_command *cmd, t_envs *envs);
 void					execute_pipes(t_minishell *minishell, t_envs *envs);
-void	ft_here_doc_last(t_command *h, t_envs *envs);
-void				ft_here_doc_piped(t_command *h, t_envs *envs,
-							int *pfds);
+void				here_doc(t_command *h, t_envs *envs);
 // EXEC UTILS
 char					*get_cmdpath(char *cmd, t_entry *envp);
 // EXEC HELPERS
@@ -152,3 +159,4 @@ void					parent_process(int prev_pipe, int pfds[2]);
 int						ft_error(int code, char **split_line, char *line,
 							int i);
 #endif
+

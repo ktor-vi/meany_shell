@@ -35,44 +35,13 @@ void	assign_here_doc(t_command *h, char **split_line, int i)
 			h->eof = ft_strdup(split_line[i + 1]);
 			break ;
 		}
-			else if (ft_equalstr(split_line[i + k], "<<")
+		else if (ft_equalstr(split_line[i + k], "<<")
 			&& !ft_equalstr(split_line[i], "<<"))
 		{
 			h->heredoc = -1;
 			break ;
 		}
 	}
-}
-
-t_minishell	*populate(char **split_line, t_envs *envs)
-{
-	int			i;
-	int			j;
-	int			fd;
-	t_minishell	*minishell;
-
-	i = 0;
-	j = 0;
-	fd = STDOUT_FILENO;
-	minishell = malloc(sizeof(t_minishell));
-	minishell->cmd = NULL;
-	while (split_line[j] != NULL)
-	{
-		if (ft_strcmp(split_line[j], "|") == 0)
-		{
-			ft_cmd_addb(&minishell, new_command(split_line, envs, i, j, fd));
-			i = j + 1;
-			fd = STDOUT_FILENO;
-		}
-		else if (ft_equalstr(split_line[j], ">"))
-		{
-			fd = redirect_handle(split_line, j);
-			j++;
-		}
-		j++;
-	}
-	ft_cmd_addb(&minishell, new_command(split_line, envs, i, j, fd));
-	return (minishell);
 }
 
 int	closed_quotes(char *line)
@@ -164,57 +133,6 @@ char	*ft_strqtrim(char *line)
 	}
 	*trimmed = 0;
 	return (start);
-}
-
-t_command	*new_command(char **split_line, t_envs *envs, int s, int e, int fd)
-{
-	t_command	*new;
-	int			i;
-
-	i = 0;
-	new = malloc(sizeof(t_command));
-	new->args_ct = e - s;
-	if (new->args_ct == 0)
-		new->args_ct = 1;
-	new->arg = malloc(new->args_ct * sizeof(t_args *));
-	new->args = ft_calloc((new->args_ct + 1), sizeof(char *));
-	new->fd = fd;
-	new->path = get_cmdpath(ft_strtrim(split_line[s], " "), envs->env);
-	while (i < new->args_ct)
-	{
-		if (ft_equalstr(split_line[s + i], ">") || ft_equalstr(split_line[s + i], ">>") || ft_equalstr(split_line[s + i], "<") || ft_equalstr(split_line[s + i], "<<"))
-		{
-			if(ft_equalstr(split_line[s + i], "<<"))
-			{
-				new->heredoc = true;
-				new->eof = ft_strqtrim(split_line[s + i + 1]);
-				break;
-			}
-			else
-				break;
-		}
-		new->arg[i] = malloc(1 * sizeof(t_args));
-		new->arg[i]->in_quotes = closed_quotes(split_line[s + i]);
-		if (new->arg[i]->in_quotes)
-		{
-			new->arg[i]->line = ft_strqtrim(ft_strdup(split_line[s + i]));
-			new->args[i] = ft_strqtrim(ft_strdup(split_line[s + i]));
-		}
-		else
-		{
-			new->arg[i]->line = ft_strdup(split_line[s + i]);
-			new->args[i] = ft_strdup(split_line[s + i]);
-		}
-		i++;
-	}
-	if (ft_equalstr(split_line[e], "|"))
-		new->to_pipe = true;
-	else
-		new->to_pipe = false;
-	new->args[i] = NULL;
-	ft_printf(1, "%s here: %d, eof: %s\n", new->args[0], new->heredoc,
-		new->eof);
-	return (new);
 }
 
 t_command	*lastcmd(t_command *lst)

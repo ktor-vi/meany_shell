@@ -16,21 +16,19 @@ SRC =  src/main.c \
 	src/pwd_command.c \
 	src/populate.c \
 	src/lexer.c \
+	src/post-parse.c \
 	src/piping.c \
 	src/expand.c \
 	src/synthax_errors.c \
 	src/heredoc.c \
 
 
-INC = -I includes  -I ~/.brew/opt/readline/include
+INC = -Iincludes/minishell.h  -I ~/.brew/opt/readline/include
 
-CC = gcc -g #-fsanitize=address
+CC = cc -g -fsanitize=address
 
 FLAGS = # -Wall -Wextra -Werror 
 
-FLAGS =  \
-        -lreadline -L/opt/homebrew/opt/readline/lib  \
-        -I/opt/homebrew/opt/readline/include
 LIBFT_LIBRARY_DIR = bigft  # Descriptive variable name
 
 LIBS =   bigft/libft.a -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -lreadline
@@ -72,7 +70,7 @@ bonus: nothing $(BONUS)
 re: fclean all
 
 objs/%.o:    src/%.c
-	@$(CC) $(FLAGS) $(INC) -o $@ -c $< 
+	@$(CC) $(FLAGS) $(INC)  -o $@ -c $< 
 	@$(call progress_bar)
 
 
@@ -91,7 +89,7 @@ fclean: clean
 $(NAME): $(OBJS)
 	@echo "$(YELLOW)Done!$(CLR_RMV)"
 	@make  -C $(LIBFT_LIBRARY_DIR)
-	@$(CC) $(FLAGS) $(LIBS) $(OBJS) bigft/libft.a -o $@
+	@$(CC) $(FLAGS) $(LIBS) $(OBJS)  -o $@
 	@$(call print_completion)
 
 nothing:

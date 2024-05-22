@@ -23,7 +23,6 @@ void	free_tab(char **tab)
 	tab = NULL;
 }
 
-
 char	*get_cmdpath(char *cmd, t_entry *envp)
 {
 	int		i;
@@ -32,9 +31,9 @@ char	*get_cmdpath(char *cmd, t_entry *envp)
 	char	*temp_env;
 
 	i = 0;
-	if(access(cmd, X_OK) == 0)
+	if (access(cmd, X_OK) == 0)
 		return (cmd);
-	while (envp && ft_strnstr(envp->name, "PATH", 4) == 0 )
+	while (envp && ft_strnstr(envp->name, "PATH", 4) == 0)
 		envp = envp->next;
 	if (!envp)
 		return (NULL);
@@ -71,7 +70,7 @@ static void	ft_here_doc_child(int *pfd, char *eof)
 
 void	ft_here_doc(t_data *data, t_command *cmd, char *eof)
 {
-	int		pfd[2];
+	int	pfd[2];
 
 	if (pipe(pfd) == -1)
 	{

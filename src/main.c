@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:17 by randre            #+#    #+#             */
-/*   Updated: 2024/05/09 10:32:37 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/22 11:17:36 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	handle_sigquit(int sig)
 		return ;
 	}
 }
-int g_exit_codes[2];
+int		g_exit_codes[2];
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -64,7 +64,7 @@ int	main(int argc, char **argv, char **envp)
 			kb_quit();
 		else if (!ft_equalstr(line, ""))
 		{
-			//int	i = 0;
+			// int	i = 0;
 			add_history(line);
 			split_line = lexer(line, envs);
 			if (split_line)
@@ -74,8 +74,8 @@ int	main(int argc, char **argv, char **envp)
 					ft_printf(1, "STR :%s:END", split_line[i]);
 					i++;
 				}*/
-				//free(line);
-				minishell = populate(split_line, envs);
+				// free(line);
+				minishell = populate_cmds(split_line, envs);
 				minishell->st_in = dup(STDIN_FILENO);
 				execute_pipes(minishell, envs);
 				dup2(minishell->st_in, STDIN_FILENO);

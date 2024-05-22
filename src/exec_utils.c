@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.s19.be>         +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:46:58 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/02/04 20:47:05 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/22 11:17:17 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,45 @@ char	*get_cmdpath(char *cmd, t_entry *envp)
 {
 	int		i;
 	char	*path;
+	char	*t_path;
 	char	**paths;
 	char	*temp_env;
 
 	i = 0;
-	if(access(cmd, X_OK) == 0)
+	if (access(cmd, X_OK) == 0)
 		return (cmd);
-	while (envp && ft_strnstr(envp->name, "PATH", 4) == 0 )
+	while (envp && ft_strnstr(envp->name, "PATH", 4) == 0)
 		envp = envp->next;
 	if (!envp)
 		return (NULL);
 	path = ft_strdup(envp->value);
 	paths = ft_split(path, ':');
+	ft_printf(1, "get_cmdpath: cmd: %s\n", cmd);
 	while (paths[i])
 	{
-		temp_env = ft_strjoin(paths[i], "/");
-		temp_env = ft_strjoin(temp_env, cmd);
+		t_path = ft_strjoin(paths[i], "/");
+		temp_env = ft_strjoin(t_path, cmd);
+		ft_printf(1, "get_cmdpath: %s\n", temp_env);
 		if (access(temp_env, X_OK) == 0)
 			return (temp_env);
 		free(temp_env);
 		i++;
 	}
+	free(temp_env);
 	free_tab(paths);
 	free(path);
 	return (NULL);
+}
+
+void	set_paths(t_command *cmds, t_envs *envs)
+{
+	t_command	*lst;
+
+	lst = cmds;
+	while (lst)
+	{
+		if (!is_builtin(lst) && !ft_strchr(lst->args[0], '/'))
+			lst->path = ft_strdup(get_cmdpath(lst->args[0], envs->exp));
+		lst = lst->next;
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 11:09:44 by randre            #+#    #+#             */
-/*   Updated: 2024/05/10 14:06:04 by randre           ###   ########.fr       */
+/*   Updated: 2024/05/22 11:17:33 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	**lexer(char *line, t_envs *envs)
 	i = -1;
 	y = 0;
 	in_quotes = 0;
-	split_line = ft_calloc((ft_strlen(line) + 1), sizeof(char *));
+	split_line = ft_calloc(4096, 1);
 	while (line[++i])
 	{
 		if (line[i] == '"' || line[i] == 39)
@@ -127,7 +127,7 @@ char	**lexer(char *line, t_envs *envs)
 				i++;
 			i--;
 			if (line[i + 1] == 0)
-				break;
+				break ;
 			j++;
 			y = i + 1;
 		}

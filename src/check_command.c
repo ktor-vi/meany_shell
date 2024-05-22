@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:45:36 by randre            #+#    #+#             */
-/*   Updated: 2024/02/19 11:25:45 by randre           ###   ########.fr       */
+/*   Updated: 2024/05/22 11:16:58 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 int	is_builtin_char(char **split_line)
 {
+	write(1, split_line[0], 1);
+	if (!split_line || !split_line[0])
+		return (0);
 	if (ft_equalstr(split_line[0], "echo"))
 		return (1);
 	else if (ft_equalstr(split_line[0], "env"))
@@ -32,6 +35,25 @@ int	is_builtin_char(char **split_line)
 		return (0);
 }
 
+int	is_builtin_char_pos(char **split_line, int pos)
+{
+	if (ft_equalstr(split_line[pos], "echo"))
+		return (1);
+	else if (ft_equalstr(split_line[pos], "env"))
+		return (1);
+	else if (ft_equalstr(split_line[pos], "export"))
+		return (1);
+	else if (ft_equalstr(split_line[pos], "cd"))
+		return (1);
+	else if (ft_equalstr(split_line[pos], "unset"))
+		return (1);
+	else if (ft_equalstr(split_line[pos], "pwd"))
+		return (1);
+	else if (!ft_equalstr(split_line[pos], "exit"))
+		return (1);
+	else
+		return (0);
+}
 int	handle_builtins(t_command *cmd, t_envs *envs)
 {
 	while (cmd != NULL)

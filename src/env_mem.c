@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-void free_envs(t_envs **envs)
+void	free_envs(t_envs **envs)
 {
 	t_entry	*tmp;
 
@@ -26,7 +26,7 @@ void	free_entry(t_entry *entry)
 {
 	if (entry->prev)
 		entry->prev->next = entry->next;
-	if(entry->next)
+	if (entry->next)
 		entry->next->prev = entry->prev;
 	if (entry->name)
 		free(entry->name);

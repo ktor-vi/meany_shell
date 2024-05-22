@@ -34,8 +34,6 @@ void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 			exit(EXIT_SUCCESS);
 		if (h->heredoc == 0)
 			execve(h->path, h->args, ll_to_tab(envs->env));
-		if (h->heredoc == 1)
-			ft_here_doc_piped(h, envs, pfds);
 		if (errno == EFAULT)
 			ft_printf(STDERR_FILENO, "%s: command not found\n", h->args[0]);
 		else
@@ -63,9 +61,6 @@ void	execute_last_command(t_command *h, int prev_pipe, t_envs *envs)
 			dup2out_error();
 		if (h->heredoc == -1)
 			exit(EXIT_SUCCESS);
-		ft_printf(1, "heredoc: %d\n", h->heredoc);
-		if (h->heredoc == 1)
-			ft_here_doc_last(h, envs);
 		if (h->heredoc == 0)
 			execve(h->path, h->args, ll_to_tab(envs->env));
 		if (errno == EFAULT)
@@ -115,9 +110,12 @@ void	execute_pipes(t_minishell *minishell, t_envs *envs)
 
 	h = minishell->cmd;
 	prev_pipe = STDIN_FILENO;
-	while (h->to_pipe == true)
+	while (h->next != NULL)
 	{
-		create_pipe(pfds);
+		if(h->heredoc == 1)
+			here_doc(h, envs);
+		if(h->to_pipe == 1)
+			create_pipe(pfds);
 		if (is_builtin(h))
 			execute_builtin(h, prev_pipe, pfds, envs);
 		else
@@ -126,9 +124,9 @@ void	execute_pipes(t_minishell *minishell, t_envs *envs)
 		prev_pipe = pfds[0];
 		h = h->next;
 	}
-	if (!is_builtin(h))
+	if (h && !is_builtin(h))
 		execute_last_command(h, prev_pipe, envs);
-	else
+	else if (h && is_builtin(h))
 		execute_last_builtin(h, prev_pipe, envs);
 	close(pfds[0]);
 	close(pfds[1]);
