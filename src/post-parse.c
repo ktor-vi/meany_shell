@@ -131,6 +131,8 @@ void	post_parse(t_minishell *minishell, t_envs *envs)
 			ft_cmd_addb(&tmp, it);
 		else if (pre_heredoc(it)) // FREEE
 			ft_printf(1, "skipped : %s\n", it->args[0]);
+		else 
+			ft_cmd_addb(&tmp, it);
 		it = next;
 	}
 	minishell->cmd = tmp->cmd;
