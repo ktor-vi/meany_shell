@@ -147,20 +147,21 @@ t_command	*lastcmd(t_command *lst)
 	return (ptr);
 }
 
-void	ft_cmd_addb(t_minishell **mini, t_command *new)
+void ft_cmd_addb(t_minishell **mini, t_command *new)
 {
-	t_command	*last;
+    t_command *last;
 
-	if (new == NULL)
-		return ;
-	new->next = NULL;
-	new->prev = NULL;
-	last = lastcmd((*mini)->cmd);
-	new->prev = last;
-	if (last != NULL)
-		last->next = new;
-	else
-		(*mini)->cmd = new;
+    if (new == NULL)
+        return;
+    new->next = NULL;
+    new->prev = NULL;
+    last = lastcmd((*mini)->cmd);
+    new->prev = last;
+    if (last != NULL)
+        last->next = new;
+    else
+        (*mini)->cmd = new;
+    // ft_printf(1, "Added : %s - eof: %s\n", new->args[0], new->eof);
 }
 
 void	print_all_cmd(t_minishell *minishell)
