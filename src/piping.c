@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:12:22 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/09 10:28:22 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/27 14:20:18 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,57 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+void	here_doc(t_command *h, t_envs *envs, int *pfds)
+{
+	char	*line;
+
+	if (pipe(pfds) == -1)
+	{
+		perror("pipe() error");
+		exit(EXIT_FAILURE);
+	}
+	while (1)
+	{
+		write(STDOUT_FILENO, "> ", 2);
+		line = get_next_line(STDIN_FILENO);
+		if (line == NULL)
+			break ;
+		if (ft_strncmp(line, h->eof, ft_strlen(h->eof)) == 0
+			&& ft_strlen(line) == ft_strlen(h->eof) + 1)
+		{
+			free(line);
+			break ;
+		}
+		write(pfds[1], line, ft_strlen(line));
+		free(line);
+	}
+	close(pfds[1]);
+	dup2(pfds[0], STDIN_FILENO);
+	close(pfds[0]);
+}
+
+void	child_process(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
+{
+	if (prev_pipe != STDIN_FILENO)
+	{
+		handle_dup2(prev_pipe, STDIN_FILENO);
+		close(prev_pipe);
+	}
+	if (h->next)
+	{
+		close(pfds[0]);
+		handle_dup2(pfds[1], STDOUT_FILENO);
+		close(pfds[1]);
+	}
+	if (h->heredoc == 1)
+	{
+		here_doc(h, envs, pfds);
+	}
+	if (!pre_heredoc(h))
+		handle_execve(h, envs);
+	exit(EXIT_FAILURE);
+}
+
 void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 {
 	pid_t	child_pid;
@@ -25,59 +76,11 @@ void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 	if (child_pid == -1)
 		forkfail_error();
 	if (child_pid == 0)
-	{
-		if (prev_pipe != STDIN_FILENO && dup2(prev_pipe, STDIN_FILENO) == -1)
-			dup2in_error();
-		if (dup2(pfds[1], STDOUT_FILENO) == -1)
-			dup2out_error();
-		if (h->heredoc == -1)
-			exit(EXIT_SUCCESS);
-		if (h->heredoc == 0)
-			execve(h->path, h->args, ll_to_tab(envs->env));
-		if (h->heredoc == 1)
-			ft_here_doc_piped(h, envs, pfds);
-		if (errno == EFAULT)
-			ft_printf(STDERR_FILENO, "%s: command not found\n", h->args[0]);
-		else
-			perror("execve failed");
-		close(pfds[0]);
+		child_process(h, prev_pipe, pfds, envs);
+	if (prev_pipe != STDIN_FILENO)
+		close(prev_pipe);
+	if (h->next)
 		close(pfds[1]);
-		close(prev_pipe);
-		exit(EXIT_FAILURE);
-	}
-}
-
-void	execute_last_command(t_command *h, int prev_pipe, t_envs *envs)
-{
-	pid_t	last_child_pid;
-
-	last_child_pid = fork();
-	if (last_child_pid == -1)
-		forkfail_error();
-	if (last_child_pid == 0)
-	{
-		if (prev_pipe != STDIN_FILENO && dup2(prev_pipe, STDIN_FILENO) == -1
-			&& h->heredoc == false)
-			dup2in_error();
-		if (dup2(h->fd, STDOUT_FILENO) == -1)
-			dup2out_error();
-		if (h->heredoc == -1)
-			exit(EXIT_SUCCESS);
-		ft_printf(1, "heredoc: %d\n", h->heredoc);
-		if (h->heredoc == 1)
-			ft_here_doc_last(h, envs);
-		if (h->heredoc == 0)
-			execve(h->path, h->args, ll_to_tab(envs->env));
-		if (errno == EFAULT)
-			ft_printf(STDERR_FILENO, "%s: command not found\n", h->args[0]);
-		else
-			perror("execve failed");
-		close(prev_pipe);
-		exit(EXIT_FAILURE);
-	}
-	else
-		close(prev_pipe);
-	waitpid(last_child_pid, NULL, 0);
 }
 
 void	execute_builtin(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
@@ -85,23 +88,16 @@ void	execute_builtin(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 	int	temp_fd;
 
 	temp_fd = dup(STDOUT_FILENO);
-	if (prev_pipe != STDIN_FILENO && dup2(prev_pipe, STDIN_FILENO) == -1)
-		dup2in_error();
-	close(prev_pipe);
-	if (dup2(pfds[1], STDOUT_FILENO) == -1)
-		dup2out_error();
-	handle_builtins(h, envs);
-	dup2(temp_fd, STDOUT_FILENO);
-	close(temp_fd);
-}
-
-void	execute_last_builtin(t_command *h, int prev_pipe, t_envs *envs)
-{
-	int	temp_fd;
-
-	if (prev_pipe != STDIN_FILENO && dup2(prev_pipe, STDIN_FILENO) == -1)
-		dup2in_error();
-	temp_fd = dup(STDOUT_FILENO);
+	if (prev_pipe != STDIN_FILENO)
+	{
+		handle_dup2(prev_pipe, STDIN_FILENO);
+		close(prev_pipe);
+	}
+	if (h->next)
+	{
+		handle_dup2(pfds[1], STDOUT_FILENO);
+		close(pfds[1]);
+	}
 	handle_builtins(h, envs);
 	dup2(temp_fd, STDOUT_FILENO);
 	close(temp_fd);
@@ -112,25 +108,30 @@ void	execute_pipes(t_minishell *minishell, t_envs *envs)
 	t_command	*h;
 	int			prev_pipe;
 	int			pfds[2];
+	pid_t		last_pid;
 
 	h = minishell->cmd;
 	prev_pipe = STDIN_FILENO;
-	ft_printf(1, " %p %s\n", minishell->cmd);
-	while (h->next != NULL)
+	while (h != NULL)
 	{
-		create_pipe(pfds);
+		if (h->next && pipe(pfds) == -1)
+			pipe_error();
 		if (is_builtin(h))
 			execute_builtin(h, prev_pipe, pfds, envs);
 		else
+		{
 			execute_child(h, prev_pipe, pfds, envs);
-		parent_process(prev_pipe, pfds);
-		prev_pipe = pfds[0];
+			last_pid = h->pid;
+		}
+		if (prev_pipe != STDIN_FILENO)
+			close(prev_pipe);
+		if (h->next)
+			close(pfds[1]);
+		prev_pipe = h->next ? pfds[0] : STDIN_FILENO;
 		h = h->next;
 	}
-	if (!is_builtin(h))
-		execute_last_command(h, prev_pipe, envs);
-	else
-		execute_last_builtin(h, prev_pipe, envs);
-	close(pfds[0]);
-	close(pfds[1]);
+	if (h == NULL && last_pid != -1)
+		wait(NULL);
+	if (prev_pipe != STDIN_FILENO)
+		close(prev_pipe);
 }

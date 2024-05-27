@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:43:02 by randre            #+#    #+#             */
-/*   Updated: 2024/05/07 16:11:28 by randre           ###   ########.fr       */
+/*   Updated: 2024/05/27 14:01:12 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*ft_expand(char c, int *i, char *line, t_envs *envs)
 			return (true_line);
 		}
 		else
-			return(ft_strdup(envs_search(envs, true_line)));
+			return (ft_strdup(envs_search(envs, true_line)));
 		free(true_line);
 	}
 	else

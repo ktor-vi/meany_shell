@@ -6,45 +6,12 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:17:57 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/22 11:20:44 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/27 14:04:16 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include <unistd.h>
-
-int	pre_heredoc(t_command *cmd)
-{
-	t_command	*it;
-	t_command	*next;
-
-	it = cmd->next;
-	while (it)
-	{
-		next = it->next;
-		if (it->heredoc)
-			return (1);
-		it = next;
-	}
-	return (0);
-}
-
-int	pre_pipe(t_command *cmd)
-{
-	t_command	*it;
-	t_command	*next;
-
-	it = cmd;
-	while (it)
-	{
-		next = it->next;
-		if (it->to_pipe)
-			return (1);
-		it = next;
-	}
-	return (0);
-}
-
 
 int	calc_offset(char **split_line, int pos)
 {
@@ -55,7 +22,7 @@ int	calc_offset(char **split_line, int pos)
 			"<<") && !ft_equalstr(split_line[i + pos], "|"))
 	{
 		if (ft_equalstr(split_line[pos + i], ">") || ft_equalstr(split_line[pos
-				+ i], ">>") || ft_equalstr(split_line[pos + i], "<"))
+					+ i], ">>") || ft_equalstr(split_line[pos + i], "<"))
 		{
 			i++;
 		}
@@ -85,6 +52,7 @@ t_command	*alloc_command(char **split_line, int pos, int fd)
 	new->next_tok = NULL;
 	return (new);
 }
+
 t_command	*build_command(char **split_line, int pos, int fd)
 {
 	t_command	*new;
@@ -92,25 +60,25 @@ t_command	*build_command(char **split_line, int pos, int fd)
 
 	i = 0;
 	new = alloc_command(split_line, pos, fd);
-	while (split_line[i + pos] != NULL && !ft_equalstr(split_line[i + pos],
-			"<<") && !ft_equalstr(split_line[i + pos], "|"))
+	while (split_line[i + pos] && !is_endtok(split_line, pos + i))
 	{
-		if (ft_equalstr(split_line[pos + i], ">") || ft_equalstr(split_line[pos
-				+ i], ">>") || ft_equalstr(split_line[pos + i], "<"))
+		if (is_reditok(split_line, pos + i))
 			break ;
-		new->args[i] = ft_strdup(split_line[i + pos]);
+		new->arg[i] = malloc(1 * sizeof(t_args));
+		new->arg[i]->in_quotes = closed_quotes(split_line[pos + i]);
+		if (new->arg[i]->in_quotes)
+			new->args[i] = ft_strqtrim(ft_strdup(split_line[pos + i]));
+		else
+			new->args[i] = ft_strdup(split_line[pos + i]);
 		i++;
 	}
 	if (ft_equalstr(split_line[i + pos], "<<") && split_line[i + pos + 1])
-	{
-		new->eof = ft_strdup(split_line[i + pos + 1]);
-		// ft_printf(1, "eof : %s\n", split_line[i + pos + 1]);
-		new->heredoc = 1;
-	}
+		assign_here_doc(new, split_line, i + pos);
 	if (split_line[i + pos] && ft_equalstr(split_line[i + pos], "|"))
 		new->to_pipe = 1;
 	return (new);
 }
+
 void	post_parse(t_minishell *minishell, t_envs *envs)
 {
 	int			i;
@@ -123,42 +91,19 @@ void	post_parse(t_minishell *minishell, t_envs *envs)
 	i = 0;
 	while (it)
 	{
-		ft_printf(1, "%d - cmd : %s - pipe : %d - hd : %d pre | %d -- pre << %d\n",i++, it->args[0], it->to_pipe, it->heredoc,  pre_pipe(it) ,pre_heredoc(it));
 		next = it->next;
 		if (it->heredoc && !pre_pipe(it))
 			ft_cmd_addb(&tmp, it);
-		else if(it->to_pipe && !pre_heredoc(it))
+		else if (it->to_pipe && !pre_heredoc(it))
 			ft_cmd_addb(&tmp, it);
 		else if (pre_heredoc(it)) // FREEE
 			ft_printf(1, "skipped : %s\n", it->args[0]);
-		else 
+		else
 			ft_cmd_addb(&tmp, it);
 		it = next;
 	}
 	minishell->cmd = tmp->cmd;
 	free(tmp);
-}
-
-
-int	is_tok(char **split_line, int pos)
-{
-	if ((ft_equalstr(split_line[pos], ">>")
-			|| ft_equalstr(split_line[pos], "<") || ft_equalstr(split_line[pos],
-				"<<") || ft_equalstr(split_line[pos], ">")
-			|| ft_equalstr(split_line[pos], "|")))
-		return (1);
-	else
-		return (0);
-}
-
-int	is_reditok(char **split_line, int pos)
-{
-	if ((ft_equalstr(split_line[pos], ">>")
-			|| ft_equalstr(split_line[pos], "<") || ft_equalstr(split_line[pos], ">")
-			))
-		return (1);
-	else
-		return (0);
 }
 
 t_minishell	*populate_cmds(char **split_line, t_envs *envs)
@@ -184,7 +129,6 @@ t_minishell	*populate_cmds(char **split_line, t_envs *envs)
 		{
 			fd = STDOUT_FILENO;
 			ft_cmd_addb(&minishell, build_command(split_line, cmd_pos, fd));
-			// ft_printf(1, "split_line[%d]: %s - net : %s\n", pos, split_line[pos], split_line[cmd_pos]);
 			cmd_pos = pos + 1;
 			pos++;
 			continue ;

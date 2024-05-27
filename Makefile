@@ -1,26 +1,37 @@
 NAME = minishell
 BONUS = meanyshell
 
-SRC =  src/main.c \
-	src/utils.c \
-	src/check_command.c \
-	src/new_echo.c \
-	src/envs_commands.c \
-	src/build_envs.c \
-	src/export_unset.c \
-	src/env_utils.c \
-	src/env_mem.c \
-	src/exec_utils.c \
-	src/exec_helpers.c \
-	src/cd_command.c \
-	src/pwd_command.c \
-	src/populate.c \
-	src/lexer.c \
-	src/post-parse.c \
-	src/piping.c \
-	src/expand.c \
-	src/synthax_errors.c \
-	src/heredoc.c \
+SRC =  src/main.c                   \
+                                    \
+	src/build_envs.c                \
+	src/lexer.c                     \
+	src/expand.c                    \
+	src/quotes.c                    \
+	src/populate.c                  \
+	src/post-parse.c                \
+                                    \
+	src/piping.c                    \
+		                            \
+	src/heredoc.c                 	\
+	src/envs_commands.c             \
+	src/export_unset.c              \
+	src/check_command.c             \
+	src/cd_command.c                \
+	src/pwd_command.c               \
+	src/echo_command.c              \
+                                    \
+	src/env_utils.c                 \
+	src/env_mem.c                   \
+	src/tok_utils.c                 \
+	src/quotes_utils.c              \
+	src/cmd_utils.c                 \
+	src/exec_utils.c                \
+	src/exec_helpers.c              \
+	src/exp_uns_utils.c              \
+	src/misc_utils.c                \
+	                                \
+	src/exec_errors.c               \
+	src/syntax_errors.c             \
 
 
 INC = -Iincludes/minishell.h  -I ~/.brew/opt/readline/include

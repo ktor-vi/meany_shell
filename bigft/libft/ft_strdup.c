@@ -38,5 +38,6 @@ char	*ft_strdup(const char *s1)
 		dest[len] = s1[len];
 		len--;
 	}
+	dest[len] = '\0';
 	return (dest);
 }

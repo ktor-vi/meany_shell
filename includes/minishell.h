@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/05/08 14:08:20 by randre           ###   ########.fr       */
+/*   Updated: 2024/05/27 14:19:21 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 # include "../bigft/get_next_line/get_next_line.h"
 # include "../bigft/libft/libft.h"
 # include <errno.h>
-# include <readline/history.h>
-# include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
@@ -26,6 +24,8 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 
 typedef struct s_entry
 {
@@ -87,31 +87,39 @@ typedef struct s_minishell
 
 // int						g_exit_codes[2];
 
+// ENV & EXPORT
+void					printtab(char **exp);
+char					*envs_search(t_envs *envs, char *to_find);
+t_envs					*build_envs(char **envp);
+void					printenv(t_entry *n, t_command *cmd);
+void					printexport(t_entry *exp, t_command *cmd);
+void					printenv(t_entry *env, t_command *cmd);
+void					unset_cmd(t_envs *envs, char *var);
+t_entry					*find_entryprev(t_entry *lst, char *to_find);
 // PARSING
 char					**lexer(char *line, t_envs *envs);
-void					print_all_cmd(t_minishell *minishell);
-t_command				*lastcmd(t_command *lst);
+int	get_firstq_pos(char *line);
+int	get_q_type(char *line, int pos);
+int						closed_quotes(char *line);
 void					init_cmds(char *split_line);
 void					ft_cmd_addb(t_minishell **mini, t_command *new);
-void					print_all_cmd(t_minishell *minishell);
-t_minishell				*populate(char **split_line, t_envs *envs);
 int						calc_offset(char **split_line, int pos);
 t_command				*build_command(char **split_line, int pos, int fd);
 t_command				*alloc_command(char **split_line, int pos, int fd);
 int						redirect_handle(char **split_line, int j);
-
-int						is_builtin_char_pos(char **split_line, int pos);
+void					assign_here_doc(t_command *h, char **split_line, int i);
 t_minishell				*populate_cmds(char **split_line, t_envs *envs);
 void					post_parse(t_minishell *minishell, t_envs *envs);
 void					set_paths(t_command *cmds, t_envs *envs);
-t_command				*new_command(char **split_line, t_envs *envs, int s,
-							int e, int fd);
-void					check_command(char **split_line, t_envs *envs);
+// BUILTINS
+void					export_cmd(t_envs *envs, char **vars);
 void					env_command(char **envp);
+void					check_command(char **split_line, t_envs *envs);
 void					cd_command(char **);
 void					pwd_command(t_command *cmd);
 void					echo_command(char **split_line, t_command *cmd);
 // UTILS
+void					print_all_cmd(t_minishell *minishell);
 void					verify_quotes(char *line, int i, int *val);
 void					handle_sigint(int sig);
 int						is_builtin(t_command *cmd);
@@ -120,24 +128,23 @@ int						ft_equalstr(char *s1, char *s2);
 int						getchindex(char *s, int c);
 void					free_tab(char **tab);
 void					kb_quit(void);
+// PARSE UTILS
+int						is_tok(char **split_line, int pos);
+int						is_endtok(char **split_line, int pos);
+int						is_reditok(char **split_line, int pos);
 char					*ft_strqtrim(char *line);
 void					reset_line(char *line);
-// ENV & EXPORT
-void					printtab(char **exp);
-char					*envs_search(t_envs *envs, char *to_find);
-t_envs					*build_envs(char **envp);
-void					printenv(t_entry *n, t_command *cmd);
-void					printexport(t_entry *exp, t_command *cmd);
-void					printenv(t_entry *env, t_command *cmd);
-void					export_cmd(t_envs *envs, char **vars);
-void					unset_cmd(t_envs *envs, char *var);
-t_entry					*find_entryprev(t_entry *lst, char *to_find);
+t_command				*lastcmd(t_command *lst);
 // ENV UTILS
+void	append_value(t_envs *envs, char *var, int eq_pos);
+char	*validate_var(char *var, char *entry);
+t_entry	*find_entry(t_entry *lst, char *to_find);
+t_entry	*find_entryprev(t_entry *lst, char *to_find);
 char					*ft_expand(char c, int *i, char *line, t_envs *envs);
 t_entry					*swap(t_entry *ptr1, t_entry *ptr2);
 void					sort_alpha_ll(t_entry **head, int count);
 t_entry					*lastentry(t_entry *lst);
-void					ft_entry_addb(t_entry **lst, t_entry *new);
+void					ft_entry_addb(t_entry **lst, t_entry *node);
 t_entry					*newentry(char *var);
 void					free_entry(t_entry *entry);
 void					free_entry_alone(t_entry *entry_prev);
@@ -145,15 +152,20 @@ void					free_envs(t_envs **envs);
 char					**ll_to_tab(t_entry *env);
 int						ll_size(t_entry *env);
 // EXEC
-int	pre_pipe(t_command *cmd);
-int	pre_heredoc(t_command *cmd);
+int						pre_pipe(t_command *cmd);
+int						pre_heredoc(t_command *cmd);
 int						handle_builtins(t_command *cmd, t_envs *envs);
 void					execute_pipes(t_minishell *minishell, t_envs *envs);
-void	ft_here_doc_last(t_command *h, t_envs *envs);
-void	ft_here_doc_piped(t_command *h, t_envs *envs, int *pfds);
+void					handle_dup2(int oldfd, int newfd);
+void					handle_execve(t_command *h, t_envs *envs);
+void					ft_here_doc_last(t_command *h, t_envs *envs);
+void					ft_here_doc_piped(t_command *h, t_envs *envs,
+							int *pfds);
+void					here_doc(t_command *h, t_envs *envs, int *pfds);
 // EXEC UTILS
 char					*get_cmdpath(char *cmd, t_entry *envp);
 // EXEC HELPERS
+void					pipe_error(void);
 void					dup2in_error(void);
 void					dup2out_error(void);
 void					forkfail_error(void);

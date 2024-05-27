@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_mem.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/27 14:05:46 by vphilipp          #+#    #+#             */
+/*   Updated: 2024/05/27 14:14:42 by vphilipp         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 void	free_envs(t_envs **envs)
@@ -37,4 +49,18 @@ void	free_entry(t_entry *entry)
 	if (entry)
 		free(entry);
 	entry = NULL;
+}
+
+void	ft_entry_addb(t_entry **lst, t_entry *node)
+{
+	t_entry	*last;
+
+	if (node == NULL)
+		return ;
+	last = lastentry(*lst);
+	node->prev = last;
+	if (last != NULL)
+		last->next = node;
+	else
+		*lst = node;
 }

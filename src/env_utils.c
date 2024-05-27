@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:47:24 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/22 11:17:04 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/27 14:14:34 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*envs_search(t_envs *envs, char *to_find)
 		{
 			ft_strlen(entry->value);
 			return (ft_strdup(entry->value));
-}
+		}
 		entry = entry->next;
 	}
 	return (NULL);
@@ -84,8 +84,7 @@ void	sort_alpha_ll(t_entry **head, int count)
 		j = 0;
 		while (j < count - i - 1)
 		{
-			if (ft_strncmp((*h)->name, (*h)->next->name,
-					ft_strlen((*h)->next->name)) > 0)
+			if (ft_strcmp((*h)->name, (*h)->next->name) > 0)
 			{
 				*h = swap(*h, (*h)->next);
 				swapped = 1;
@@ -111,16 +110,3 @@ t_entry	*lastentry(t_entry *lst)
 	return (ptr);
 }
 
-void	ft_entry_addb(t_entry **lst, t_entry *new)
-{
-	t_entry	*last;
-
-	if (new == NULL)
-		return ;
-	last = lastentry(*lst);
-	new->prev = last;
-	if (last != NULL)
-		last->next = new;
-	else
-		*lst = new;
-}

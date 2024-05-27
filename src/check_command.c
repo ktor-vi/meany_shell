@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:45:36 by randre            #+#    #+#             */
-/*   Updated: 2024/05/22 11:16:58 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/27 14:05:26 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	is_builtin_char_pos(char **split_line, int pos)
 	else
 		return (0);
 }
+
 int	handle_builtins(t_command *cmd, t_envs *envs)
 {
 	while (cmd != NULL)
