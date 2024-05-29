@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:11:18 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/27 14:11:21 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:07:09 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	redirect_handle(char **split_line, int j)
 
 void	assign_here_doc(t_command *h, char **split_line, int i)
 {
-	int k;
+	int	k;
 
 	k = -1;
 	h->eof = NULL;

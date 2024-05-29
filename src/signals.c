@@ -1,38 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   syntax_errors.c                                    :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/08 13:35:50 by randre            #+#    #+#             */
-/*   Updated: 2024/05/29 09:28:51 by vphilipp         ###   ########.fr       */
+/*   Created: 2024/05/29 11:15:11 by vphilipp          #+#    #+#             */
+/*   Updated: 2024/05/29 12:44:42 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_free_tab(char **split_line)
+void	handle_sigint(int sig)
 {
-	int	i;
-
-	i = 0;
-	while (split_line[i] != NULL)
+	if (sig == SIGINT)
 	{
-		free(split_line[i]);
-		i++;
+		printf("\n");
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
 	}
-	free(split_line);
-	return ;
 }
 
-int	ft_error(int code, char **split_line, char *line, int i)
+void	handle_sigint2(int sig)
 {
-	if (code == -1)
+	if (sig == SIGINT)
 	{
-		ft_printf(STDERR_FILENO,
-			"minishell: Parsing error: unexpected token '%c'\n", line[i]);
-		ft_free_tab(split_line);
+		ft_putendl_fd("", 1);
 	}
-	return (code);
+}
+
+void	handle_sigquit(int sig)
+{
+	if (sig == SIGQUIT)
+	{
+		signal(SIGQUIT, SIG_IGN);
+		return ;
+	}
 }

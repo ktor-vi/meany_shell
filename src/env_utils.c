@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:47:24 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/27 14:14:34 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:07:27 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,3 @@ t_entry	*lastentry(t_entry *lst)
 		ptr = ptr->next;
 	return (ptr);
 }
-

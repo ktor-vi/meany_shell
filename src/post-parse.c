@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:17:57 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/27 14:04:16 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:08:05 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	post_parse(t_minishell *minishell, t_envs *envs)
 			ft_cmd_addb(&tmp, it);
 		else if (it->to_pipe && !pre_heredoc(it))
 			ft_cmd_addb(&tmp, it);
-		else if (pre_heredoc(it)) // FREEE
+		else if (pre_heredoc(it))
 			ft_printf(1, "skipped : %s\n", it->args[0]);
 		else
 			ft_cmd_addb(&tmp, it);

@@ -83,7 +83,7 @@ void	append_value(t_envs *envs, char *var, int eq_pos)
 	else
 	{
 		value = ft_strjoin(entry->value, ft_strtrim(ft_strtrim(ft_substr(var,
-						eq_pos + 1, ft_strlen(var) - eq_pos), "\""), "'"));
+							eq_pos + 1, ft_strlen(var) - eq_pos), "\""), "'"));
 		entry->value = value;
 		entry = find_entry(envs->exp, var_name);
 	}

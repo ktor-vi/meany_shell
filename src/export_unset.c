@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:46:42 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/27 14:16:20 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/29 12:46:07 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static t_entry	*only_exp_entry(char *var)
 	new->prev = NULL;
 	return (new);
 }
-
 
 int	export_cases(t_envs *envs, char *var)
 {
@@ -64,7 +63,7 @@ void	export_cmd(t_envs *envs, char **vars)
 	while (vars[++i])
 	{
 		if (export_cases(envs, vars[i]))
-			return;
+			return ;
 	}
 	sort_alpha_ll(&envs->exp, ll_size(envs->exp));
 }

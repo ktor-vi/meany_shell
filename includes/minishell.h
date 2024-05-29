@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/05/27 14:19:21 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:29:26 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include "../bigft/get_next_line/get_next_line.h"
 # include "../bigft/libft/libft.h"
 # include <errno.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
@@ -24,8 +26,15 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <readline/history.h>
-# include <readline/readline.h>
+
+typedef struct s_lexer_state
+{
+	int					i;
+	int					y;
+	int					j;
+	int					in_quotes;
+	char				**split_line;
+}						t_lexer_state;
 
 typedef struct s_entry
 {
@@ -76,6 +85,8 @@ typedef struct s_parse
 
 typedef struct s_minishell
 {
+	t_envs		*envs;
+	char		**split_line;
 	int					st_in;
 	int					st_out;
 	char				*arg;
@@ -98,8 +109,14 @@ void					unset_cmd(t_envs *envs, char *var);
 t_entry					*find_entryprev(t_entry *lst, char *to_find);
 // PARSING
 char					**lexer(char *line, t_envs *envs);
-int	get_firstq_pos(char *line);
-int	get_q_type(char *line, int pos);
+void					handle_quotes(char *line, t_lexer_state *state);
+void					post_special_increment(char *line, t_lexer_state *st);
+int						handle_special_chars(char *line, t_lexer_state *st);
+int						handle_spaces(char *line, t_lexer_state *state);
+int						handle_expansion(char *line, t_lexer_state *state,
+							t_envs *envs);
+int						get_firstq_pos(char *line);
+int						get_q_type(char *line, int pos);
 int						closed_quotes(char *line);
 void					init_cmds(char *split_line);
 void					ft_cmd_addb(t_minishell **mini, t_command *new);
@@ -129,6 +146,9 @@ int						getchindex(char *s, int c);
 void					free_tab(char **tab);
 void					kb_quit(void);
 // PARSE UTILS
+int						ft_isspace(char c);
+int						ft_isspecial(char c);
+char					*ft_strndup(char *str, int start, int end);
 int						is_tok(char **split_line, int pos);
 int						is_endtok(char **split_line, int pos);
 int						is_reditok(char **split_line, int pos);
@@ -136,10 +156,10 @@ char					*ft_strqtrim(char *line);
 void					reset_line(char *line);
 t_command				*lastcmd(t_command *lst);
 // ENV UTILS
-void	append_value(t_envs *envs, char *var, int eq_pos);
-char	*validate_var(char *var, char *entry);
-t_entry	*find_entry(t_entry *lst, char *to_find);
-t_entry	*find_entryprev(t_entry *lst, char *to_find);
+void					append_value(t_envs *envs, char *var, int eq_pos);
+char					*validate_var(char *var, char *entry);
+t_entry					*find_entry(t_entry *lst, char *to_find);
+t_entry					*find_entryprev(t_entry *lst, char *to_find);
 char					*ft_expand(char c, int *i, char *line, t_envs *envs);
 t_entry					*swap(t_entry *ptr1, t_entry *ptr2);
 void					sort_alpha_ll(t_entry **head, int count);
@@ -171,6 +191,10 @@ void					dup2out_error(void);
 void					forkfail_error(void);
 void					create_pipe(int pfds[2]);
 void					parent_process(int prev_pipe, int pfds[2]);
+// SIGNALS
+void					handle_sigint(int sig);
+void					handle_sigint2(int sig);
+void					handle_sigquit(int sig);
 // ERRORS
 int						ft_error(int code, char **split_line, char *line,
 							int i);

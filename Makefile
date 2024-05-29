@@ -1,10 +1,13 @@
 NAME = minishell
 BONUS = meanyshell
 
-SRC =  src/main.c                   \
+SRC =  src/n_main.c                   \
+	src/signals.c					\
                                     \
 	src/build_envs.c                \
 	src/lexer.c                     \
+	src/lexer_handlers.c			\
+	src/lexer_utils.c				\
 	src/expand.c                    \
 	src/quotes.c                    \
 	src/populate.c                  \

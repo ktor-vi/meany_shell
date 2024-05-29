@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:49:03 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/22 11:17:11 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:07:35 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	ll_size(t_entry *env)
 	}
 	return (ct);
 }
+
 char	**ll_to_tab(t_entry *env)
 {
 	char	**envp;

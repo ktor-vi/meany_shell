@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:17 by randre            #+#    #+#             */
-/*   Updated: 2024/05/22 11:17:36 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:44:20 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,6 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-
-void	handle_sigint(int sig)
-{
-	if (sig == SIGINT)
-	{
-		printf("\n");
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-}
-
-void	handle_sigint2(int sig)
-{
-	if (sig == SIGINT)
-	{
-		ft_putendl_fd("", 1);
-	}
-}
-void	handle_sigquit(int sig)
-{
-	if (sig == SIGQUIT)
-	{
-		signal(SIGQUIT, SIG_IGN);
-		return ;
-	}
-}
-int		g_exit_codes[2];
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -64,17 +36,10 @@ int	main(int argc, char **argv, char **envp)
 			kb_quit();
 		else if (!ft_equalstr(line, ""))
 		{
-			// int	i = 0;
 			add_history(line);
 			split_line = lexer(line, envs);
 			if (split_line)
 			{
-				/*while (split_line[i] != NULL)
-				{
-					ft_printf(1, "STR :%s:END", split_line[i]);
-					i++;
-				}*/
-				// free(line);
 				minishell = populate_cmds(split_line, envs);
 				minishell->st_in = dup(STDIN_FILENO);
 				execute_pipes(minishell, envs);

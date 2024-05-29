@@ -5,29 +5,34 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/12 11:09:44 by randre            #+#    #+#             */
-/*   Updated: 2024/05/22 11:17:33 by vphilipp         ###   ########.fr       */
+/*   Created: 2024/05/29 12:45:22 by vphilipp          #+#    #+#             */
+/*   Updated: 2024/05/29 12:48:22 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 char	*ft_strndup(char *str, int start, int end)
 {
-	char	*sstart;
+	int		i;
+	int		len;
 	char	*s;
 
-	s = malloc(((end - start) + 1) * sizeof(char));
-	sstart = s;
-	while (start != end)
-	{
-		*s = str[start];
-		start++;
-		s++;
-	}
-	*s = 0;
-	return (sstart);
+	if (start >= end)
+		return (NULL);
+	len = end - start;
+	s = malloc((len + 1) * sizeof(char));
+	if (!s)
+		return (NULL);
+	while(++i < len)
+		s[i] = str[start + i];
+	s[len] = '\0';
+	printf("ft_strndup: Created substring '%s' from indices [%d, %d]\n", s,
+		start, end);
+	return (s);
 }
 
 void	verify_quotes(char *line, int i, int *val)
@@ -59,99 +64,45 @@ void	verify_quotes(char *line, int i, int *val)
 
 int	ft_isspecial(char c)
 {
-	if (c == '>' || c == '<' || c == '|')
-		return (1);
+	return (c == '>' || c == '<' || c == '|');
+}
+
+int	handle_end_of_line(char *line, t_lexer_state *state)
+{
+	if (line[state->i + 1] == 0)
+	{
+		state->split_line[state->j] = ft_strndup(line, state->y, state->i + 1);
+		state->split_line[state->j + 1] = NULL;
+		printf("handle_end_of_line: Added end of line substring, j=%d, i=%d,\
+			y=%d\n",
+				state->j,
+				state->i,
+				state->y);
+		return (-1);
+	}
 	return (0);
 }
 
 char	**lexer(char *line, t_envs *envs)
 {
-	int		i;
-	int		y;
-	int		j;
-	char	**split_line;
-	int		in_quotes;
+	t_lexer_state	state;
 
-	j = 0;
-	i = -1;
-	y = 0;
-	in_quotes = 0;
-	split_line = ft_calloc(4096, 1);
-	while (line[++i])
+	state.i = -1;
+	state.j = 0;
+	state.in_quotes = 0;
+	state.y = 0;
+	state.split_line = ft_calloc(4096, sizeof(char));
+	while (line[++state.i])
 	{
-		if (line[i] == '"' || line[i] == 39)
-			verify_quotes(line, i, &in_quotes);
-		if (ft_isspecial(line[i]) && !in_quotes)
-		{
-			if (!isspace(line[i - 1]))
-			{
-				split_line[j] = ft_strndup(line, y, i);
-				j++;
-			}
-			if ((line[i + 1] == line[i]) && line[i] != '|')
-			{
-				if (ft_isspecial(line[i + 2]))
-				{
-					ft_error(1, split_line, line, i + 2);
-					return (NULL);
-				}
-				split_line[j] = ft_strndup(line, i, i + 2);
-				i = i + 2;
-			}
-			else if (ft_isspecial(line[i + 1]))
-			{
-				ft_error(1, split_line, line, i + 1);
-				return (NULL);
-			}
-			else
-			{
-				split_line[j] = ft_strndup(line, i, i + 1);
-				if (line[i] == '|' && line[i + 1] == '|')
-				{
-					ft_error(1, split_line, line, i + 1);
-					return (NULL);
-				}
-			}
-			i++;
-			while (isspace(line[i]))
-				i++;
-			i--;
-			y = i + 1;
-			j = j + 1;
-		}
-		else if (isspace(line[i]) && !in_quotes)
-		{
-			split_line[j] = ft_strndup(line, y, i);
-			i++;
-			while (isspace(line[i]))
-				i++;
-			i--;
-			if (line[i + 1] == 0)
-				break ;
-			j++;
-			y = i + 1;
-		}
-		if (in_quotes != 2)
-		{
-			if (line[i] == '$')
-			{
-				split_line[j] = ft_expand(line[i], &i, line, envs);
-				if (split_line[j])
-					j++;
-				if (line[i] == 0)
-					break ;
-				while (isspace(line[i]))
-					i++;
-				y = i;
-				i--;
-			}
-		}
-		if (line[i + 1] == 0)
-		{
-			split_line[j] = ft_strndup(line, y, i + 1);
-			split_line[j + 1] = NULL;
+		handle_quotes(line, &state);
+		if (handle_special_chars(line, &state) < 0)
+			return (NULL);
+		if (handle_spaces(line, &state) < 0)
 			break ;
-		}
+		if (handle_expansion(line, &state, envs) < 0)
+			break ;
+		if (handle_end_of_line(line, &state) < 0)
+			break ;
 	}
-	return (split_line);
+	return (state.split_line);
 }
