@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:45:22 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/29 12:48:22 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:55:38 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ char	*ft_strndup(char *str, int start, int end)
 	int		len;
 	char	*s;
 
+	i = -1;
 	if (start >= end)
 		return (NULL);
 	len = end - start;
@@ -89,9 +90,14 @@ char	**lexer(char *line, t_envs *envs)
 
 	state.i = -1;
 	state.j = 0;
+	state.group = malloc(2 * sizeof(int));
 	state.in_quotes = 0;
+	state.quote_type = 0;
+	state.start_quote = -1;
+	state.end_quote = -1;
+	state.in_qdollas = 0;
 	state.y = 0;
-	state.split_line = ft_calloc(4096, sizeof(char));
+	state.split_line = ft_calloc(4096 * 4, sizeof(char));
 	while (line[++state.i])
 	{
 		handle_quotes(line, &state);

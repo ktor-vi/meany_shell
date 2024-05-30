@@ -64,6 +64,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			add_history(line);
 			split_line = lexer(line, envs);
+			printtab(split_line);
 			if (split_line)
 				exec_cmd(minishell, split_line, envs);
 		}

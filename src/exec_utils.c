@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:46:58 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/27 14:14:54 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:03:51 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ char	*get_cmdpath(char *cmd, t_entry *envp)
 		free(temp_env);
 		i++;
 	}
-	free(temp_env);
 	free_tab(paths);
 	free(path);
 	return (NULL);
@@ -47,7 +46,6 @@ char	*get_cmdpath(char *cmd, t_entry *envp)
 void	set_paths(t_command *cmds, t_envs *envs)
 {
 	t_command	*lst;
-
 	lst = cmds;
 	while (lst)
 	{

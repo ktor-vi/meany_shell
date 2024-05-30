@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/05/29 11:29:26 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:49:19 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,12 @@ typedef struct s_lexer_state
 	int					i;
 	int					y;
 	int					j;
+	int					*group;
 	int					in_quotes;
+	int					quote_type;
+	int					start_quote;
+	int					end_quote;
+	int					in_qdollas;
 	char				**split_line;
 }						t_lexer_state;
 
@@ -85,8 +90,8 @@ typedef struct s_parse
 
 typedef struct s_minishell
 {
-	t_envs		*envs;
-	char		**split_line;
+	t_envs				*envs;
+	char				**split_line;
 	int					st_in;
 	int					st_out;
 	char				*arg;
@@ -115,6 +120,9 @@ int						handle_special_chars(char *line, t_lexer_state *st);
 int						handle_spaces(char *line, t_lexer_state *state);
 int						handle_expansion(char *line, t_lexer_state *state,
 							t_envs *envs);
+void					double_quotes_expand(char *line, t_lexer_state *state,
+							t_envs *envs);
+int						handle_end_of_line(char *line, t_lexer_state *state);
 int						get_firstq_pos(char *line);
 int						get_q_type(char *line, int pos);
 int						closed_quotes(char *line);
@@ -160,7 +168,8 @@ void					append_value(t_envs *envs, char *var, int eq_pos);
 char					*validate_var(char *var, char *entry);
 t_entry					*find_entry(t_entry *lst, char *to_find);
 t_entry					*find_entryprev(t_entry *lst, char *to_find);
-char					*ft_expand(char c, int *i, char *line, t_envs *envs);
+char					*ft_expand(char *line, t_lexer_state *state,
+							t_envs *envs);
 t_entry					*swap(t_entry *ptr1, t_entry *ptr2);
 void					sort_alpha_ll(t_entry **head, int count);
 t_entry					*lastentry(t_entry *lst);

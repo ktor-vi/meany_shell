@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:47:24 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/29 11:07:27 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/30 15:04:16 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*envs_search(t_envs *envs, char *to_find)
 		}
 		entry = entry->next;
 	}
-	return (NULL);
+	return ("");
 }
 
 t_entry	*newentry(char *var)

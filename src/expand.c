@@ -51,31 +51,30 @@ char	*ft_copy(char *line, int **i)
 	return (true_line);
 }
 
-char	*ft_expand(char c, int *i, char *line, t_envs *envs)
+char	*ft_expand(char *line, t_lexer_state *state, t_envs *envs)
 {
-	int		diff;
 	int		length;
 	char	*true_line;
+	int start 	;
+	int end;
 	char	*res;
 
-	diff = 0;
-	if (c == '$')
+	if(line[state->i] == '$')
 	{
-		*i += 1;
-		true_line = ft_copy(line, &i);
+		start = ++state->i;
+		end = start;
+		while(line[end] && (line[end] != '"' && !isspace(line[end]) && !isspecial(line[end])))
+			end++;
+		ft_printf(1, "\nline: [%s]\n", line);
+		true_line = ft_strndup(line, start, end);
+		ft_printf(1, "\ntrueline: [%s]\n", true_line);
 		if (!true_line)
 			return (0);
-		res = getenv(true_line);
+		res = envs_search(envs, true_line);
+		state->i = end ;
 		if (res)
-		{
-			free(true_line);
-			true_line = ft_strdup(res);
-			return (true_line);
-		}
-		else
-			return (ft_strdup(envs_search(envs, true_line)));
-		free(true_line);
+			return (res);
 	}
-	else
-		return (NULL);
+	return (NULL);
 }
+
