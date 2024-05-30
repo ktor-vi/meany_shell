@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:45:22 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/29 12:48:22 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/30 17:10:35 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ char	*ft_strndup(char *str, int start, int end)
 
 	if (start >= end)
 		return (NULL);
+	i = -1;
 	len = end - start;
 	s = malloc((len + 1) * sizeof(char));
 	if (!s)
@@ -30,7 +31,7 @@ char	*ft_strndup(char *str, int start, int end)
 	while(++i < len)
 		s[i] = str[start + i];
 	s[len] = '\0';
-	printf("ft_strndup: Created substring '%s' from indices [%d, %d]\n", s,
+	ft_printf(1, "ft_strndup: Created substring '%s' from indices [%d, %d]\n", s,
 		start, end);
 	return (s);
 }
@@ -73,7 +74,7 @@ int	handle_end_of_line(char *line, t_lexer_state *state)
 	{
 		state->split_line[state->j] = ft_strndup(line, state->y, state->i + 1);
 		state->split_line[state->j + 1] = NULL;
-		printf("handle_end_of_line: Added end of line substring, j=%d, i=%d,\
+		ft_printf(1, "handle_end_of_line: Added end of line substring, j=%d, i=%d,\
 			y=%d\n",
 				state->j,
 				state->i,
@@ -94,6 +95,7 @@ char	**lexer(char *line, t_envs *envs)
 	state.split_line = ft_calloc(4096, sizeof(char));
 	while (line[++state.i])
 	{
+		ft_printf(1, "%c\n", line[state.i]);
 		handle_quotes(line, &state);
 		if (handle_special_chars(line, &state) < 0)
 			return (NULL);
