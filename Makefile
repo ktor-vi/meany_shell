@@ -37,15 +37,17 @@ SRC =  src/n_main.c                   \
 	src/syntax_errors.c             \
 
 
-INC = -Iincludes/minishell.h  -I ~/.brew/opt/readline/include
+INC = -I includes  -I ~/.brew/opt/readline/include
 
-CC = cc -g -fsanitize=address
+CC = cc -g
 
-FLAGS = # -Wall -Wextra -Werror 
+FLAGS =  -fsanitize=address\
+        -lreadline -L/opt/homebrew/opt/readline/lib  \
+        -I/opt/homebrew/opt/readline/include
 
 LIBFT_LIBRARY_DIR = bigft  # Descriptive variable name
 
-LIBS =   bigft/libft.a -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -lreadline
+LIBS =   bigft/libft.a -lreadline
 
 
 OBJS := $(patsubst src/%.c, objs/%.o, ${SRC})
@@ -84,7 +86,7 @@ bonus: nothing $(BONUS)
 re: fclean all
 
 objs/%.o:    src/%.c
-	@$(CC) $(FLAGS) $(INC)  -o $@ -c $< 
+	@$(CC) $(FLAGS) $(INC) -o $@ -c $<
 	@$(call progress_bar)
 
 
@@ -103,7 +105,7 @@ fclean: clean
 $(NAME): $(OBJS)
 	@echo "$(YELLOW)Done!$(CLR_RMV)"
 	@make  -C $(LIBFT_LIBRARY_DIR)
-	@$(CC) $(FLAGS) $(LIBS) $(OBJS)  -o $@
+	@$(CC) $(FLAGS) $(OBJS) $(LIBS)  -o $@
 	@$(call print_completion)
 
 nothing:
@@ -111,3 +113,4 @@ nothing:
 		echo "$(CYAN)Nothing has been updated.$(CLR_RMV)"; \
 		fi
 .PHONY: all re clean fclean nothing nothingb bonus
+

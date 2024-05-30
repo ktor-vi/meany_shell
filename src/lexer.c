@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:45:22 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/30 16:00:49 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/30 16:07:33 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ char	*ft_strndup(char *str, int start, int end)
 	i = -1;
 	if (start >= end)
 		return (NULL);
+	i = -1;
 	len = end - start;
 	s = malloc((len + 1) * sizeof(char));
 	if (!s)
@@ -93,6 +94,7 @@ char	**lexer(char *line, t_envs *envs)
 	state.split_line = ft_calloc(4096 * 4, sizeof(char));
 	while (line[++state.i])
 	{
+		ft_printf(1, "%c\n", line[state.i]);
 		handle_quotes(line, &state);
 		if (handle_special_chars(line, &state) < 0)
 			return (NULL);
