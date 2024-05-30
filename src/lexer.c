@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:45:22 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/30 14:55:38 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/30 16:00:49 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,9 @@ char	*ft_strndup(char *str, int start, int end)
 	s = malloc((len + 1) * sizeof(char));
 	if (!s)
 		return (NULL);
-	while(++i < len)
+	while (++i < len)
 		s[i] = str[start + i];
 	s[len] = '\0';
-	printf("ft_strndup: Created substring '%s' from indices [%d, %d]\n", s,
-		start, end);
 	return (s);
 }
 
@@ -74,11 +72,6 @@ int	handle_end_of_line(char *line, t_lexer_state *state)
 	{
 		state->split_line[state->j] = ft_strndup(line, state->y, state->i + 1);
 		state->split_line[state->j + 1] = NULL;
-		printf("handle_end_of_line: Added end of line substring, j=%d, i=%d,\
-			y=%d\n",
-				state->j,
-				state->i,
-				state->y);
 		return (-1);
 	}
 	return (0);

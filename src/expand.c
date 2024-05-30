@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:43:02 by randre            #+#    #+#             */
-/*   Updated: 2024/05/27 14:01:12 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/30 16:02:25 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,26 +55,24 @@ char	*ft_expand(char *line, t_lexer_state *state, t_envs *envs)
 {
 	int		length;
 	char	*true_line;
-	int start 	;
-	int end;
+	int		start;
+	int		end;
 	char	*res;
 
-	if(line[state->i] == '$')
+	if (line[state->i] == '$')
 	{
 		start = ++state->i;
 		end = start;
-		while(line[end] && (line[end] != '"' && !isspace(line[end]) && !isspecial(line[end])))
+		while (line[end] && (line[end] != '"' && !isspace(line[end])
+				&& !isspecial(line[end])))
 			end++;
-		ft_printf(1, "\nline: [%s]\n", line);
 		true_line = ft_strndup(line, start, end);
-		ft_printf(1, "\ntrueline: [%s]\n", true_line);
 		if (!true_line)
 			return (0);
 		res = envs_search(envs, true_line);
-		state->i = end ;
+		state->i = end;
 		if (res)
 			return (res);
 	}
 	return (NULL);
 }
-

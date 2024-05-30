@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:00:33 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/30 15:05:53 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/30 16:04:10 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,26 @@ void	handle_quotes(char *line, t_lexer_state *st)
 {
 	if ((line[st->i] == '"' || line[st->i] == 39))
 	{
-		if (st->in_quotes == 1 && line[st->i] == '"' && st->quote_type == 1) 
+		if (st->in_quotes == 1 && line[st->i] == '"' && st->quote_type == 1)
 			st->end_quote = st->i;
-		else if (st->in_quotes == 0 && line[st->i] == '"' && st->quote_type == 0)
+		else if (st->in_quotes == 0 && line[st->i] == '"'
+			&& st->quote_type == 0)
 			st->start_quote = st->i;
-		else if (st->in_quotes == 2 && line[st->i] == 39 && st->quote_type == 2) 
+		else if (st->in_quotes == 2 && line[st->i] == 39 && st->quote_type == 2)
 			st->end_quote = st->i;
-		else if (st->in_quotes == 0 && line[st->i] == 39 && st->quote_type == 0) 
+		else if (st->in_quotes == 0 && line[st->i] == 39 && st->quote_type == 0)
 			st->start_quote = st->i;
 		verify_quotes(line, st->i, &st->in_quotes);
-		if(st->end_quote == -1 && st->start_quote >= 0)
+		if (st->end_quote == -1 && st->start_quote >= 0)
 		{
 			st->quote_type = st->in_quotes;
-		st->group[0] = st->j;
+			st->group[0] = st->j;
 		}
-		else if(st->end_quote > 0 && line[st->i] == st->end_quote)
+		else if (st->end_quote > 0 && line[st->i] == st->end_quote)
 		{
 			st->quote_type = 0;
-		st->group[1] = st->j;
+			st->group[1] = st->j;
 		}
-		printf("handle_quotes: quote_type: %d - in_quotes st updated to %d at indexes [%d:%d]\n",
- st->quote_type , st->in_quotes, st->start_quote, st->end_quote);
 	}
 }
 
@@ -94,27 +93,33 @@ int	handle_spaces(char *line, t_lexer_state *state)
 	return (0);
 }
 
-void double_quotes_expand(char *line, t_lexer_state *state, t_envs *envs)
+void	double_quotes_expand(char *line, t_lexer_state *state, t_envs *envs)
 {
-	int i = 0;
-	int j = 0;
-	while(state->in_quotes == 1 && !state->in_qdollas && j < state->i && line[state->i - j - 1] != '"')
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (state->in_quotes == 1 && !state->in_qdollas && j < state->i
+		&& line[state->i - j - 1] != '"')
 		j++;
-	if(j)
-		state->split_line[state->j++] = ft_strndup(line, state->i - j, state->i - 1);
+	if (j)
+		state->split_line[state->j++] = ft_strndup(line, state->i - j, state->i
+				- 1);
 	state->split_line[state->j] = ft_expand(line, state, envs);
-	if(state->split_line[state->j])
+	if (state->split_line[state->j])
 		state->j++;
-	while(ft_isspace(line[state->i]))
-			state->i++;
-	while(state->in_quotes == 1 && !state->in_qdollas && line[state->i + i] != '$' && line[state->i + i] != '"')
+	while (ft_isspace(line[state->i]))
+		state->i++;
+	while (state->in_quotes == 1 && !state->in_qdollas && line[state->i
+			+ i] != '$' && line[state->i + i] != '"')
 		i++;
-	if(i)
+	if (i)
 	{
 		state->in_qdollas = 1;
-		state->split_line[state->j++] = ft_strndup(line, state->i, state->i + i - 1);
+		state->split_line[state->j++] = ft_strndup(line, state->i, state->i + i);
 	}
-	else if(line[state->i + i] == '"')
+	else if (line[state->i + i] == '"')
 		state->in_qdollas = 0;
 	state->y = state->i;
 }
