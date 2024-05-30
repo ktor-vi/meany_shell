@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:17 by randre            #+#    #+#             */
-/*   Updated: 2024/05/29 12:43:47 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/30 17:34:04 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int	main(int argc, char **argv, char **envp)
 	t_envs		*envs;
 	t_minishell	*minishell;
 
+	line = NULL;
+	minishell = NULL;
 	envs = init(argc, argv, envp, line);
 	while (true)
 	{
@@ -64,7 +66,6 @@ int	main(int argc, char **argv, char **envp)
 		{
 			add_history(line);
 			split_line = lexer(line, envs);
-			printtab(split_line);
 			if (split_line)
 				exec_cmd(minishell, split_line, envs);
 		}

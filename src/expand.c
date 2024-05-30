@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:43:02 by randre            #+#    #+#             */
-/*   Updated: 2024/05/30 16:02:25 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/05/30 17:05:48 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ char	*ft_copy(char *line, int **i)
 
 char	*ft_expand(char *line, t_lexer_state *state, t_envs *envs)
 {
-	int		length;
 	char	*true_line;
 	int		start;
 	int		end;

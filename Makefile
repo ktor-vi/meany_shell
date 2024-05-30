@@ -41,13 +41,11 @@ INC = -I includes  -I ~/.brew/opt/readline/include
 
 CC = cc -g
 
-FLAGS =  -fsanitize=address\
-        -lreadline -L/opt/homebrew/opt/readline/lib  \
-        -I/opt/homebrew/opt/readline/include
+FLAGS =  -fsanitize=address #-Wall -Wextra -Werror 
 
 LIBFT_LIBRARY_DIR = bigft  # Descriptive variable name
 
-LIBS =   bigft/libft.a -lreadline
+LIBS =   bigft/libft.a -lreadline -L ~/.brew/opt/readline/lib  \
 
 
 OBJS := $(patsubst src/%.c, objs/%.o, ${SRC})
