@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:43:02 by randre            #+#    #+#             */
-/*   Updated: 2024/05/30 17:05:48 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/03 19:15:18 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*ft_expand(char *line, t_lexer_state *state, t_envs *envs)
 		start = ++state->i;
 		end = start;
 		while (line[end] && (line[end] != '"' && !isspace(line[end])
-				&& !isspecial(line[end])))
+				&& !ft_isspecial(line[end])))
 			end++;
 		true_line = ft_strndup(line, start, end);
 		if (!true_line)
