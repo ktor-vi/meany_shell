@@ -1,51 +1,43 @@
-NAME = minishell
+
+
+# NAME y
+= minishell
 BONUS = meanyshell
 
-SRC =  src/n_main.c                   \
-	src/signals.c					\
-                                    \
-	src/build_envs.c                \
-	src/lexer.c                     \
-	src/lexer_handlers.c			\
-	src/lexer_utils.c				\
-	src/expand.c                    \
-	src/quotes.c                    \
-	src/populate.c                  \
-	src/post-parse.c                \
-                                    \
-	src/piping.c                    \
-		                            \
-	src/heredoc.c                 	\
-	src/envs_commands.c             \
-	src/export_unset.c              \
-	src/check_command.c             \
-	src/cd_command.c                \
-	src/pwd_command.c               \
-	src/echo_command.c              \
-                                    \
-	src/env_utils.c                 \
-	src/env_mem.c                   \
-	src/tok_utils.c                 \
-	src/quotes_utils.c              \
-	src/cmd_utils.c                 \
-	src/exec_utils.c                \
-	src/exec_helpers.c              \
-	src/exp_uns_utils.c              \
-	src/misc_utils.c                \
-	                                \
-	src/exec_errors.c               \
-	src/syntax_errors.c             \
+SRC =  src/main.c \
+	src/utils.c \
+	src/check_command.c \
+	src/new_echo.c \
+	src/envs_commands.c \
+	src/build_envs.c \
+	src/export_unset.c \
+	src/env_utils.c \
+	src/env_mem.c \
+	src/exec_utils.c \
+	src/exec_helpers.c \
+	src/cd_command.c \
+	src/pwd_command.c \
+	src/populate.c \
+	src/lexer.c \
+	src/piping.c \
+	src/expand.c \
+	src/synthax_errors.c \
+	src/heredoc.c \
 
 
-INC = -I includes  -I/opt/homebrew/opt/readline/include
+INC = -I includes  -I ~/.brew/opt/readline/include
 
-CC = cc -g
+CC = cc -g -fsanitize=address
 
-FLAGS =  -fsanitize=address #-Wall -Wextra -Werror 
+FLAGS = # -Wall -Wextra -Werror 
 
+FLAGS =  \
+        -lreadline -L/opt/homebrew/opt/readline/lib  \
+        -I/opt/homebrew/opt/readline/include
 LIBFT_LIBRARY_DIR = bigft  # Descriptive variable name
 
-LIBS =   bigft/libft.a -lreadline -L/opt/homebrew/opt/readline/lib
+LIBS =   bigft/libft.a -L ~/.brew/opt/readline/lib -I ~/.brew/opt/readline/include -lreadline
+
 
 OBJS := $(patsubst src/%.c, objs/%.o, ${SRC})
 BONUS_OBJS := $(BONUS_SRCS:.c=.o)
@@ -83,7 +75,7 @@ bonus: nothing $(BONUS)
 re: fclean all
 
 objs/%.o:    src/%.c
-	@$(CC) $(FLAGS) $(INC) -o $@ -c $<
+	@$(CC) $(FLAGS) $(INC) -o $@ -c $< 
 	@$(call progress_bar)
 
 
@@ -98,11 +90,10 @@ fclean: clean
 	@ echo "$(GREEN)Deleting $(YELLOW)bigft $(CLR_RMV)binary ✔️"
 	@rm -rf $(NAME)
 	@echo "$(GREEN)Deleting $(YELLOW)$(NAME)$(CLR_RMV) binary ✔️"
-
-$(NAME): $(OBJS)
+GGGGGGGGGGG): $(OBJS)
 	@echo "$(YELLOW)Done!$(CLR_RMV)"
 	@make  -C $(LIBFT_LIBRARY_DIR)
-	@$(CC) $(FLAGS) $(OBJS) $(LIBS)  -o $@
+	@$(CC) $(FLAGS) $(LIBS) $(OBJS) bigft/libft.a -o $@
 	@$(call print_completion)
 
 nothing:
@@ -110,4 +101,3 @@ nothing:
 		echo "$(CYAN)Nothing has been updated.$(CLR_RMV)"; \
 		fi
 .PHONY: all re clean fclean nothing nothingb bonus
-
