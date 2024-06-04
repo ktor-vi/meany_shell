@@ -71,3 +71,9 @@ void	reset_line(char *line)
 	free(line);
 	line = NULL;
 }
+
+void preserve_st(int *st)
+{
+	st[0] = dup(STDIN_FILENO);
+	st[1] = dup(STDOUT_FILENO);
+}

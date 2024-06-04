@@ -119,9 +119,9 @@ void					post_special_increment(char *line, t_lexer_state *st);
 int						handle_special_chars(char *line, t_lexer_state *st);
 int						handle_spaces(char *line, t_lexer_state *state);
 int						handle_expansion(char *line, t_lexer_state *state,
-							t_envs *envs);
+													t_envs *envs);
 void					double_quotes_expand(char *line, t_lexer_state *state,
-							t_envs *envs);
+															t_envs *envs);
 int						handle_end_of_line(char *line, t_lexer_state *state);
 int						get_firstq_pos(char *line);
 int						get_q_type(char *line, int pos);
@@ -169,7 +169,7 @@ char					*validate_var(char *var, char *entry);
 t_entry					*find_entry(t_entry *lst, char *to_find);
 t_entry					*find_entryprev(t_entry *lst, char *to_find);
 char					*ft_expand(char *line, t_lexer_state *state,
-							t_envs *envs);
+										t_envs *envs);
 t_entry					*swap(t_entry *ptr1, t_entry *ptr2);
 void					sort_alpha_ll(t_entry **head, int count);
 t_entry					*lastentry(t_entry *lst);
@@ -189,9 +189,10 @@ void					handle_dup2(int oldfd, int newfd);
 void					handle_execve(t_command *h, t_envs *envs);
 void					ft_here_doc_last(t_command *h, t_envs *envs);
 void					ft_here_doc_piped(t_command *h, t_envs *envs,
-							int *pfds);
+													 int *pfds);
 void					here_doc(t_command *h, t_envs *envs, int *st);
 // EXEC UTILS
+void 	preserve_st(int *st);
 char					*get_cmdpath(char *cmd, t_entry *envp);
 // EXEC HELPERS
 void					pipe_error(void);
@@ -206,5 +207,5 @@ void					handle_sigint2(int sig);
 void					handle_sigquit(int sig);
 // ERRORS
 int						ft_error(int code, char **split_line, char *line,
-							int i);
+int i);
 #endif
