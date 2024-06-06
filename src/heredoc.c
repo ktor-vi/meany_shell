@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:10:42 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/27 14:10:43 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/06 12:49:21 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	ft_here_doc_last(t_command *h, t_envs *envs)
 	char	*line;
 	int		pid;
 	int		pfds[2];
+	int		status;
 
 	line = NULL;
 	if (pipe(pfds) == -1)
@@ -41,7 +42,8 @@ void	ft_here_doc_last(t_command *h, t_envs *envs)
 	else
 	{
 		close(pfds[1]);
-		wait(NULL);
+		wait(&status);
+		g_exit_codes = WEXITSTATUS(status);
 		if (dup2(pfds[0], STDIN_FILENO) == -1)
 		{
 			perror("dup2() error");
@@ -55,6 +57,7 @@ void	ft_here_doc_piped(t_command *h, t_envs *envs, int *pfds)
 {
 	char	*line;
 	int		pid;
+	int		status;
 
 	line = NULL;
 	if (pipe(pfds) == -1)
@@ -82,7 +85,8 @@ void	ft_here_doc_piped(t_command *h, t_envs *envs, int *pfds)
 			perror("dup2() error");
 			exit(EXIT_FAILURE);
 		}
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &status, 0);
 		execve(h->path, h->args, ll_to_tab(envs->env));
+		g_exit_codes = WEXITSTATUS(status);
 	}
 }

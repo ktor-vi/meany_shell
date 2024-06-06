@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_errors.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 13:35:50 by randre            #+#    #+#             */
-/*   Updated: 2024/05/29 09:28:51 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/06 13:15:45 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	ft_error(int code, char **split_line, char *line, int i)
 		ft_printf(STDERR_FILENO,
 			"minishell: Parsing error: unexpected token '%c'\n", line[i]);
 		ft_free_tab(split_line);
+		g_exit_codes = 2;
 	}
 	return (code);
 }

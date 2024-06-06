@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/05/30 14:49:19 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:47:04 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ typedef struct s_minishell
 	int					envp;
 }						t_minishell;
 
-// int						g_exit_codes[2];
+extern int						g_exit_codes;
 
 // ENV & EXPORT
 void					printtab(char **exp);

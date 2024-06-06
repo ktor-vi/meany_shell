@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:12:22 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/27 14:20:18 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/06 12:58:15 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 {
 	pid_t	child_pid;
 	int		st[2];
+	int		status;
 
 	preserve_st(st);
 	child_pid = fork();
@@ -69,7 +70,8 @@ void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 		exit(EXIT_FAILURE);
 	}
 	else
-		waitpid(child_pid, NULL, 0);
+		waitpid(child_pid, &status, 0);
+	g_exit_codes = WEXITSTATUS(status);
 }
 
 void	execute_last_command(t_command *h, int prev_pipe, t_envs *envs)
@@ -77,8 +79,16 @@ void	execute_last_command(t_command *h, int prev_pipe, t_envs *envs)
 	pid_t	last_child_pid;
 	int		pfds[2];
 	int		st[2];
+	int		exit_code;
+	int		status;
 
 	preserve_st(st);
+	if (!h->path)
+	{
+		g_exit_codes = 127;
+		ft_printf(STDERR_FILENO, "minishell: %s: command not found\n", h->args[0]);
+		return;
+	}
 	last_child_pid = fork();
 	if (last_child_pid == -1)
 		forkfail_error();
@@ -92,12 +102,14 @@ void	execute_last_command(t_command *h, int prev_pipe, t_envs *envs)
 			here_doc(h, envs, st);
 		else
 			handle_execve(h, envs);
+		ft_printf(1, "CODE : %d\n", exit_code);
 		close(prev_pipe);
 		exit(EXIT_FAILURE);
 	}
 	else
 		close(prev_pipe);
-	waitpid(last_child_pid, NULL, 0);
+	waitpid(last_child_pid, &status, 0);
+	g_exit_codes = WEXITSTATUS(status);
 }
 
 void	execute_builtin(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)

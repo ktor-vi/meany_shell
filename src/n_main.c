@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   n_main.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:17 by randre            #+#    #+#             */
-/*   Updated: 2024/05/30 17:34:04 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/06 13:28:11 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-int		g_exit_codes[2];
+int g_exit_codes;
 
 t_envs	*init(int argc, char **argv, char **envp, char *line)
 {

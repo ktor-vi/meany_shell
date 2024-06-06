@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_helpers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 14:17:43 by ktorvi            #+#    #+#             */
-/*   Updated: 2024/05/27 14:13:03 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/06 12:24:01 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	handle_dup2(int oldfd, int newfd)
 void	handle_execve(t_command *h, t_envs *envs)
 {
 	execve(h->path, h->args, ll_to_tab(envs->env));
-	if (errno == EFAULT)
+	if (errno == EFAULT || errno == 2)
 		ft_printf(STDERR_FILENO, "%s: command not found\n", h->args[0]);
 	else
 		perror("execve failed");

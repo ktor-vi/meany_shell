@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 00:56:33 by randre            #+#    #+#             */
-/*   Updated: 2024/05/27 14:14:12 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/06 13:19:02 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,5 @@ void	echo_command(char **split_line, t_command *cmd)
 		print_echo(cmd, 2, 0, split_line);
 	else
 		print_echo(cmd, 1, 1, split_line);
+	g_exit_codes = 0;
 }

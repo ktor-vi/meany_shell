@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 13:31:50 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/03/12 13:02:39 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:50:34 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ size_t	ft_strlen(char *str)
 	if (!str)
 		return (0);
 	i = 0;
-	while (str[i] != '\0')
+	while (str[i])
 	{
 		i++;
 	}

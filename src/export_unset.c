@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_unset.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:46:42 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/29 12:46:07 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/06 13:27:58 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	export_cmd(t_envs *envs, char **vars)
 			return ;
 	}
 	sort_alpha_ll(&envs->exp, ll_size(envs->exp));
+	g_exit_codes = 0;
 }
 
 void	unset_cmd(t_envs *envs, char *var)
@@ -78,7 +79,7 @@ void	unset_cmd(t_envs *envs, char *var)
 	if (!exp)
 		return ;
 	else if (getchindex(var, '=') > 0)
-		printf("unset: `%s': not a valid identifier\n", var);
+		ft_printf(STDOUT_FILENO, "unset: `%s': not a valid identifier\n", var);
 	else
 	{
 		if (env)
@@ -88,5 +89,6 @@ void	unset_cmd(t_envs *envs, char *var)
 		envs->exp_ct--;
 		if (envs->exp_ct == 0)
 			envs->exp = NULL;
+		g_exit_codes = 0;
 	}
 }

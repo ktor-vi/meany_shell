@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:45:36 by randre            #+#    #+#             */
-/*   Updated: 2024/05/27 14:05:26 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/06 13:21:17 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	handle_builtins(t_command *cmd, t_envs *envs)
 			if (cmd->args[1] && !ft_equalstr(cmd->args[1], ">"))
 			{
 				write(1, "no arguments supported\n", 14);
+				g_exit_codes = 2;
 				return (1);
 			}
 			printenv(envs->env, cmd);
