@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:17 by randre            #+#    #+#             */
-/*   Updated: 2024/06/06 13:40:52 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/06 13:42:40 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	main(int argc, char **argv, char **envp)
 	line = NULL;
 	minishell = NULL;
 	envs = init(argc, argv, envp, line);
-	g_exit_code = 0;
+	g_exit_codes = 0;
 	while (true)
 	{
 		signal(SIGINT, handle_sigint);
