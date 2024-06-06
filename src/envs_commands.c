@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envs_commands.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:49:03 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/29 11:07:35 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/06 13:33:04 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ void	printtab(char **exp)
 	i = 0;
 	while (exp[i])
 	{
-		printf("%s\n", exp[i]);
+		ft_printf(STDOUT_FILENO, "%s\n", exp[i]);
 		i++;
 	}
-	printf("\n");
+	ft_printf(STDOUT_FILENO, "\n");
 }
 
 int	ll_size(t_entry *env)

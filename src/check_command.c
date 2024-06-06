@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:45:36 by randre            #+#    #+#             */
-/*   Updated: 2024/06/06 13:21:17 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/06 13:32:34 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	handle_builtins(t_command *cmd, t_envs *envs)
 		else if (ft_equalstr(cmd->args[0], "pwd"))
 			pwd_command(cmd);
 		else if (ft_equalstr(cmd->args[0], "exit"))
-			printf("exit\n");
+			ft_printf(STDOUT_FILENO, "exit\n");
 		else
 			return (0);
 		cmd = cmd->next;

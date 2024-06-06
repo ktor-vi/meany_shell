@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:43:02 by randre            #+#    #+#             */
-/*   Updated: 2024/06/06 13:06:45 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/06 13:33:51 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	ft_bfrspace(char *line, int i)
 	y = 0;
 	if (!line)
 		return (0);
-	while (line[i] && !isspace(line[i]) && line[i] != 39 && line[i] != '"')
+	while (line[i] && !ft_isspace(line[i]) && line[i] != 39 && line[i] != '"')
 	{
 		y++;
 		i++;
@@ -79,7 +79,7 @@ char	*ft_expand(char *line, t_lexer_state *state, t_envs *envs)
 	{
 		start = ++state->i;
 		end = start;
-		while (line[end] && (line[end] != '"' && !isspace(line[end])
+		while (line[end] && (line[end] != '"' && !ft_isspace(line[end])
 				&& !ft_isspecial(line[end])))
 			end++;
 		true_line = ft_strndup(line, start, end);

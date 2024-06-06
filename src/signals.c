@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:15:11 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/29 12:44:42 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/06 13:33:18 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	handle_sigint(int sig)
 {
 	if (sig == SIGINT)
 	{
-		printf("\n");
+		ft_printf(STDOUT_FILENO, "\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
