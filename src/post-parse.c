@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:17:57 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/06 12:38:32 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/06 14:40:18 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ t_command	*alloc_command(char **split_line, int pos, int fd)
 	new->arg = malloc(new->args_ct * sizeof(t_args *));
 	new->args = ft_calloc((new->args_ct), sizeof(char *));
 	new->to_pipe = 0;
+	new->eof = NULL;
 	new->heredoc = 0;
-	new->next_tok = NULL;
 	return (new);
 }
 

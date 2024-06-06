@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:17 by randre            #+#    #+#             */
-/*   Updated: 2024/06/06 13:52:35 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/06 14:31:23 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	exec_cmd(t_minishell *minishell, char **split_line, t_envs *envs)
 	dup2(minishell->st_in, STDIN_FILENO);
 	free_tab(split_line);
 	close(minishell->st_in);
+	clean_minishell(minishell);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -54,7 +55,6 @@ int	main(int argc, char **argv, char **envp)
 	t_minishell	*minishell;
 
 	line = NULL;
-	minishell = NULL;
 	envs = init(argc, argv, envp, line);
 	g_exit_codes = 0;
 	while (true)
@@ -69,7 +69,6 @@ int	main(int argc, char **argv, char **envp)
 			split_line = lexer(line, envs);
 			if (split_line)
 				exec_cmd(minishell, split_line, envs);
-			clean_minishell(minishell);
 		}
 		reset(line);
 	}

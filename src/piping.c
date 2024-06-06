@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:12:22 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/06 12:58:15 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/06 13:59:48 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ void	execute_last_command(t_command *h, int prev_pipe, t_envs *envs)
 			here_doc(h, envs, st);
 		else
 			handle_execve(h, envs);
-		ft_printf(1, "CODE : %d\n", exit_code);
 		close(prev_pipe);
 		exit(EXIT_FAILURE);
 	}

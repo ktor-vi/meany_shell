@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/06/06 13:57:01 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/06 14:39:42 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ typedef struct s_envs
 
 typedef struct s_arg
 {
-	char				*line;
 	int					in_quotes;
 }						t_args;
 
@@ -75,9 +74,7 @@ typedef struct s_command
 	int					heredoc;
 	int					to_pipe;
 	char				*eof;
-	char				*next_tok;
 	int					end;
-	int					exit_code;
 	struct s_command	*next;
 	struct s_command	*prev;
 }						t_command;

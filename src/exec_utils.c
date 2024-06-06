@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:46:58 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/06 12:53:40 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/06 14:45:53 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,11 @@ char	*get_cmdpath(char *cmd, t_entry *envp)
 		t_path = ft_strjoin(paths[i], "/");
 		temp_env = ft_strjoin(t_path, cmd);
 		if (access(temp_env, X_OK) == 0)
+		{
+			free_tab(paths);
+			free(path);	
 			return (temp_env);
+		}
 		free(temp_env);
 		i++;
 	}
