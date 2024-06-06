@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/06/06 11:47:04 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/06 13:57:01 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,23 +82,12 @@ typedef struct s_command
 	struct s_command	*prev;
 }						t_command;
 
-typedef struct s_parse
-{
-	char				**tokens;
-	int					tokens_ct;
-}						t_parse;
 
 typedef struct s_minishell
 {
-	t_envs				*envs;
-	char				**split_line;
 	int					st_in;
 	int					st_out;
-	char				*arg;
 	t_command			*cmd;
-	int					n_pipes;
-	t_parse				*parsed;
-	int					envp;
 }						t_minishell;
 
 extern int						g_exit_codes;
@@ -208,4 +197,7 @@ void					handle_sigquit(int sig);
 // ERRORS
 int						ft_error(int code, char **split_line, char *line,
 int i);
+
+// FINAL CLEAN
+void					clean_minishell(t_minishell *minishell);
 #endif

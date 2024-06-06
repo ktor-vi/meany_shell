@@ -35,6 +35,7 @@ SRC =  src/n_main.c                   \
 	                                \
 	src/exec_errors.c               \
 	src/syntax_errors.c             \
+	src/clean.c
 
 
 INC = -I includes  -I/opt/homebrew/opt/readline/include
