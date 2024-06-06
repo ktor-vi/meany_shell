@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:46:42 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/06 13:27:58 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/06 13:41:39 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,10 @@ void	unset_cmd(t_envs *envs, char *var)
 	if (!exp)
 		return ;
 	else if (getchindex(var, '=') > 0)
+	{
 		ft_printf(STDOUT_FILENO, "unset: `%s': not a valid identifier\n", var);
+		g_exit_codes = 1;
+	}
 	else
 	{
 		if (env)
