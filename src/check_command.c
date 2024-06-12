@@ -85,7 +85,7 @@ int	handle_builtins(t_command *cmd, t_envs *envs)
 		else if (ft_equalstr(cmd->args[0], "pwd"))
 			pwd_command(cmd);
 		else if (ft_equalstr(cmd->args[0], "exit"))
-			kb_quit();
+			kb_quit(envs);
 		else
 			return (0);
 		cmd = cmd->next;

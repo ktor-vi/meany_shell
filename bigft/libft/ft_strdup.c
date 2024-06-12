@@ -28,15 +28,17 @@ char	*ft_strdup(const char *s1)
 {
 	char	*dest;
 	int		len;
+	int 	i;
 
+	i = 0;
 	len = ft_strlen(s1);
 	dest = malloc(len + 1);
 	if (dest == NULL)
 		return (NULL);
-	while (len >= 0)
+	while (i < len)
 	{
-		dest[len] = s1[len];
-		len--;
+		dest[i] = s1[i];
+		i++;
 	}
 	dest[len] = '\0';
 	return (dest);

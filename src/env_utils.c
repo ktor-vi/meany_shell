@@ -47,7 +47,7 @@ t_entry	*newentry(char *var)
 	name = ft_substr(var, 0, eq_pos - offset);
 	new->name = name;
 	if(eq_pos > 0)
-		new->value = ft_substr(var, eq_pos + 1, ft_strlen(var) - eq_pos - 1);
+		new->value = ft_substr(var, eq_pos + 1, ft_strlen(var) - eq_pos);
 	else
 		new->value = NULL;
 	new->prev = NULL;

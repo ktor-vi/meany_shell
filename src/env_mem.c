@@ -32,8 +32,8 @@ void	free_envs(t_envs **envs)
 		free(tmp->value);
 		free(tmp);
 	}
-	(*envs)->exp = NULL;
-	(*envs)->env = NULL;
+	free((*envs)->exp);
+	free((*envs)->env);
 }
 
 void	free_entry(t_entry *entry)

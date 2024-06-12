@@ -80,7 +80,7 @@ t_envs	*build_envs(char **envp)
 	envs->exp = NULL;
 	if (!envp[i])
 		empty_envs(envs);
-	while (envp[i])
+	while (envp[i] != NULL)
 	{
 		if (ft_strncmp(envp[i], "OLDPWD", 6) == 0)
 		{
