@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:37:27 by randre            #+#    #+#             */
-/*   Updated: 2024/06/12 15:03:34 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/12 17:51:52 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static void	clean_command(t_command *cmd)
 			free(cmd->args[i]);
 		free(cmd->args);
 	}
+	if (cmd->fd != STDOUT_FILENO)
+		close(cmd->fd);
 }
 
 void	clean_minishell(t_minishell *minishell)

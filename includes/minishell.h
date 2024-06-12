@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/06/12 17:03:12 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/12 17:30:41 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void					ft_cmd_addb(t_minishell **mini, t_command *new);
 int						calc_offset(char **split_line, int pos);
 t_command				*build_command(char **split_line, int pos, int fd);
 t_command				*alloc_command(char **split_line, int pos, int fd);
-int						redirect_handle(char **split_line, int j);
+int						redirect_handle(char **split_line, int j, int code);
 void					assign_here_doc(t_command *h, char **split_line, int i);
 t_minishell				*populate_cmds(char **split_line, t_envs *envs);
 void					post_parse(t_minishell *minishell, t_envs *envs);

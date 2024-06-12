@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:17:57 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/06 14:40:18 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/12 17:31:45 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,9 @@ t_minishell	*populate_cmds(char **split_line, t_envs *envs)
 			continue ;
 		}
 		if (ft_equalstr(split_line[pos], ">"))
-			fd = redirect_handle(split_line, pos);
+			fd = redirect_handle(split_line, pos, O_WRONLY);
+		else if (ft_equalstr(split_line[pos], ">>"))
+			fd = redirect_handle(split_line, pos, O_APPEND);
 		ft_cmd_addb(&minishell, build_command(split_line, cmd_pos, fd));
 		pos += 2;
 	}
