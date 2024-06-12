@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:12:22 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/06 13:59:48 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/12 15:34:35 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,9 @@ void	execute_last_command(t_command *h, int prev_pipe, t_envs *envs)
 	if (!h->path)
 	{
 		g_exit_codes = 127;
-		ft_printf(STDERR_FILENO, "minishell: %s: command not found\n", h->args[0]);
-		return;
+		ft_printf(STDERR_FILENO, "minishell: %s: command not found\n",
+			h->args[0]);
+		return ;
 	}
 	last_child_pid = fork();
 	if (last_child_pid == -1)

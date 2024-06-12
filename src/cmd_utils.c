@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:05:35 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/06 13:32:43 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/12 15:10:36 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,9 @@ void	print_all_cmd(t_minishell *minishell)
 	h = minishell->cmd;
 	while (h)
 	{
-		ft_printf(STDOUT_FILENO, "Command %d : \n Path : %s, to pipe : %d - end %d\n", i, h->path,
-			h->to_pipe, h->end);
 		while ((h->args)[j])
 		{
-			ft_printf(STDOUT_FILENO,"%d -- %s\n", j, (h->args)[j]);
+			ft_printf(STDOUT_FILENO, "%d -- %s\n", j, (h->args)[j]);
 			j++;
 		}
 		j = 0;

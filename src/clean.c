@@ -6,25 +6,11 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:37:27 by randre            #+#    #+#             */
-/*   Updated: 2024/06/06 14:41:53 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/12 15:03:34 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-static void	clean_command_sequel(t_command *cmd)
-{
-	int	i;
-
-	i = -1;
-	/*if (cmd->arg)
-	{
-		while (cmd->arg[++i])
-		{
-			free(cmd->arg[i]);
-		}
-	}*/
-}
 
 static void	clean_command(t_command *cmd)
 {
@@ -47,7 +33,6 @@ static void	clean_command(t_command *cmd)
 			free(cmd->args[i]);
 		free(cmd->args);
 	}
-	clean_command_sequel(cmd);
 }
 
 void	clean_minishell(t_minishell *minishell)
