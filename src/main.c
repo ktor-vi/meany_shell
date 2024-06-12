@@ -28,12 +28,12 @@ t_envs	*init(int argc, char **argv, char **envp, char *line)
 	return (envs);
 }
 
-void	reset(char *line)
+void	reset(char *line, t_envs *envs)
 {
 	if (line)
 		reset_line(line);
 	else
-		kb_quit();
+		kb_quit(envs);
 }
 
 void	exec_cmd(t_minishell *minishell, char **split_line, t_envs *envs)
@@ -70,7 +70,7 @@ int	main(int argc, char **argv, char **envp)
 			if (split_line)
 				exec_cmd(minishell, split_line, envs);
 		}
-		reset(line);
+		reset(line, envs);
 	}
 	return (0);
 }

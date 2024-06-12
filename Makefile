@@ -1,20 +1,20 @@
 NAME = minishell
 BONUS = meanyshell
 
-SRC =  src/n_main.c                   \
-	src/signals.c					\
-                                    \
+SRC =  src/main.c                 \
+	src/signals.c			          		\
+                                  \
 	src/build_envs.c                \
 	src/lexer.c                     \
-	src/lexer_handlers.c			\
-	src/lexer_utils.c				\
+	src/lexer_handlers.c		      	\
+	src/lexer_utils.c				        \
 	src/expand.c                    \
 	src/quotes.c                    \
 	src/populate.c                  \
 	src/post-parse.c                \
-                                    \
+                                  \
 	src/piping.c                    \
-		                            \
+		                              \
 	src/heredoc.c                 	\
 	src/envs_commands.c             \
 	src/export_unset.c              \
@@ -22,7 +22,7 @@ SRC =  src/n_main.c                   \
 	src/cd_command.c                \
 	src/pwd_command.c               \
 	src/echo_command.c              \
-                                    \
+                                  \
 	src/env_utils.c                 \
 	src/env_mem.c                   \
 	src/tok_utils.c                 \
@@ -30,7 +30,7 @@ SRC =  src/n_main.c                   \
 	src/cmd_utils.c                 \
 	src/exec_utils.c                \
 	src/exec_helpers.c              \
-	src/exp_uns_utils.c              \
+	src/exp_uns_utils.c             \
 	src/misc_utils.c                \
 	                                \
 	src/exec_errors.c               \
@@ -39,9 +39,9 @@ SRC =  src/n_main.c                   \
 
 
 INC = -I includes  -I ~/.brew/opt/readline/include
-CC = cc -g
+CC = cc
 
-FLAGS =  -fsanitize=address #-Wall -Wextra -Werror 
+FLAGS = -g #-fsanitize=address #-Wall -Wextra -Werror 
 
 LIBFT_LIBRARY_DIR = bigft  # Descriptive variable name
 

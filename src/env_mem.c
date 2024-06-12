@@ -16,7 +16,7 @@ void	free_envs(t_envs **envs)
 {
 	t_entry	*tmp;
 
-	while ((*envs)->env->next)
+	while ((*envs)->env)
 	{
 		tmp = (*envs)->env;
 		(*envs)->env = (*envs)->env->next;
@@ -24,7 +24,7 @@ void	free_envs(t_envs **envs)
 		free(tmp->value);
 		free(tmp);
 	}
-	while ((*envs)->exp->next)
+	while ((*envs)->exp)
 	{
 		tmp = (*envs)->exp;
 		(*envs)->exp = (*envs)->exp->next;
@@ -32,6 +32,8 @@ void	free_envs(t_envs **envs)
 		free(tmp->value);
 		free(tmp);
 	}
+	(*envs)->exp = NULL;
+	(*envs)->env = NULL;
 }
 
 void	free_entry(t_entry *entry)

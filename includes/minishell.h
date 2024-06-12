@@ -138,7 +138,7 @@ int						is_builtin_char(char **split_line);
 int						ft_equalstr(char *s1, char *s2);
 int						getchindex(char *s, int c);
 void					free_tab(char **tab);
-void					kb_quit(void);
+void					kb_quit(t_envs *envs);
 // PARSE UTILS
 int						ft_isspace(char c);
 int						ft_isspecial(char c);

@@ -45,11 +45,11 @@ t_entry	*newentry(char *var)
 	if (var[eq_pos - 1] == '+')
 		offset = 1;
 	name = ft_substr(var, 0, eq_pos - offset);
-	name = ft_strtrim(ft_strtrim(name, "\""), "\'");
 	new->name = name;
-	value = ft_substr(var, eq_pos + 1, ft_strlen(var) - eq_pos);
-	value = ft_strtrim(ft_strtrim(value, "\""), "\'");
-	new->value = value;
+	if(eq_pos > 0)
+		new->value = ft_substr(var, eq_pos + 1, ft_strlen(var) - eq_pos - 1);
+	else
+		new->value = NULL;
 	new->prev = NULL;
 	new->next = NULL;
 	if (ft_equalstr(new->name, "SHLVL"))
