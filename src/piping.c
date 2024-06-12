@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:12:22 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/12 16:01:59 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/12 17:29:26 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,28 +56,12 @@ void	execute_last_command(t_command *h, int prev_pipe, t_envs *envs)
 
 	preserve_st(st);
 	if (!h->path)
-	{
-		g_exit_codes = 127;
-		ft_printf(STDERR_FILENO, "minishell: %s: command not found\n",
-			h->args[0]);
-		return ;
-	}
+		return (no_path(h));
 	last_child_pid = fork();
 	if (last_child_pid == -1)
 		forkfail_error();
 	if (last_child_pid == 0)
-	{
-		if (prev_pipe != STDIN_FILENO && dup2(prev_pipe, STDIN_FILENO) == -1)
-			dup2in_error();
-		if (dup2(h->fd, STDOUT_FILENO) == -1)
-			dup2out_error();
-		if (h->heredoc == true)
-			here_doc(h, envs, st);
-		else
-			handle_execve(h, envs);
-		close(prev_pipe);
-		exit(EXIT_FAILURE);
-	}
+		last_cmd_child(prev_pipe, h, envs, st);
 	else
 		close(prev_pipe);
 	waitpid(last_child_pid, &status, 0);

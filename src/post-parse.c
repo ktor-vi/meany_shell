@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   post-parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:17:57 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/06 14:40:18 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/12 19:04:53 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,49 +96,10 @@ void	post_parse(t_minishell *minishell, t_envs *envs)
 			ft_cmd_addb(&tmp, it);
 		else if (it->to_pipe && !pre_heredoc(it))
 			ft_cmd_addb(&tmp, it);
-		else if (pre_heredoc(it))
-			ft_printf(1, "skipped : %s\n", it->args[0]);
-		else
+		else if (!pre_heredoc(it))
 			ft_cmd_addb(&tmp, it);
 		it = next;
 	}
 	minishell->cmd = tmp->cmd;
 	free(tmp);
-}
-
-t_minishell	*populate_cmds(char **split_line, t_envs *envs)
-{
-	int			pos;
-	int			fd;
-	t_minishell	*minishell;
-	t_command	*cmd;
-	int			cmd_pos;
-
-	pos = 0;
-	cmd_pos = 0;
-	fd = STDOUT_FILENO;
-	minishell = malloc(sizeof(t_minishell));
-	minishell->cmd = NULL;
-	while (split_line[pos] != NULL)
-	{
-		while (split_line[pos] && !is_tok(split_line, pos))
-			pos++;
-		if (ft_strcmp(split_line[pos], "<<") == 0)
-			pos += 2;
-		if (ft_strcmp(split_line[pos], "|") == 0)
-		{
-			fd = STDOUT_FILENO;
-			ft_cmd_addb(&minishell, build_command(split_line, cmd_pos, fd));
-			cmd_pos = pos + 1;
-			pos++;
-			continue ;
-		}
-		if (ft_equalstr(split_line[pos], ">"))
-			fd = redirect_handle(split_line, pos);
-		ft_cmd_addb(&minishell, build_command(split_line, cmd_pos, fd));
-		pos += 2;
-	}
-	post_parse(minishell, envs);
-	set_paths(minishell->cmd, envs);
-	return (minishell);
 }

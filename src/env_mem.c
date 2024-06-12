@@ -6,12 +6,11 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:05:46 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/27 14:14:42 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/12 17:31:34 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 
 void	ft_envclear(t_entry *lst)
 {
@@ -24,10 +23,6 @@ void	ft_envclear(t_entry *lst)
 	free(lst);
 	lst = NULL;
 }
-
-
-
-
 
 void	free_envs(t_envs *envs)
 {

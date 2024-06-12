@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.s19.be>         +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 13:35:08 by vphilipp          #+#    #+#             */
-/*   Updated: 2023/10/25 16:31:47 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/12 17:33:09 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*ft_strdup(const char *s1)
 {
 	char	*dest;
 	int		len;
-	int 	i;
+	int		i;
 
 	i = 0;
 	len = ft_strlen(s1);

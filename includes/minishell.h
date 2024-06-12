@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/06/12 17:03:12 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/12 19:05:05 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,12 @@ typedef struct s_arg
 {
 	int					in_quotes;
 }						t_args;
-
+typedef struct s_pop
+{
+	int					pos;
+	int					fd;
+	int					c_pos;
+}						t_pop;
 typedef struct s_command
 {
 	char				*path;
@@ -84,9 +89,12 @@ typedef struct s_minishell
 	int					st_in;
 	int					st_out;
 	t_command			*cmd;
+	int					fd;
+	int					pos;
+	int					cmd_pos;
 }						t_minishell;
 
-extern int						g_exit_codes;
+extern int				g_exit_codes;
 
 // ENV & EXPORT
 void					printtab(char **exp);
@@ -181,6 +189,9 @@ void					here_doc(t_command *h, t_envs *envs, int *st);
 // EXEC UTILS
 void					preserve_st(int *st);
 char					*get_cmdpath(char *cmd, t_entry *envp);
+void					last_cmd_child(int prev_pipe, t_command *h,
+							t_envs *envs, int *st);
+void					no_path(t_command *h);
 // EXEC HELPERS
 void					pipe_error(void);
 void					dup2in_error(void);

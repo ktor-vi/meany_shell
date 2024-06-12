@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:46:58 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/12 15:30:56 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/12 17:37:07 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	*ft_loop(char *t_path, char **paths,
-	char *cmd, char *path)
+static char	*ft_loop(char *t_path, char **paths, char *cmd, char *path)
 {
 	int		i;
 	char	*temp_env;
@@ -82,19 +81,22 @@ void	set_paths(t_command *cmds, t_envs *envs)
 	}
 }
 
-// int	redirect_handle(char **split_line, int j)
-// {
-// 	int		fd;
-// 	char	*true_name;
-//
-// 	true_name = ft_strqtrim(ft_strdup(split_line[j + 1]));
-// 	fd = open(true_name, O_WRONLY);
-// 	if (fd < 0)
-// 	{
-// 		fd = open(true_name, O_CREAT, 0666);
-// 		close(fd);
-// 		fd = open(true_name, O_WRONLY);
-// 	}
-// 	free(true_name);
-// 	return (fd);
-// }
+void	no_path(t_command *h)
+{
+	g_exit_codes = 127;
+	ft_printf(STDERR_FILENO, "minishell: %s: command not found\n", h->args[0]);
+}
+
+void	last_cmd_child(int prev_pipe, t_command *h, t_envs *envs, int *st)
+{
+	if (prev_pipe != STDIN_FILENO && dup2(prev_pipe, STDIN_FILENO) == -1)
+		dup2in_error();
+	if (dup2(h->fd, STDOUT_FILENO) == -1)
+		dup2out_error();
+	if (h->heredoc == true)
+		here_doc(h, envs, st);
+	else
+		handle_execve(h, envs);
+	close(prev_pipe);
+	exit(EXIT_FAILURE);
+}
