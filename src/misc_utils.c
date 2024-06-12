@@ -60,7 +60,7 @@ void	free_tab(char **tab)
 void	kb_quit(t_envs *envs)
 {
 	rl_clear_history();
-	free_envs(&envs);
+	free_envs(envs);
 	if (isatty(STDIN_FILENO))
 		write(2, "exit\n", 5);
 	exit(0);

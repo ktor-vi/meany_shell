@@ -12,28 +12,29 @@
 
 #include "../includes/minishell.h"
 
-void	free_envs(t_envs **envs)
-{
-	t_entry	*tmp;
 
-	while ((*envs)->env)
-	{
-		tmp = (*envs)->env;
-		(*envs)->env = (*envs)->env->next;
-		free(tmp->name);
-		free(tmp->value);
-		free(tmp);
-	}
-	while ((*envs)->exp)
-	{
-		tmp = (*envs)->exp;
-		(*envs)->exp = (*envs)->exp->next;
-		free(tmp->name);
-		free(tmp->value);
-		free(tmp);
-	}
-	free((*envs)->exp);
-	free((*envs)->env);
+void	ft_envclear(t_entry *lst)
+{
+	if (lst == NULL)
+		return ;
+	if (lst->next != NULL)
+		ft_envclear(lst->next);
+	free(lst->name);
+	free(lst->value);
+	free(lst);
+	lst = NULL;
+}
+
+
+
+
+
+void	free_envs(t_envs *envs)
+{
+	ft_envclear(envs->env);
+	ft_envclear(envs->exp);
+	envs->exp = NULL;
+	envs->env = NULL;
 }
 
 void	free_entry(t_entry *entry)

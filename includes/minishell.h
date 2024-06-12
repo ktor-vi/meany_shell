@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/06/12 15:41:28 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/12 17:03:12 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,9 +163,10 @@ void					ft_entry_addb(t_entry **lst, t_entry *node);
 t_entry					*newentry(char *var);
 void					free_entry(t_entry *entry);
 void					free_entry_alone(t_entry *entry_prev);
-void					free_envs(t_envs **envs);
+void					free_envs(t_envs *envs);
 char					**ll_to_tab(t_entry *env);
 int						ll_size(t_entry *env);
+char					*new_shlvl(char *base);
 // EXEC
 int						pre_pipe(t_command *cmd);
 int						pre_heredoc(t_command *cmd);

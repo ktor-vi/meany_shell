@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:47:24 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/06 14:47:14 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/12 17:03:41 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,11 @@ t_entry	*newentry(char *var)
 		offset = 1;
 	name = ft_substr(var, 0, eq_pos - offset);
 	new->name = name;
-	if(eq_pos > 0)
-		new->value = ft_substr(var, eq_pos + 1, ft_strlen(var) - eq_pos);
-	else
-		new->value = NULL;
+	new->value = ft_substr(var, eq_pos + 1, ft_strlen(var) - eq_pos);
 	new->prev = NULL;
 	new->next = NULL;
 	if (ft_equalstr(new->name, "SHLVL"))
-		new->value = ft_itoa(ft_atoi(new->value) + 1);
+		new->value = new_shlvl(new->value);
 	return (new);
 }
 

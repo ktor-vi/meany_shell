@@ -82,13 +82,11 @@ t_envs	*build_envs(char **envp)
 		empty_envs(envs);
 	while (envp[i] != NULL)
 	{
-		if (ft_strncmp(envp[i], "OLDPWD", 6) == 0)
+		if (ft_strncmp(envp[i], "OLDPWD", 6) != 0)
 		{
-			i++;
-			continue ;
+			ft_entry_addb(&envs->env, newentry(envp[i]));
+			ft_entry_addb(&envs->exp, newentry(envp[i]));
 		}
-		ft_entry_addb(&envs->env, newentry(envp[i]));
-		ft_entry_addb(&envs->exp, newentry(envp[i]));
 		i++;
 	}
 	oldpwd(envs);
