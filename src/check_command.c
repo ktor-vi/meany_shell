@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:45:36 by randre            #+#    #+#             */
-/*   Updated: 2024/06/12 14:58:49 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/12 15:58:35 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,28 @@ int	is_builtin_char_pos(char **split_line, int pos)
 		return (0);
 }
 
+static int	builtins_next(t_command *cmd, t_envs *envs)
+{
+	if (ft_equalstr(cmd->args[0], "export"))
+	{
+		if (cmd->args[1] && !ft_equalstr(cmd->args[1], ">"))
+			export_cmd(envs, cmd->args);
+		else
+			printexport(envs->exp, cmd);
+	}
+	else if (ft_equalstr(cmd->args[0], "cd"))
+		cd_command(cmd->args);
+	else if (ft_equalstr(cmd->args[0], "unset"))
+		unset_cmd(envs, cmd->args[1]);
+	else if (ft_equalstr(cmd->args[0], "pwd"))
+		pwd_command(cmd);
+	else if (ft_equalstr(cmd->args[0], "exit"))
+		kb_quit();
+	else
+		return (0);
+	return (1);
+}
+
 int	handle_builtins(t_command *cmd, t_envs *envs)
 {
 	while (cmd != NULL)
@@ -71,22 +93,7 @@ int	handle_builtins(t_command *cmd, t_envs *envs)
 			}
 			printenv(envs->env, cmd);
 		}
-		else if (ft_equalstr(cmd->args[0], "export"))
-		{
-			if (cmd->args[1] && !ft_equalstr(cmd->args[1], ">"))
-				export_cmd(envs, cmd->args);
-			else
-				printexport(envs->exp, cmd);
-		}
-		else if (ft_equalstr(cmd->args[0], "cd"))
-			cd_command(cmd->args);
-		else if (ft_equalstr(cmd->args[0], "unset"))
-			unset_cmd(envs, cmd->args[1]);
-		else if (ft_equalstr(cmd->args[0], "pwd"))
-			pwd_command(cmd);
-		else if (ft_equalstr(cmd->args[0], "exit"))
-			kb_quit();
-		else
+		else if (builtins_next(cmd, envs) == 0)
 			return (0);
 		cmd = cmd->next;
 	}

@@ -9,6 +9,7 @@ SRC =  src/n_main.c                   \
 	src/lexer_handlers.c			\
 	src/lexer_utils.c				\
 	src/expand.c                    \
+	src/expand_utils.c				\
 	src/quotes.c                    \
 	src/populate.c                  \
 	src/post-parse.c                \

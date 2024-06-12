@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_uns_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:16:58 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/27 14:17:02 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:47:49 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,7 @@ char	*validate_var(char *var, char *entry)
 	}
 	while (var[i])
 	{
-		if (var[i] == '/')
-		{
-			ft_printf(2, "export: `%s': not a valid identifier\n", entry);
-			return (NULL);
-		}
-		i++;
-	}
-	i = 0;
-	while (var[i])
-	{
-		if (var[i] == '%')
+		if (var[i] == '/' || var[i] == '%')
 		{
 			ft_printf(2, "export: `%s': not a valid identifier\n", entry);
 			return (NULL);
