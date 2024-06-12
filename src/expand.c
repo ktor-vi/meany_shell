@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:43:02 by randre            #+#    #+#             */
-/*   Updated: 2024/06/06 13:33:51 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/12 15:40:25 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,7 @@ char	*ft_expand(char *line, t_lexer_state *state, t_envs *envs)
 		if (res)
 			return (res);
 		else if (line[start] == '?' && !line[start + 1])
-		{
-			res = ft_itoa(g_exit_codes);
-			return (res);
-		}
+			return (get_exit_code());
 	}
 	return (NULL);
 }

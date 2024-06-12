@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/06/12 15:07:46 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/12 15:41:28 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ t_entry					*find_entry(t_entry *lst, char *to_find);
 t_entry					*find_entryprev(t_entry *lst, char *to_find);
 char					*ft_expand(char *line, t_lexer_state *state,
 							t_envs *envs);
+char					*get_exit_code(void);
 t_entry					*swap(t_entry *ptr1, t_entry *ptr2);
 void					sort_alpha_ll(t_entry **head, int count);
 t_entry					*lastentry(t_entry *lst);
