@@ -1,7 +1,6 @@
 
 
-# NAME y
-= minishell
+NAME = minishell
 BONUS = meanyshell
 
 SRC =  src/main.c \
@@ -90,7 +89,8 @@ fclean: clean
 	@ echo "$(GREEN)Deleting $(YELLOW)bigft $(CLR_RMV)binary ✔️"
 	@rm -rf $(NAME)
 	@echo "$(GREEN)Deleting $(YELLOW)$(NAME)$(CLR_RMV) binary ✔️"
-GGGGGGGGGGG): $(OBJS)
+
+(NAME): $(OBJS)
 	@echo "$(YELLOW)Done!$(CLR_RMV)"
 	@make  -C $(LIBFT_LIBRARY_DIR)
 	@$(CC) $(FLAGS) $(LIBS) $(OBJS) bigft/libft.a -o $@

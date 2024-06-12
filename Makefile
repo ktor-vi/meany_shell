@@ -38,15 +38,14 @@ SRC =  src/n_main.c                   \
 	src/clean.c
 
 
-INC = -I includes  -I/opt/homebrew/opt/readline/include
-
+INC = -I includes  -I ~/.brew/opt/readline/include
 CC = cc -g
 
 FLAGS =  -fsanitize=address #-Wall -Wextra -Werror 
 
 LIBFT_LIBRARY_DIR = bigft  # Descriptive variable name
 
-LIBS =   bigft/libft.a -lreadline -L/opt/homebrew/opt/readline/lib
+LIBS =   bigft/libft.a -lreadline -L ~/.brew/opt/readline/lib
 
 OBJS := $(patsubst src/%.c, objs/%.o, ${SRC})
 BONUS_OBJS := $(BONUS_SRCS:.c=.o)
@@ -103,7 +102,7 @@ fclean: clean
 $(NAME): $(OBJS)
 	@echo "$(YELLOW)Done!$(CLR_RMV)"
 	@make  -C $(LIBFT_LIBRARY_DIR)
-	@$(CC) $(FLAGS) $(OBJS) $(LIBS)  -o $@
+	@$(CC) $(FLAGS) $(LIBS) $(OBJS)   -o $@
 	@$(call print_completion)
 
 nothing:
