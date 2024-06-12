@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/06/12 19:05:05 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/12 19:13:20 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void					ft_cmd_addb(t_minishell **mini, t_command *new);
 int						calc_offset(char **split_line, int pos);
 t_command				*build_command(char **split_line, int pos, int fd);
 t_command				*alloc_command(char **split_line, int pos, int fd);
-int						redirect_handle(char **split_line, int j);
+int						redirect_handle(char **split_line, int j, int code);
 void					assign_here_doc(t_command *h, char **split_line, int i);
 t_minishell				*populate_cmds(char **split_line, t_envs *envs);
 void					post_parse(t_minishell *minishell, t_envs *envs);
