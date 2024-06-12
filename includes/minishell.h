@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/06/06 14:39:42 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/12 15:07:46 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ typedef struct s_command
 	struct s_command	*prev;
 }						t_command;
 
-
 typedef struct s_minishell
 {
 	int					st_in;
@@ -105,9 +104,9 @@ void					post_special_increment(char *line, t_lexer_state *st);
 int						handle_special_chars(char *line, t_lexer_state *st);
 int						handle_spaces(char *line, t_lexer_state *state);
 int						handle_expansion(char *line, t_lexer_state *state,
-													t_envs *envs);
+							t_envs *envs);
 void					double_quotes_expand(char *line, t_lexer_state *state,
-															t_envs *envs);
+							t_envs *envs);
 int						handle_end_of_line(char *line, t_lexer_state *state);
 int						get_firstq_pos(char *line);
 int						get_q_type(char *line, int pos);
@@ -126,7 +125,7 @@ void					set_paths(t_command *cmds, t_envs *envs);
 void					export_cmd(t_envs *envs, char **vars);
 void					env_command(char **envp);
 void					check_command(char **split_line, t_envs *envs);
-void					cd_command(char **);
+void					cd_command(char **split_line);
 void					pwd_command(t_command *cmd);
 void					echo_command(char **split_line, t_command *cmd);
 // UTILS
@@ -155,7 +154,7 @@ char					*validate_var(char *var, char *entry);
 t_entry					*find_entry(t_entry *lst, char *to_find);
 t_entry					*find_entryprev(t_entry *lst, char *to_find);
 char					*ft_expand(char *line, t_lexer_state *state,
-										t_envs *envs);
+							t_envs *envs);
 t_entry					*swap(t_entry *ptr1, t_entry *ptr2);
 void					sort_alpha_ll(t_entry **head, int count);
 t_entry					*lastentry(t_entry *lst);
@@ -175,10 +174,10 @@ void					handle_dup2(int oldfd, int newfd);
 void					handle_execve(t_command *h, t_envs *envs);
 void					ft_here_doc_last(t_command *h, t_envs *envs);
 void					ft_here_doc_piped(t_command *h, t_envs *envs,
-													 int *pfds);
+							int *pfds);
 void					here_doc(t_command *h, t_envs *envs, int *st);
 // EXEC UTILS
-void 	preserve_st(int *st);
+void					preserve_st(int *st);
 char					*get_cmdpath(char *cmd, t_entry *envp);
 // EXEC HELPERS
 void					pipe_error(void);
@@ -193,7 +192,7 @@ void					handle_sigint2(int sig);
 void					handle_sigquit(int sig);
 // ERRORS
 int						ft_error(int code, char **split_line, char *line,
-int i);
+							int i);
 
 // FINAL CLEAN
 void					clean_minishell(t_minishell *minishell);

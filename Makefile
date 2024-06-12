@@ -32,6 +32,7 @@ SRC =  src/main.c                 \
 	src/exec_helpers.c              \
 	src/exp_uns_utils.c             \
 	src/misc_utils.c                \
+	src/misc_utils2.c				\
 	                                \
 	src/exec_errors.c               \
 	src/syntax_errors.c             \

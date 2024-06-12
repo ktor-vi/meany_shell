@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:17 by randre            #+#    #+#             */
-/*   Updated: 2024/06/06 14:31:23 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/12 15:34:16 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-int g_exit_codes;
+int	g_exit_codes;
 
 t_envs	*init(int argc, char **argv, char **envp, char *line)
 {

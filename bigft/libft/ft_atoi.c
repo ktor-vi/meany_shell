@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.s19.be>         +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 09:49:00 by vphilipp          #+#    #+#             */
-/*   Updated: 2023/10/25 16:30:02 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:08:40 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	handle_overflow(int sign)
 {
 	if (sign == 1)
 		return (-1);
-	else 
+	else
 		return (0);
 }
 
