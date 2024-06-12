@@ -106,7 +106,7 @@ fclean: clean
 $(NAME): $(OBJS)
 	@echo "$(YELLOW)Done!$(CLR_RMV)"
 	@make  -C $(LIBFT_LIBRARY_DIR)
-	@$(CC) $(FLAGS) $(LIBS) $(OBJS)   -o $@
+	@$(CC) $(FLAGS) $(LIBS) bigft/libft.a $(OBJS)   -o $@
 	@$(call print_completion)
 
 nothing:
