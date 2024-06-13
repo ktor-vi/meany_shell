@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:46:58 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/12 17:37:07 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:53:46 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@ static char	*ft_loop(char *t_path, char **paths, char *cmd, char *path)
 	while (paths[i])
 	{
 		t_path = ft_strjoin(paths[i], "/");
+		if (!t_path)
+			return (NULL);
 		temp_env = ft_strjoin(t_path, cmd);
-		if (access(temp_env, X_OK) == 0)
-		{
-			free(t_path);
-			return (temp_env);
-		}
 		free(t_path);
+		if (!temp_env)
+			return (NULL);
+		if (access(temp_env, X_OK) == 0)
+			return (temp_env);
 		free(temp_env);
 		i++;
 	}
@@ -36,13 +37,10 @@ static char	*ft_loop(char *t_path, char **paths, char *cmd, char *path)
 
 char	*get_cmdpath(char *cmd, t_entry *envp)
 {
-	int		i;
 	char	*path;
-	char	*t_path;
 	char	**paths;
 	char	*temp_env;
 
-	i = 0;
 	if (access(cmd, X_OK) == 0)
 		return (cmd);
 	while (envp && ft_strnstr(envp->name, "PATH", 4) == 0)
@@ -50,10 +48,14 @@ char	*get_cmdpath(char *cmd, t_entry *envp)
 	if (!envp)
 		return (NULL);
 	path = ft_strdup(envp->value);
+	if (!path)
+		return (NULL);
 	paths = ft_split(path, ':');
-	temp_env = ft_loop(t_path, paths, cmd, path);
-	free_tab(paths);
 	free(path);
+	if (!paths)
+		return (NULL);
+	temp_env = ft_loop(NULL, paths, cmd, path);
+	free_tab(paths);
 	return (temp_env);
 }
 
@@ -64,8 +66,7 @@ void	set_paths(t_command *cmds, t_envs *envs)
 	lst = cmds;
 	while (lst)
 	{
-		if (!is_builtin(lst) && !ft_strchr(lst->args[0], '/')
-			&& get_cmdpath(lst->args[0], envs->exp) != NULL)
+		if (!is_builtin(lst) && !ft_strchr(lst->args[0], '/'))
 		{
 			lst->path = get_cmdpath(lst->args[0], envs->exp);
 		}

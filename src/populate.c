@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   populate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 18:59:02 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/12 20:04:43 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/13 15:57:09 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	redir_cases(char **split_line, t_minishell *m)
 {
 	if (ft_equalstr(split_line[m->pos], ">"))
 		m->fd = redirect_handle(split_line, m->pos, O_WRONLY);
-	else if (ft_equalstr(split_line[m->pos],">>"))
+	else if (ft_equalstr(split_line[m->pos], ">>"))
 		m->fd = redirect_handle(split_line, m->pos, O_APPEND);
 	if (ft_strcmp(split_line[m->pos], "<<") == 0)
 		m->pos += 2;
@@ -50,7 +50,7 @@ t_minishell	*populate_cmds(char **split_line, t_envs *envs)
 	t_minishell	*m;
 	t_command	*cmd;
 
-	m = malloc(sizeof(t_minishell));
+	m = ft_calloc(1, sizeof(t_minishell));
 	init_ints(m);
 	while (split_line[m->pos] != NULL)
 	{

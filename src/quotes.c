@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:59:23 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/29 11:05:39 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/13 17:59:39 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,6 @@ char	*ft_strqtrim(char *line)
 		line++;
 	}
 	*trimmed = 0;
+	free(type);
 	return (start);
 }

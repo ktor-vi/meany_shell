@@ -86,6 +86,7 @@ char	*ft_expand(char *line, t_lexer_state *state, t_envs *envs)
 		if (!true_line)
 			return (0);
 		res = envs_search_exp(envs, true_line);
+		free(true_line);
 		state->i = end;
 		if (res)
 			return (res);

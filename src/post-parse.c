@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:17:57 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/12 19:14:26 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/13 18:19:54 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_command	*alloc_command(char **split_line, int pos, int fd)
 			"<<") && !ft_equalstr(split_line[i + pos], "|"))
 		i++;
 	new->args_ct = i + 1;
-	new->arg = malloc(new->args_ct * sizeof(t_args));
+	new->arg = ft_calloc(new->args_ct, sizeof(t_args *));
 	new->args = ft_calloc((new->args_ct), sizeof(char *));
 	new->to_pipe = 0;
 	new->eof = NULL;
@@ -64,10 +64,10 @@ t_command	*build_command(char **split_line, int pos, int fd)
 	{
 		if (is_reditok(split_line, pos + i))
 			break ;
-		new->arg[i] = malloc(1 * sizeof(t_args));
+		new->arg[i] = ft_calloc(1, sizeof(t_args));
 		new->arg[i]->in_quotes = closed_quotes(split_line[pos + i]);
 		if (new->arg[i]->in_quotes)
-			new->args[i] = ft_strqtrim(ft_strdup(split_line[pos + i]));
+			new->args[i] = ft_strqtrim(split_line[pos + i]);
 		else
 			new->args[i] = ft_strdup(split_line[pos + i]);
 		i++;

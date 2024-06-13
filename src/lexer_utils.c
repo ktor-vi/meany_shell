@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:26:48 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/13 14:58:13 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/13 18:18:10 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,19 @@ void	init_state(t_lexer_state *state)
 	state->y = 0;
 	state->group = malloc(2 * sizeof(int));
 	state->split_line = ft_calloc(4096 * 4, sizeof(char));
+}
+
+void	lex_expand(char *line, t_lexer_state *state, t_envs *envs)
+{
+	char	**exp_split;
+	char	*exp;
+	int		i;
+
+	i = -1;
+	exp = ft_expand(line, state, envs);
+	exp_split = lexer(exp, envs);
+	while (exp_split[++i])
+		state->split_line[state->j++] = ft_strdup(exp_split[i]);
+	free_tab(exp_split);
+	free(exp);
 }

@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/06/13 14:58:08 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/13 18:20:42 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ void					handle_quotes(char *line, t_lexer_state *state);
 void					post_special_increment(char *line, t_lexer_state *st);
 int						handle_special_chars(char *line, t_lexer_state *st);
 int						handle_spaces(char *line, t_lexer_state *state);
+void					lex_expand(char *line, t_lexer_state *state,
+							t_envs *envs);
 int						handle_expansion(char *line, t_lexer_state *state,
 							t_envs *envs);
 void					double_quotes_expand(char *line, t_lexer_state *state,

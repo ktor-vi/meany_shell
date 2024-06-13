@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:37:27 by randre            #+#    #+#             */
-/*   Updated: 2024/06/13 15:00:34 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/13 18:20:17 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,8 @@ static void	clean_command(t_command *cmd)
 		free(cmd->eof);
 		cmd->eof = NULL;
 	}
-	if (cmd->path)
-	{
-		free(cmd->path);
-		cmd->path = NULL;
-	}
+	free(cmd->path);
+	cmd->path = NULL;
 	if (cmd->fd != STDOUT_FILENO)
 		close(cmd->fd);
 	clean_arg_s(cmd);
@@ -63,4 +60,6 @@ void	clean_minishell(t_minishell *minishell)
 			minishell->cmd = temp_cmd;
 		}
 	}
+	free(minishell);
+	minishell = NULL;
 }

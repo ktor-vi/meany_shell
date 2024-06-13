@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:00:33 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/12 18:50:32 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/13 18:19:41 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	handle_expansion(char *line, t_lexer_state *state, t_envs *envs)
 		double_quotes_expand(line, state, envs);
 	else if (line[state->i] == '$' && state->in_quotes != 2)
 	{
-		state->split_line[state->j++] = ft_expand(line, state, envs);
+		lex_expand(line, state, envs);
 		if (line[state->i] == 0)
 			return (-1);
 		while (ft_isspace(line[state->i]))
