@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   populate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 18:59:02 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/12 19:14:11 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/12 20:04:43 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ int	redir_cond(char **split_line, t_minishell *m)
 void	redir_cases(char **split_line, t_minishell *m)
 {
 	if (ft_equalstr(split_line[m->pos], ">"))
-		m->fd = redirect_handle(split_line, m->pos);
+		m->fd = redirect_handle(split_line, m->pos, O_WRONLY);
+	else if (ft_equalstr(split_line[m->pos],">>"))
+		m->fd = redirect_handle(split_line, m->pos, O_APPEND);
 	if (ft_strcmp(split_line[m->pos], "<<") == 0)
 		m->pos += 2;
 }
