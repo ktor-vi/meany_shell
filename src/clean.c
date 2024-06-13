@@ -3,20 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:37:27 by randre            #+#    #+#             */
-/*   Updated: 2024/06/12 17:51:52 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/13 15:00:34 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	clean_command(t_command *cmd)
+static void	clean_arg_s(t_command *cmd)
 {
 	int	i;
 
 	i = -1;
+	if (cmd->args)
+	{
+		while (cmd->args[++i])
+			free(cmd->args[i]);
+		free(cmd->args);
+	}
+	i = -1;
+	if (cmd->arg)
+	{
+		while (++i < cmd->args_ct)
+			free(cmd->arg[i]);
+		free(cmd->arg);
+	}
+}
+
+static void	clean_command(t_command *cmd)
+{
 	if (cmd->eof)
 	{
 		free(cmd->eof);
@@ -27,14 +44,9 @@ static void	clean_command(t_command *cmd)
 		free(cmd->path);
 		cmd->path = NULL;
 	}
-	if (cmd->args)
-	{
-		while (cmd->args[++i])
-			free(cmd->args[i]);
-		free(cmd->args);
-	}
 	if (cmd->fd != STDOUT_FILENO)
 		close(cmd->fd);
+	clean_arg_s(cmd);
 }
 
 void	clean_minishell(t_minishell *minishell)

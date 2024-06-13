@@ -45,7 +45,7 @@ t_command	*alloc_command(char **split_line, int pos, int fd)
 			"<<") && !ft_equalstr(split_line[i + pos], "|"))
 		i++;
 	new->args_ct = i + 1;
-	new->arg = malloc(new->args_ct * sizeof(t_args *));
+	new->arg = malloc(new->args_ct * sizeof(t_args));
 	new->args = ft_calloc((new->args_ct), sizeof(char *));
 	new->to_pipe = 0;
 	new->eof = NULL;

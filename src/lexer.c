@@ -104,16 +104,7 @@ char	**lexer(char *line, t_envs *envs)
 {
 	t_lexer_state	state;
 
-	state.i = -1;
-	state.j = 0;
-	state.group = malloc(2 * sizeof(int));
-	state.in_quotes = 0;
-	state.quote_type = 0;
-	state.start_quote = -1;
-	state.end_quote = -1;
-	state.in_qdollas = 0;
-	state.y = 0;
-	state.split_line = ft_calloc(4096 * 4, sizeof(char));
+	init_state(&state);
 	while (line[++state.i])
 	{
 		handle_quotes(line, &state);
@@ -126,5 +117,6 @@ char	**lexer(char *line, t_envs *envs)
 		if (handle_end_of_line(line, &state) < 0)
 			break ;
 	}
+	free(state.group);
 	return (state.split_line);
 }

@@ -24,10 +24,10 @@ static char	*ft_loop(char *t_path, char **paths, char *cmd, char *path)
 		temp_env = ft_strjoin(t_path, cmd);
 		if (access(temp_env, X_OK) == 0)
 		{
-			free_tab(paths);
-			free(path);
+			free(t_path);
 			return (temp_env);
 		}
+		free(t_path);
 		free(temp_env);
 		i++;
 	}
@@ -52,11 +52,8 @@ char	*get_cmdpath(char *cmd, t_entry *envp)
 	path = ft_strdup(envp->value);
 	paths = ft_split(path, ':');
 	temp_env = ft_loop(t_path, paths, cmd, path);
-	if (temp_env == NULL)
-	{
-		free_tab(paths);
-		free(path);
-	}
+	free_tab(paths);
+	free(path);
 	return (temp_env);
 }
 
@@ -70,7 +67,7 @@ void	set_paths(t_command *cmds, t_envs *envs)
 		if (!is_builtin(lst) && !ft_strchr(lst->args[0], '/')
 			&& get_cmdpath(lst->args[0], envs->exp) != NULL)
 		{
-			lst->path = ft_strdup(get_cmdpath(lst->args[0], envs->exp));
+			lst->path = get_cmdpath(lst->args[0], envs->exp);
 		}
 		else
 		{

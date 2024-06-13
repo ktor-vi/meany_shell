@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/06/12 19:13:20 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/13 14:58:08 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ void					kb_quit(t_envs *envs);
 // PARSE UTILS
 int						ft_isspace(char c);
 int						ft_isspecial(char c);
+void					init_state(t_lexer_state *state);
 char					*ft_strndup(char *str, int start, int end);
 int						is_tok(char **split_line, int pos);
 int						is_endtok(char **split_line, int pos);

@@ -19,15 +19,14 @@
 
 void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 {
-	pid_t	child_pid;
 	int		st[2];
 	int		status;
 
 	preserve_st(st);
-	child_pid = fork();
-	if (child_pid == -1)
+	h->pid = fork();
+	if (h->pid == -1)
 		forkfail_error();
-	if (child_pid == 0)
+	if (h->pid == 0)
 	{
 		if (prev_pipe != STDIN_FILENO && dup2(prev_pipe, STDIN_FILENO) == -1)
 			dup2in_error();
@@ -43,12 +42,11 @@ void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 		exit(EXIT_FAILURE);
 	}
 	else
-		waitpid(child_pid, &status, 0);
+		waitpid(h->pid, &status, 0);
 }
 
 void	execute_last_command(t_command *h, int prev_pipe, t_envs *envs)
 {
-	pid_t	last_child_pid;
 	int		pfds[2];
 	int		st[2];
 	int		exit_code;
@@ -57,14 +55,14 @@ void	execute_last_command(t_command *h, int prev_pipe, t_envs *envs)
 	preserve_st(st);
 	if (!h->path)
 		return (no_path(h));
-	last_child_pid = fork();
-	if (last_child_pid == -1)
+	h->pid = fork();
+	if (h->pid == -1)
 		forkfail_error();
-	if (last_child_pid == 0)
+	if (h->pid == 0)
 		last_cmd_child(prev_pipe, h, envs, st);
 	else
 		close(prev_pipe);
-	waitpid(last_child_pid, &status, 0);
+	waitpid(h->pid, &status, 0);
 	g_exit_codes = WEXITSTATUS(status);
 }
 
