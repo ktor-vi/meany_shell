@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:00:33 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/13 18:19:41 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/14 11:14:13 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,16 @@ int	handle_special_chars(char *line, t_lexer_state *st)
 	return (0);
 }
 
-int	handle_spaces(char *line, t_lexer_state *state)
+void	start_double_quotes_expand(char *line, t_lexer_state *st)
 {
-	if (ft_isspace(line[state->i]) && !state->in_quotes)
-	{
-		if (state->y < state->i)
-			state->split_line[state->j++] = ft_strndup(line, state->y,
-					state->i);
-		state->i++;
-		while (ft_isspace(line[state->i]))
-			state->i++;
-		state->y = state->i;
-		state->i--;
-		if (line[state->i + 1] == 0)
-			return (-1);
-	}
-	return (0);
+	int	j;
+
+	j = 0;
+	while (st->in_quotes == 1 && !st->in_qdollas && j < st->i && line[st->i - j
+			- 1] != '"')
+		j++;
+	if (j)
+		st->split_line[st->j++] = ft_strndup(line, st->i - j, st->i - 1);
 }
 
 void	double_quotes_expand(char *line, t_lexer_state *st, t_envs *envs)
@@ -71,9 +65,7 @@ void	double_quotes_expand(char *line, t_lexer_state *st, t_envs *envs)
 	int	i;
 
 	i = 0;
-	if (st->in_quotes == 1 && !st->in_qdollas && st->start_quote < st->i)
-		st->split_line[st->j++] = ft_strndup(line, st->start_quote + 1, st->i
-				- 1);
+	start_double_quotes_expand(line, st);
 	st->split_line[st->j] = ft_expand(line, st, envs);
 	if (st->split_line[st->j])
 		st->j++;
@@ -83,11 +75,12 @@ void	double_quotes_expand(char *line, t_lexer_state *st, t_envs *envs)
 		&& line[st->i + i] != '"')
 		i++;
 	if (i)
+	{
 		st->in_qdollas = 1;
+		st->split_line[st->j++] = ft_strndup(line, st->i, st->i + i - 1);
+	}
 	else if (line[st->i + i] == '"')
 		st->in_qdollas = 0;
-	if (i)
-		st->split_line[st->j++] = ft_strndup(line, st->i, st->i + i - 1);
 	st->y = st->i;
 }
 

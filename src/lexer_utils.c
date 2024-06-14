@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:26:48 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/13 18:18:10 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/14 11:14:00 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,22 @@ void	lex_expand(char *line, t_lexer_state *state, t_envs *envs)
 		state->split_line[state->j++] = ft_strdup(exp_split[i]);
 	free_tab(exp_split);
 	free(exp);
+}
+
+int	handle_spaces(char *line, t_lexer_state *state)
+{
+	if (ft_isspace(line[state->i]) && !state->in_quotes)
+	{
+		if (state->y < state->i)
+			state->split_line[state->j++] = ft_strndup(line, state->y,
+					state->i);
+		state->i++;
+		while (ft_isspace(line[state->i]))
+			state->i++;
+		state->y = state->i;
+		state->i--;
+		if (line[state->i + 1] == 0)
+			return (-1);
+	}
+	return (0);
 }
