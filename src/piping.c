@@ -27,22 +27,20 @@ void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 	if (h->pid == -1)
 		forkfail_error();
 	if (h->pid == 0)
-	{
+	{		
+		close(pfds[0]);
 		if (prev_pipe != STDIN_FILENO && dup2(prev_pipe, STDIN_FILENO) == -1)
 			dup2in_error();
 		if (dup2(pfds[1], STDOUT_FILENO) == -1)
 			dup2out_error();
+		close(pfds[1]);
 		if (h->heredoc == true)
 			here_doc(h, envs, st);
 		else
 			handle_execve(h, envs);
-		close(pfds[0]);
-		close(pfds[1]);
 		close(prev_pipe);
 		exit(EXIT_FAILURE);
 	}
-	else
-		waitpid(h->pid, &status, 0);
 }
 
 void	execute_last_command(t_command *h, int prev_pipe, t_envs *envs)
@@ -50,7 +48,6 @@ void	execute_last_command(t_command *h, int prev_pipe, t_envs *envs)
 	int		pfds[2];
 	int		st[2];
 	int		exit_code;
-	int		status;
 
 	preserve_st(st);
 	if (!h->path)
@@ -60,10 +57,7 @@ void	execute_last_command(t_command *h, int prev_pipe, t_envs *envs)
 		forkfail_error();
 	if (h->pid == 0)
 		last_cmd_child(prev_pipe, h, envs, st);
-	else
-		close(prev_pipe);
-	waitpid(h->pid, &status, 0);
-	g_exit_codes = WEXITSTATUS(status);
+	close(prev_pipe);
 }
 
 void	execute_builtin(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
@@ -110,10 +104,19 @@ void	execute_pipes(t_minishell *minishell, t_envs *envs)
 			execute_builtin(h, prev_pipe, pfds, envs);
 		parent_process(prev_pipe, pfds);
 		prev_pipe = pfds[0];
+		if(h->failed)
+			break;
 		h = h->next;
 	}
 	if (!is_builtin(h))
 		execute_last_command(h, prev_pipe, envs);
 	else
 		execute_last_builtin(h, prev_pipe, envs);
+	waitpid(h->pid, &g_exit_codes, 0);
+	h = h->prev;
+	while(h)
+	{
+	waitpid(h->pid, NULL, 0);
+		h = h->prev;
+	}
 }

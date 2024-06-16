@@ -76,6 +76,7 @@ typedef struct s_command
 	int					args_ct;
 	pid_t				pid;
 	int					fd;
+	int 				failed;
 	int					heredoc;
 	int					to_pipe;
 	char				*eof;

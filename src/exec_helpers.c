@@ -38,7 +38,10 @@ void	handle_execve(t_command *h, t_envs *envs)
 {
 	execve(h->path, h->args, ll_to_tab(envs->env));
 	if (errno == EFAULT || errno == 2)
+	{
 		ft_printf(STDERR_FILENO, "%s: command not found\n", h->args[0]);
+	}
 	else
 		perror("execve failed");
+	h->failed = 1;
 }

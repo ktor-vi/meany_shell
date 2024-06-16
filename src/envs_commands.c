@@ -24,7 +24,6 @@ void	printenv(t_entry *env, t_command *cmd)
 		ft_printf(cmd->fd, "%s=%s\n", tmp->name, tmp->value);
 		tmp = tmp->next;
 	}
-	ft_printf(cmd->fd, "\n");
 }
 
 void	printexport(t_entry *exp, t_command *cmd)
@@ -42,7 +41,6 @@ void	printexport(t_entry *exp, t_command *cmd)
 			ft_printf(cmd->fd, "declare -x %s\n", tmp->name);
 		tmp = tmp->next;
 	}
-	ft_printf(cmd->fd, "\n");
 }
 
 void	printtab(char **exp)

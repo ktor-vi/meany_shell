@@ -95,6 +95,4 @@ void	last_cmd_child(int prev_pipe, t_command *h, t_envs *envs, int *st)
 		here_doc(h, envs, st);
 	else
 		handle_execve(h, envs);
-	close(prev_pipe);
-	exit(EXIT_FAILURE);
 }
