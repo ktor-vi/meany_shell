@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:12:22 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/12 17:29:26 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/17 11:44:52 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@
 
 void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 {
-	int		st[2];
-	int		status;
+	int	st[2];
+	int	status;
 
 	preserve_st(st);
 	h->pid = fork();
 	if (h->pid == -1)
 		forkfail_error();
 	if (h->pid == 0)
-	{		
+	{
 		close(pfds[0]);
 		if (prev_pipe != STDIN_FILENO && dup2(prev_pipe, STDIN_FILENO) == -1)
 			dup2in_error();
@@ -45,9 +45,9 @@ void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 
 void	execute_last_command(t_command *h, int prev_pipe, t_envs *envs)
 {
-	int		pfds[2];
-	int		st[2];
-	int		exit_code;
+	int	pfds[2];
+	int	st[2];
+	int	exit_code;
 
 	preserve_st(st);
 	if (!h->path)
@@ -104,19 +104,17 @@ void	execute_pipes(t_minishell *minishell, t_envs *envs)
 			execute_builtin(h, prev_pipe, pfds, envs);
 		parent_process(prev_pipe, pfds);
 		prev_pipe = pfds[0];
-		if(h->failed)
-			break;
 		h = h->next;
 	}
 	if (!is_builtin(h))
 		execute_last_command(h, prev_pipe, envs);
-	else
+	else		
 		execute_last_builtin(h, prev_pipe, envs);
 	waitpid(h->pid, &g_exit_codes, 0);
 	h = h->prev;
-	while(h)
+	while (h)
 	{
-	waitpid(h->pid, NULL, 0);
+		waitpid(h->pid, NULL, 0);
 		h = h->prev;
 	}
 }
