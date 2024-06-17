@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:26:48 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/14 11:14:00 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/17 18:38:32 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	lex_expand(char *line, t_lexer_state *state, t_envs *envs)
 	i = -1;
 	exp = ft_expand(line, state, envs);
 	if (!exp)
-		return;
+		return ;
 	exp_split = lexer(exp, envs);
 	while (exp_split[++i])
 		state->split_line[state->j++] = ft_strdup(exp_split[i]);

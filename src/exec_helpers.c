@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_helpers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 14:17:43 by ktorvi            #+#    #+#             */
-/*   Updated: 2024/06/06 12:24:01 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/17 18:37:44 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,15 @@ void	handle_execve(t_command *h, t_envs *envs)
 	else
 		perror("execve failed");
 	h->failed = 1;
+}
+
+void	waits_exit_codes(t_command *h)
+{
+	waitpid(h->pid, &g_exit_codes, 0);
+	h = h->prev;
+	while (h)
+	{
+		waitpid(h->pid, NULL, 0);
+		h = h->prev;
+	}
 }

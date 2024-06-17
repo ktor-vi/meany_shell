@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:12:22 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/17 11:44:52 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/17 18:37:35 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,13 +108,7 @@ void	execute_pipes(t_minishell *minishell, t_envs *envs)
 	}
 	if (!is_builtin(h))
 		execute_last_command(h, prev_pipe, envs);
-	else		
+	else
 		execute_last_builtin(h, prev_pipe, envs);
-	waitpid(h->pid, &g_exit_codes, 0);
-	h = h->prev;
-	while (h)
-	{
-		waitpid(h->pid, NULL, 0);
-		h = h->prev;
-	}
+	waits_exit_codes(h);
 }

@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/06/13 18:20:42 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/17 18:38:44 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ typedef struct s_command
 	int					args_ct;
 	pid_t				pid;
 	int					fd;
-	int 				failed;
+	int					failed;
 	int					heredoc;
 	int					to_pipe;
 	char				*eof;
