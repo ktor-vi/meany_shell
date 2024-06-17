@@ -17,16 +17,15 @@ char	*envs_search(t_envs *envs, char *to_find)
 	t_entry	*entry;
 
 	entry = envs->exp;
-	while (entry->next != NULL)
+	while (entry != NULL)
 	{
 		if (ft_equalstr(entry->name, to_find))
 		{
-			ft_strlen(entry->value);
 			return (ft_strdup(entry->value));
 		}
 		entry = entry->next;
 	}
-	return ("");
+	return (NULL);
 }
 
 t_entry	*newentry(char *var)

@@ -3,32 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 13:43:02 by randre            #+#    #+#             */
-/*   Updated: 2024/06/12 15:40:25 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/17 15:46:09 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include <ctype.h>
-
-static char	*envs_search_exp(t_envs *envs, char *to_find)
-{
-	t_entry	*entry;
-
-	entry = envs->exp;
-	while (entry->next != NULL)
-	{
-		if (ft_equalstr(entry->name, to_find))
-		{
-			ft_strlen(entry->value);
-			return (ft_strdup(entry->value));
-		}
-		entry = entry->next;
-	}
-	return (NULL);
-}
 
 static int	ft_bfrspace(char *line, int i)
 {
@@ -85,7 +68,7 @@ char	*ft_expand(char *line, t_lexer_state *state, t_envs *envs)
 		true_line = ft_strndup(line, start, end);
 		if (!true_line)
 			return (0);
-		res = envs_search_exp(envs, true_line);
+		res = envs_search(envs, true_line);
 		free(true_line);
 		state->i = end;
 		if (res)
