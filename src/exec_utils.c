@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:46:58 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/13 16:53:46 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/18 13:49:39 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,12 @@ void	set_paths(t_command *cmds, t_envs *envs)
 	t_command	*lst;
 
 	lst = cmds;
+	if (lst->arg[0] == NULL)
+	{
+		lst->path = NULL;
+		g_exit_codes = 127;
+		return ;
+	}
 	while (lst)
 	{
 		if (!is_builtin(lst) && !ft_strchr(lst->args[0], '/'))

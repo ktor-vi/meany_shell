@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_handlers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:00:33 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/14 11:14:13 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/18 13:52:16 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,14 @@
 
 void	post_special_increment(char *line, t_lexer_state *st)
 {
-	st->i++;
-	while (ft_isspace(line[st->i]))
+	if (line[st->i])
+	{
 		st->i++;
+		while (ft_isspace(line[st->i]))
+			st->i++;
+	}
+	else
+		return ;
 	st->y = st->i;
 	st->j++;
 	st->i--;
@@ -24,7 +29,7 @@ void	post_special_increment(char *line, t_lexer_state *st)
 
 int	handle_special_chars(char *line, t_lexer_state *st)
 {
-	if (ft_isspecial(line[st->i]) && !st->in_quotes)
+	if (ft_isspecial(line[st->i]) && !st->in_quotes && st->i != 0)
 	{
 		if (!ft_isspace(line[st->i - 1]) && st->y < st->i)
 			st->split_line[st->j++] = ft_strndup(line, st->y, st->i);

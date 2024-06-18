@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:45:22 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/30 17:30:34 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/18 14:07:45 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,10 @@ void	handle_quotes(char *line, t_lexer_state *st)
 
 int	handle_end_of_line(char *line, t_lexer_state *state)
 {
-	if (line[state->i + 1] == 0)
+	if (line[state->i] == 0 || line[state->i + 1] == 0)
 	{
+		if (line[state->i] == 0)
+			state->i--;
 		state->split_line[state->j] = ft_strndup(line, state->y, state->i + 1);
 		state->split_line[state->j + 1] = NULL;
 		return (-1);
@@ -110,11 +112,11 @@ char	**lexer(char *line, t_envs *envs)
 		handle_quotes(line, &state);
 		if (handle_special_chars(line, &state) < 0)
 			return (NULL);
-		if (handle_spaces(line, &state) < 0)
+		else if (handle_spaces(line, &state) < 0)
 			break ;
-		if (handle_expansion(line, &state, envs) < 0)
+		else if (handle_expansion(line, &state, envs) < 0)
 			break ;
-		if (handle_end_of_line(line, &state) < 0)
+		else if (handle_end_of_line(line, &state) < 0)
 			break ;
 	}
 	free(state.group);

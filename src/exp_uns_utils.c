@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:16:58 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/12 15:47:49 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/18 14:16:01 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ char	*validate_var(char *var, char *entry)
 	if (ft_isdigit(var[0]))
 	{
 		ft_printf(2, "export: `%s': not a valid identifier\n", entry);
+		g_exit_codes = 1;
 		return (NULL);
 	}
 	while (var[i])
@@ -53,6 +54,7 @@ char	*validate_var(char *var, char *entry)
 		if (var[i] == '/' || var[i] == '%')
 		{
 			ft_printf(2, "export: `%s': not a valid identifier\n", entry);
+			g_exit_codes = 1;
 			return (NULL);
 		}
 		i++;

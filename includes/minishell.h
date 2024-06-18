@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/06/17 18:38:44 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/18 14:20:14 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,7 @@ void					dup2out_error(void);
 void					forkfail_error(void);
 void					create_pipe(int pfds[2]);
 void					parent_process(int prev_pipe, int pfds[2]);
-void	waits_exit_codes(t_command *h);
+void					waits_exit_codes(t_command *h);
 // SIGNALS
 void					handle_sigint(int sig);
 void					handle_sigint2(int sig);
