@@ -45,7 +45,7 @@ SRC =  src/main.c                   \
 INC = -I includes  -I ~/.brew/opt/readline/include
 CC = cc
 
-FLAGS = -g -fsanitize=address #-Wall -Wextra -Werror 
+FLAGS = -g -fsanitize=address # -Wall -Wextra -Werror 
 
 LIBFT_LIBRARY_DIR = bigft  # Descriptive variable name
 
@@ -110,6 +110,7 @@ $(NAME): $(OBJS)
 	@$(call print_completion)
 
 nothing:
+	@mkdir -p objs
 	@if [ -f "$(NAME)" ] && [ -z "$$(find $(SRC) -newer $(NAME))" ]; then \
 		echo "$(CYAN)Nothing has been updated.$(CLR_RMV)"; \
 		fi

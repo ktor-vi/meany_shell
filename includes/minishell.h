@@ -203,6 +203,7 @@ void					dup2out_error(void);
 void					forkfail_error(void);
 void					create_pipe(int pfds[2]);
 void					parent_process(int prev_pipe, int pfds[2]);
+void	waits_exit_codes(t_command *h);
 // SIGNALS
 void					handle_sigint(int sig);
 void					handle_sigint2(int sig);
