@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   populate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 18:59:02 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/13 15:57:09 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/18 14:49:59 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	init_ints(t_minishell *minishell)
 
 void	finish_pop(t_minishell *m, t_envs *envs)
 {
-	post_parse(m, envs);
+	post_parse(m);
 	set_paths(m->cmd, envs);
 }
 
@@ -48,7 +48,6 @@ void	redir_cases(char **split_line, t_minishell *m)
 t_minishell	*populate_cmds(char **split_line, t_envs *envs)
 {
 	t_minishell	*m;
-	t_command	*cmd;
 
 	m = ft_calloc(1, sizeof(t_minishell));
 	init_ints(m);

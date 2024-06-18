@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 14:28:12 by randre            #+#    #+#             */
-/*   Updated: 2024/06/12 15:33:59 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/18 14:41:30 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	kb_quit(t_envs *envs)
 	free_envs(envs);
 	if (isatty(STDIN_FILENO))
 		write(2, "exit\n", 5);
-	exit(0);
+	exit(g_exit_codes);
 }
 
 void	reset_line(char *line)

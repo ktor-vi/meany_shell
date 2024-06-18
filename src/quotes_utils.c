@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:05:44 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/29 11:05:45 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/18 14:51:30 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	get_firstq_pos(char *line)
 {
 	int	i;
-	int	type;
 
 	i = 0;
 	if (!line)

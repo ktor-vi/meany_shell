@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:12:22 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/17 18:37:35 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/18 14:51:02 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 {
 	int	st[2];
-	int	status;
 
 	preserve_st(st);
 	h->pid = fork();
@@ -45,9 +44,7 @@ void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 
 void	execute_last_command(t_command *h, int prev_pipe, t_envs *envs)
 {
-	int	pfds[2];
 	int	st[2];
-	int	exit_code;
 
 	preserve_st(st);
 	if (!h->path)

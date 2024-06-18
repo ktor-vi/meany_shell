@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:45:36 by randre            #+#    #+#             */
-/*   Updated: 2024/06/12 16:14:28 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/18 14:45:59 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,10 @@ int	is_builtin_char_pos(char **split_line, int pos)
 		return (0);
 }
 
+// static int	is_word(char *word)
+// {
+	
+// }
 static int	builtins_next(t_command *cmd, t_envs *envs)
 {
 	if (ft_equalstr(cmd->args[0], "export"))
@@ -71,7 +75,11 @@ static int	builtins_next(t_command *cmd, t_envs *envs)
 	else if (ft_equalstr(cmd->args[0], "pwd"))
 		pwd_command(cmd);
 	else if (ft_equalstr(cmd->args[0], "exit"))
+	{
+		if (cmd->args[1])
+			g_exit_codes = ft_atoi(cmd->args[1]);
 		kb_quit(envs);
+	}
 	else
 		return (0);
 	return (1);

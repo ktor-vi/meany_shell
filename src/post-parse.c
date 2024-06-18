@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   post-parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:17:57 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/13 18:19:54 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/06/18 14:50:33 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ t_command	*alloc_command(char **split_line, int pos, int fd)
 {
 	t_command	*new;
 	int			i;
-	int			size;
 
 	i = 0;
 	new = malloc(sizeof(t_command));
@@ -79,7 +78,7 @@ t_command	*build_command(char **split_line, int pos, int fd)
 	return (new);
 }
 
-void	post_parse(t_minishell *minishell, t_envs *envs)
+void	post_parse(t_minishell *minishell)
 {
 	int			i;
 	t_minishell	*tmp;

@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/06/18 14:20:14 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/18 14:49:38 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ t_command				*alloc_command(char **split_line, int pos, int fd);
 int						redirect_handle(char **split_line, int j, int code);
 void					assign_here_doc(t_command *h, char **split_line, int i);
 t_minishell				*populate_cmds(char **split_line, t_envs *envs);
-void					post_parse(t_minishell *minishell, t_envs *envs);
+void					post_parse(t_minishell *minishell);
 void					set_paths(t_command *cmds, t_envs *envs);
 // BUILTINS
 void					export_cmd(t_envs *envs, char **vars);

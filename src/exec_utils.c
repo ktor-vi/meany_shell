@@ -6,13 +6,13 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:46:58 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/18 13:49:39 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/18 14:52:04 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	*ft_loop(char *t_path, char **paths, char *cmd, char *path)
+static char	*ft_loop(char *t_path, char **paths, char *cmd)
 {
 	int		i;
 	char	*temp_env;
@@ -54,7 +54,7 @@ char	*get_cmdpath(char *cmd, t_entry *envp)
 	free(path);
 	if (!paths)
 		return (NULL);
-	temp_env = ft_loop(NULL, paths, cmd, path);
+	temp_env = ft_loop(NULL, paths, cmd);
 	free_tab(paths);
 	return (temp_env);
 }
