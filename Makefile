@@ -45,7 +45,7 @@ SRC =  src/main.c                   \
 INC = -I includes  -I ~/.brew/opt/readline/include
 CC = cc
 
-FLAGS = -Wall -Wextra -Werror 
+FLAGS = -g -Wall -Wextra -Werror 
 
 LIBFT_LIBRARY_DIR = bigft  # Descriptive variable name
 

@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:46:58 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/18 14:52:04 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/18 15:12:31 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,11 @@ char	*get_cmdpath(char *cmd, t_entry *envp)
 	char	*path;
 	char	**paths;
 	char	*temp_env;
-
 	if (access(cmd, X_OK) == 0)
+	{
+		
 		return (cmd);
+	}
 	while (envp && ft_strnstr(envp->name, "PATH", 4) == 0)
 		envp = envp->next;
 	if (!envp)
@@ -77,10 +79,7 @@ void	set_paths(t_command *cmds, t_envs *envs)
 			lst->path = get_cmdpath(lst->args[0], envs->exp);
 		}
 		else
-		{
-			lst->path = NULL;
-			g_exit_codes = 127;
-		}
+			lst->path = ft_strdup(lst->args[0]);
 		lst = lst->next;
 	}
 }
