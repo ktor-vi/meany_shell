@@ -44,10 +44,8 @@ void	print_all_cmd(t_minishell *minishell)
 {
 	t_command	*h;
 	int			j;
-	int			i;
 
 	j = 0;
-	i = 0;
 	h = minishell->cmd;
 	while (h)
 	{

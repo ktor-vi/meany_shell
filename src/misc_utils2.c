@@ -24,6 +24,10 @@ char	*new_shlvl(char *base)
 	int		base_n;
 
 	base_n = ft_atoi(base);
+	if (base_n >= 1000)
+		base_n = 0;
+	if (base_n < 0)
+		base_n = -1;
 	incremented = ft_itoa(base_n + 1);
 	free(base);
 	return (incremented);

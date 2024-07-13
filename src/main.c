@@ -15,16 +15,15 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-int	g_exit_codes;
+int		g_exit_codes;
 
-t_envs	*init(int argc, char **argv, char **envp, char *line)
+t_envs	*init(int argc, char **argv, char **envp)
 {
 	t_envs	*envs;
 
 	(void)argc;
 	(void)argv;
 	envs = build_envs(envp);
-	line = NULL;
 	return (envs);
 }
 
@@ -56,7 +55,7 @@ int	main(int argc, char **argv, char **envp)
 
 	line = NULL;
 	minishell = NULL;
-	envs = init(argc, argv, envp, line);
+	envs = init(argc, argv, envp);
 	g_exit_codes = 0;
 	while (true)
 	{

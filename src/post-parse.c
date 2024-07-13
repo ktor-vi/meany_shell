@@ -80,14 +80,12 @@ t_command	*build_command(char **split_line, int pos, int fd)
 
 void	post_parse(t_minishell *minishell)
 {
-	int			i;
 	t_minishell	*tmp;
 	t_command	*it;
 	t_command	*next;
 
 	tmp = ft_calloc(1, sizeof(t_minishell));
 	it = minishell->cmd;
-	i = 0;
 	while (it)
 	{
 		next = it->next;
