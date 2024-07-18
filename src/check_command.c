@@ -57,7 +57,7 @@ int	is_builtin_char_pos(char **split_line, int pos)
 
 // static int	is_word(char *word)
 // {
-	
+
 // }
 static int	builtins_next(t_command *cmd, t_envs *envs)
 {

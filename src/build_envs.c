@@ -47,9 +47,7 @@ static t_entry	*pwd(void)
 static void	oldpwd(t_envs *envs)
 {
 	t_entry	*oldpwd;
-	int		k;
 
-	k = -1;
 	oldpwd = malloc(sizeof(t_entry));
 	if (!oldpwd)
 		return ;

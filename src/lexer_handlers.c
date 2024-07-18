@@ -91,11 +91,6 @@ void	double_quotes_expand(char *line, t_lexer_state *st, t_envs *envs)
 
 int	handle_expansion(char *line, t_lexer_state *state, t_envs *envs)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
 	if (line[state->i] == '$' && state->in_quotes == 1)
 		double_quotes_expand(line, state, envs);
 	else if (line[state->i] == '$' && state->in_quotes != 2)

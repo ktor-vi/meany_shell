@@ -40,9 +40,9 @@ char	*get_cmdpath(char *cmd, t_entry *envp)
 	char	*path;
 	char	**paths;
 	char	*temp_env;
+
 	if (access(cmd, X_OK) == 0)
 	{
-		
 		return (cmd);
 	}
 	while (envp && ft_strnstr(envp->name, "PATH", 4) == 0)
