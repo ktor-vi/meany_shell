@@ -1,23 +1,23 @@
 NAME = minishell
 BONUS = meanyshell
 
-SRC =  src/main.c                   \
-	src/signals.c	          		\
-                                    \
+SRC =  src/main.c                 \
+	src/signals.c	          				\
+                                  \
 	src/build_envs.c                \
 	src/lexer.c                     \
-	src/lexer_handlers.c	      	\
-	src/lexer_utils.c		        \
+	src/lexer_handlers.c	      		\
+	src/lexer_utils.c		        		\
 	src/expand.c                    \
-	src/expand_utils.c				\
+	src/expand_utils.c							\
 	src/quotes.c                    \
 	src/populate.c                  \
 	src/populate_helpers.c          \
-									\
+																	\
 	src/post-parse.c                \
-                                    \
+                                  \
 	src/piping.c                    \
-		                            \
+																	\
 	src/heredoc.c                 	\
 	src/envs_commands.c             \
 	src/export_unset.c              \
@@ -25,7 +25,7 @@ SRC =  src/main.c                   \
 	src/cd_command.c                \
 	src/pwd_command.c               \
 	src/echo_command.c              \
-                                    \
+																  \
 	src/env_utils.c                 \
 	src/env_mem.c                   \
 	src/tok_utils.c                 \
@@ -35,21 +35,22 @@ SRC =  src/main.c                   \
 	src/exec_helpers.c              \
 	src/exp_uns_utils.c             \
 	src/misc_utils.c                \
-	src/misc_utils2.c				\
+	src/misc_utils2.c								\
 	                                \
 	src/exec_errors.c               \
 	src/syntax_errors.c             \
 	src/clean.c
 
 
-INC = -I includes  -I/opt/homebrew/opt/readline/include
+INC = -Iincludes  -I/Users/vphilipp/.brew/opt/readline/include
+
 CC = cc
 
-FLAGS = -g -Wall -Wextra -Werror -arch arm64 -finline-functions -fvectorize -fslp-vectorize -ffast-math -falign-functions -funroll-loops -fstrict-aliasing -fomit-frame-pointer -flto -Ofast -O1 -O2 -Os -O3
+FLAGS = -g -Wall -Wextra -Werror # -arch arm64 -finline-functions -fvectorize -fslp-vectorize -ffast-math -falign-functions -funroll-loops -fstrict-aliasing -fomit-frame-pointer -flto -Ofast -O1 -O2 -Os -O3
 LIBFT_LIBRARY_DIR = bigft  # Descriptive variable name
 
-LIBS =   bigft/libft.a -lreadline -L/opt/homebrew/opt/readline/lib
 
+LIBS =   bigft/libft.a -lreadline -L/Users/vphilipp/.brew/opt/readline/lib
 OBJS := $(patsubst src/%.c, objs/%.o, ${SRC})
 BONUS_OBJS := $(BONUS_SRCS:.c=.o)
 
@@ -105,7 +106,7 @@ fclean: clean
 $(NAME): $(OBJS)
 	@echo "$(YELLOW)Done!$(CLR_RMV)"
 	@make  -C $(LIBFT_LIBRARY_DIR)
-	@$(CC) $(FLAGS) $(OBJS) $(LIBS) -o $@
+	@$(CC) $(FLAGS)  $(OBJS)  $(LIBS) -o $@
 	@$(call print_completion)
 
 nothing:
