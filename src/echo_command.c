@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 00:56:33 by randre            #+#    #+#             */
-/*   Updated: 2024/06/06 13:19:02 by randre           ###   ########.fr       */
+/*   Updated: 2024/07/25 13:25:25 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ static int	is_n(char *line)
 }
 
 inline static int	is_special(char c)
-{ 
-	return (c == ' ' || c == '	' || c == '\\' || c == '"' || c == 39 || c == '?' || c == '$');
+{
+	return (c == ' ' || c == '	' || c == '\\' || c == '"' || c == 39
+		|| c == '?' || c == '$');
 }
 
 static void	true_print(t_command *cmd, int i)
@@ -41,9 +42,9 @@ static void	true_print(t_command *cmd, int i)
 	{
 		if (is_special(cmd->args[i][y]))
 		{
-			if(cmd->args[i][y] == '	')
+			if (cmd->args[i][y] == '	')
 				ft_printf(cmd->fd, "%c", "    ");
-			if(cmd->args[i][y] == '	')
+			if (cmd->args[i][y] == '	')
 				ft_printf(cmd->fd, "%c", " ");
 			if (cmd->arg[i]->in_quotes != 0)
 				ft_printf(cmd->fd, "%c", cmd->args[i][y]);
