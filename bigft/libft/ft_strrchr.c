@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vphilipp <vphilipp@student.s19.be>         +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:23:42 by ktorvi            #+#    #+#             */
-/*   Updated: 2023/10/25 16:32:16 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/07/25 13:46:56 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static size_t	ft_strlen(char *str)
 	return (i);
 }
 
-char	*ft_strrchr(const char *s, int c)
+char	*ft_strrchr(char *s, int c)
 {
 	int	i;
 

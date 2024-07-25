@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_handlers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:00:33 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/18 13:52:16 by randre           ###   ########.fr       */
+/*   Updated: 2024/07/25 14:38:11 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,14 @@
 
 void	post_special_increment(char *line, t_lexer_state *st)
 {
-	if (line[st->i])
+	if ((line[st->i - 2] == '<') && (line[st->i - 1] == '<')
+		&& !ft_isspace(line[st->i - 1]))
+	{
+		st->y = st->i;
+		st->j++;
+		return ;
+	}
+	else if (line[st->i])
 	{
 		st->i++;
 		while (ft_isspace(line[st->i]))
