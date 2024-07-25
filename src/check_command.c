@@ -77,7 +77,7 @@ static int	builtins_next(t_command *cmd, t_envs *envs)
 	else if (ft_equalstr(cmd->args[0], "exit"))
 	{
 		if (cmd->args[1])
-			g_exit_codes = ft_atoi(cmd->args[1]);
+			g_exit_codes = -1 * ft_atoi(cmd->args[1]);
 		kb_quit(envs);
 	}
 	else

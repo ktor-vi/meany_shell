@@ -28,8 +28,8 @@ static int	is_n(char *line)
 }
 
 inline static int	is_special(char c)
-{
-	return (c == '\\' || c == '"' || c == 39 || c == '?' || c == '$');
+{ 
+	return (c == ' ' || c == '	' || c == '\\' || c == '"' || c == 39 || c == '?' || c == '$');
 }
 
 static void	true_print(t_command *cmd, int i)
@@ -41,6 +41,10 @@ static void	true_print(t_command *cmd, int i)
 	{
 		if (is_special(cmd->args[i][y]))
 		{
+			if(cmd->args[i][y] == '	')
+				ft_printf(cmd->fd, "%c", "    ");
+			if(cmd->args[i][y] == '	')
+				ft_printf(cmd->fd, "%c", " ");
 			if (cmd->arg[i]->in_quotes != 0)
 				ft_printf(cmd->fd, "%c", cmd->args[i][y]);
 		}

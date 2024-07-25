@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:47:24 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/18 14:51:16 by randre           ###   ########.fr       */
+/*   Updated: 2024/06/12 17:03:41 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_entry	*newentry(char *var)
 	int		eq_pos;
 	int		offset;
 	char	*name;
+	// char	*value;
 
 	offset = 0;
 	new = malloc(sizeof(t_entry));
