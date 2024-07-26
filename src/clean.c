@@ -17,19 +17,11 @@ static void	clean_arg_s(t_command *cmd)
 	int	i;
 
 	i = -1;
-	if (cmd->args)
+	while (++i < cmd->args_ct)
 	{
-		while (cmd->args[++i])
-			free(cmd->args[i]);
-		free(cmd->args);
+		free(cmd->arg[i]);
 	}
-	i = -1;
-	if (cmd->arg)
-	{
-		while (++i < cmd->args_ct)
-			free(cmd->arg[i]);
-		free(cmd->arg);
-	}
+	free(cmd->arg);
 }
 
 static void	clean_command(t_command *cmd)
