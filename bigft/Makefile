@@ -1,6 +1,6 @@
 #  |  |  ___ \    \  |         |
-#  |  |     ) |  |\/ |   _  |  |  /   _ 
-# ___ __|  __/   |   |  (   |    <    __/ 
+#  |  |     ) |  |\/ |   _  |  |  /   _
+# ___ __|  __/   |   |  (   |    <    __/
 #    _|  _____| _|  _| \__,_| _|\_\ \___|
 #                              by jcluzet
 ################################################################################
@@ -9,7 +9,7 @@
 
 NAME        := libft.a
 CC        := cc
-FLAGS    := -g -Wall -Wextra -Werror 
+FLAGS    := -Wall -Wextra -Werror
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
@@ -64,7 +64,7 @@ SRCS        :=            ft_printf/ft_printf.c \
                           libft/ft_substr.c \
                           libft/ft_tolower.c \
                           libft/ft_toupper.c \
-                          
+
 OBJS        := $(SRCS:.c=.o)
 
 ################################################################################
@@ -80,27 +80,12 @@ BLUE		:= \033[1;34m
 CYAN 		:= \033[1;36m
 RM		    := rm -f
 
-total_files := $(words $(SRCS))
-current_file := 0
-progress := 0
-
-define progress_bar
-@$(eval current_file=$(shell echo $$(($(current_file) + 1))))
-@$(eval progress=$(shell echo $$(($(current_file) * 100 / $(total_files)))))
-@printf "\r$(GREEN)Compiling $(YELLOW)bigft$(CLR_RMV)... [%-3d%%] %d/%d $(CYAN)"  $(progress) $(current_file) $(total_files)
-endef
-
-define print_completion
-@printf "$(GREEN)Compilation of $(YELLOW)$(NAME) $(GREEN)complete ✔️$(CLR_RMV)"
-endef
-
-all:	nothing                   ${NAME}
+all:	${NAME}
 
 re:			fclean all
 
 %.o: %.c $(DEPS)
 	@$(CC) $(FLAGS) -c $< -o $@
-	@$(call progress_bar)
 
 clean:
 			@ ${RM} *.o */*.o */*/*.o
@@ -108,13 +93,6 @@ clean:
 fclean:		clean
 			@ ${RM} ${NAME}
 ${NAME}:	$(OBJS)
-	                                                    @echo "$(YELLOW)Done!$(CLR_RMV)"
 	                                                    @ar rcs $(NAME) $(OBJS)
 			@echo "$(GREEN)$(NAME) created ✔️"
-nothing:
-	@if [ -f "$(NAME)" ] && [ -z "$$(find $(SRCS) -newer $(NAME))" ]; then \
-	                          echo "\r$(CYAN)bigft is up to date$(CLR_RMV)"; \
-                          fi 
-.PHONY:		all clean fclean re nothing
-
-
+.PHONY:		all clean fclean re
