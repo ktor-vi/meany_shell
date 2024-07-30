@@ -8,7 +8,8 @@ The 42 minishell, but a *meanie* one
 
 ##### ROUND 3:
 
-- [ ] Export
+- [x] Export swap error
 - [x] relative path
-- [ ] spaces in echo (git)
 - [x] Remove scritps in makefile (debug mode)
+
+##### ROUND 4: 
