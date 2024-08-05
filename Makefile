@@ -25,6 +25,7 @@ SRC =   src/main.c						\
 		src/cd_command.c                \
 		src/pwd_command.c               \
 		src/echo_command.c              \
+		src/exit_command.c              \
 										\
 		src/env_utils.c                 \
 		src/env_mem.c                   \
@@ -42,19 +43,19 @@ SRC =   src/main.c						\
 		src/clean.c
 
 
-INC = -I includes  -I ~/.brew/opt/readline/include
+INC = -I includes -I/opt/homebrew/opt/readline/include
 CC = cc
 
-FLAGS = -g -Wall -Wextra -Werror 
+FLAGS = -g -Wall -Wextra -Werror
 
 LIBFT_LIBRARY_DIR = bigft  # Descriptive variable name
 
-LIBS =   bigft/libft.a -lreadline -L ~/.brew/opt/readline/lib
+LIBS =   bigft/libft.a -lreadline -L/opt/homebrew/opt/readline/lib
 
 OBJS := $(patsubst src/%.c, objs/%.o, ${SRC})
 BONUS_OBJS := $(BONUS_SRCS:.c=.o)
 
-DEPS := $(INC) 
+DEPS := $(INC)
 
 GREEN := \033[1;32m
 YELLOW := \033[1;33m
@@ -106,7 +107,7 @@ fclean: clean
 $(NAME): $(OBJS)
 	@echo "$(YELLOW)Done!$(CLR_RMV)"
 	@make  -C $(LIBFT_LIBRARY_DIR)
-	@$(CC) $(FLAGS) $(LIBS) bigft/libft.a $(OBJS)   -o $@
+	@$(CC) $(FLAGS) $(OBJS) $(LIBS) -o $@
 	@$(call print_completion)
 
 nothing:
