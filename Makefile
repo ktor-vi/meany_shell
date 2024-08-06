@@ -1,61 +1,61 @@
 NAME = minishell
 BONUS = meanyshell
 
-SRC =   src/main.c						\
-		src/signals.c	          		\
-										\
-		src/build_envs.c                \
-		src/lexer.c                     \
-		src/lexer_handlers.c	 		\
-		src/lexer_utils.c				\
-		src/expand.c                    \
-		src/expand_utils.c				\
-		src/quotes.c                    \
-		src/populate.c                  \
-		src/populate_helpers.c          \
-										\
-		src/post-parse.c                \
-										\
-		src/piping.c                    \
-										\
-		src/heredoc.c                 	\
-		src/envs_commands.c             \
-		src/export_unset.c              \
-		src/check_command.c             \
-		src/cd_command.c                \
-		src/pwd_command.c               \
-		src/echo_command.c              \
-		src/exit_command.c              \
-										\
-		src/env_utils.c                 \
-		src/env_mem.c                   \
-		src/tok_utils.c                 \
-		src/quotes_utils.c              \
-		src/cmd_utils.c                 \
-		src/exec_utils.c                \
-		src/exec_helpers.c              \
-		src/exp_uns_utils.c             \
-		src/misc_utils.c                \
-		src/misc_utils2.c				\
-										\
-		src/exec_errors.c               \
-		src/syntax_errors.c             \
-		src/clean.c
+SRC =  src/main.c                 \
+	src/signals.c	          				\
+                                  \
+	src/build_envs.c                \
+	src/lexer.c                     \
+	src/lexer_handlers.c	      		\
+	src/lexer_utils.c		        		\
+	src/expand.c                    \
+	src/expand_utils.c							\
+	src/quotes.c                    \
+	src/populate.c                  \
+	src/populate_helpers.c          \
+																	\
+	src/post-parse.c                \
+                                  \
+	src/piping.c                    \
+																	\
+	src/heredoc.c                 	\
+	src/envs_commands.c             \
+	src/export_unset.c              \
+	src/check_command.c             \
+	src/cd_command.c                \
+	src/pwd_command.c               \
+	src/echo_command.c              \
+	src/exit_command.c              \
+																  \
+	src/env_utils.c                 \
+	src/env_mem.c                   \
+	src/tok_utils.c                 \
+	src/quotes_utils.c              \
+	src/cmd_utils.c                 \
+	src/exec_utils.c                \
+	src/exec_helpers.c              \
+	src/exp_uns_utils.c             \
+	src/misc_utils.c                \
+	src/misc_utils2.c								\
+	                                \
+	src/exec_errors.c               \
+	src/syntax_errors.c             \
+	src/clean.c
 
 
-INC = -I includes -I/opt/homebrew/opt/readline/include
+INC = -Iincludes  -I/Users/vphilipp/.brew/opt/readline/include
+
 CC = cc
 
-FLAGS = -g -Wall -Wextra -Werror
-
+FLAGS = -g -Wall -Wextra -Werror # -arch arm64 -finline-functions -fvectorize -fslp-vectorize -ffast-math -falign-functions -funroll-loops -fstrict-aliasing -fomit-frame-pointer -flto -Ofast -O1 -O2 -Os -O3
 LIBFT_LIBRARY_DIR = bigft  # Descriptive variable name
 
-LIBS =   bigft/libft.a -lreadline -L/opt/homebrew/opt/readline/lib
 
+LIBS =   bigft/libft.a -lreadline -L/Users/vphilipp/.brew/opt/readline/lib
 OBJS := $(patsubst src/%.c, objs/%.o, ${SRC})
 BONUS_OBJS := $(BONUS_SRCS:.c=.o)
 
-DEPS := $(INC)
+DEPS := $(INC) 
 
 GREEN := \033[1;32m
 YELLOW := \033[1;33m
@@ -107,7 +107,7 @@ fclean: clean
 $(NAME): $(OBJS)
 	@echo "$(YELLOW)Done!$(CLR_RMV)"
 	@make  -C $(LIBFT_LIBRARY_DIR)
-	@$(CC) $(FLAGS) $(OBJS) $(LIBS) -o $@
+	@$(CC) $(FLAGS)  $(OBJS)  $(LIBS) -o $@
 	@$(call print_completion)
 
 nothing:
@@ -116,3 +116,4 @@ nothing:
 		echo "$(CYAN)Nothing has been updated.$(CLR_RMV)"; \
 		fi
 .PHONY: all re clean fclean nothing nothingb bonus
+

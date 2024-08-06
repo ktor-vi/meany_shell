@@ -94,5 +94,5 @@ fclean:		clean
 			@ ${RM} ${NAME}
 ${NAME}:	$(OBJS)
 	                                                    @ar rcs $(NAME) $(OBJS)
-			@echo "$(GREEN)$(NAME) created ✔️"
+			@echo "$(GREEN)$(NAME) created ✔️ $(CLR_RMV)"
 .PHONY:		all clean fclean re
