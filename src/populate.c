@@ -6,7 +6,7 @@
 /*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 18:59:02 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/18 14:49:59 by randre           ###   ########.fr       */
+/*   Updated: 2024/07/30 12:56:20 by randre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	finish_pop(t_minishell *m, t_envs *envs)
 int	redir_cond(char **split_line, t_minishell *m)
 {
 	if (ft_strcmp(split_line[m->pos], "<<") == 0
-		|| ft_equalstr(split_line[m->pos], ">"))
+		|| ft_equalstr(split_line[m->pos], ">")
+		|| ft_strcmp(split_line[m->pos], ">>") == 0)
 		return (1);
 	else
 		return (0);

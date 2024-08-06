@@ -139,6 +139,8 @@ void					check_command(char **split_line, t_envs *envs);
 void					cd_command(char **split_line);
 void					pwd_command(t_command *cmd);
 void					echo_command(char **split_line, t_command *cmd);
+void exitshell_command(t_command *cmd, t_envs *envs);
+
 // UTILS
 void					print_all_cmd(t_minishell *minishell);
 void					verify_quotes(char *line, int i, int *val);
