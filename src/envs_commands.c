@@ -79,11 +79,6 @@ char	**ll_to_tab(t_entry *env)
 	if (!env)
 		return (NULL);
 	ct = ll_size(env);
-	while (env)
-	{
-		env = env->next;
-		ct++;
-	}
 	i = 0;
 	envp = malloc(sizeof(char *) * ct + 1);
 	while (env)

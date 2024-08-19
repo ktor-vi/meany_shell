@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/06/18 14:49:38 by randre           ###   ########.fr       */
+/*   Updated: 2024/08/12 09:29:41 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void					check_command(char **split_line, t_envs *envs);
 void					cd_command(char **split_line);
 void					pwd_command(t_command *cmd);
 void					echo_command(char **split_line, t_command *cmd);
-void exitshell_command(t_command *cmd, t_envs *envs);
+void					exitshell_command(t_command *cmd, t_envs *envs);
 
 // UTILS
 void					print_all_cmd(t_minishell *minishell);

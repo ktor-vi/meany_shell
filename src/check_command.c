@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:45:36 by randre            #+#    #+#             */
-/*   Updated: 2024/06/18 14:45:59 by randre           ###   ########.fr       */
+/*   Updated: 2024/08/12 09:29:17 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	builtins_next(t_command *cmd, t_envs *envs)
 	else if (ft_equalstr(cmd->args[0], "pwd"))
 		pwd_command(cmd);
 	else if (ft_equalstr(cmd->args[0], "exit"))
-	   exitshell_command(cmd, envs);
+		exitshell_command(cmd, envs);
 	else
 		return (0);
 	return (1);

@@ -85,7 +85,7 @@ fclean: clean
 	@echo "$(GREEN)Deleting $(YELLOW)$(NAME) $(CLR_RMV) binary ✔️"
 
 $(NAME): $(OBJS)
-	@mkdir -p objs
+	mkdir -p objs
 	@make  -C $(LIBFT_LIBRARY_DIR)
 	$(CC) $(FLAGS) $(LIBS) bigft/libft.a $(OBJS) -o $@
 	@echo "$(YELLOW)Done! ✔️$(CLR_RMV)"
