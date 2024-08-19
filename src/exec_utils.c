@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:46:58 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/18 15:12:31 by randre           ###   ########.fr       */
+/*   Updated: 2024/08/19 16:57:37 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,5 @@ void	last_cmd_child(int prev_pipe, t_command *h, t_envs *envs, int *st)
 		here_doc(h, envs, st);
 	else
 		handle_execve(h, envs);
+	waitpid(h->pid, &g_exit_codes, 0);
 }
