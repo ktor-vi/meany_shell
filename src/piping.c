@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:12:22 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/08/19 16:58:35 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/08/27 13:49:02 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ void	execute_pipes(t_minishell *minishell, t_envs *envs)
 	int			pfds[2];
 
 	h = minishell->cmd;
-	write(1, h->eof, ft_strlen(h->eof));
 	prev_pipe = STDIN_FILENO;
 	while (h->next)
 	{

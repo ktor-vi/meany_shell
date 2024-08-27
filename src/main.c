@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:17 by randre            #+#    #+#             */
-/*   Updated: 2024/07/25 13:53:25 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/08/27 13:33:37 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	main(int argc, char **argv, char **envp)
 	while (true)
 	{
 		signal(SIGINT, handle_sigint);
-		signal(SIGQUIT, handle_sigquit);
+		signal(SIGQUIT, SIG_IGN);
 		line = readline("$ ");
 		signal(SIGINT, handle_sigint2);
 		if (line && !ft_equalstr(line, "") && !line_empty(line))
