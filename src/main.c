@@ -50,11 +50,9 @@ int	line_empty(char *line)
 {
 	int	l;
 	int	i;
-	int	sw;
 
 	i = 0;
 	l = 0;
-	sw = 0;
 	l = ft_strlen(line);
 	while ((line[i] == ' ') || (line[i] == '	'))
 		i++;
