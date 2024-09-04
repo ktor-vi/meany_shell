@@ -62,7 +62,6 @@ static int exit_atoi(const char *str)
 
 void exitshell_command(t_command *cmd, t_envs *envs)
 {
-
 	if (!cmd->args[1])
 	{
 		g_exit_codes = 0;
@@ -72,9 +71,10 @@ void exitshell_command(t_command *cmd, t_envs *envs)
 	{
 		if (numeric_exit(cmd->args[1]))
 		{
-			ft_printf(2, "bash: line 1: exit: %s: numeric argument required\n",
+			ft_printf(2, "exit\nbash: line 1: exit: %s: numeric argument required\n",
 					  cmd->args[1]);
-			g_exit_codes = 255;
+			g_exit_codes = 2;
+			kb_quit(envs);
 		}
 		else
 		{

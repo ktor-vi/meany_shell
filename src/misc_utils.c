@@ -64,7 +64,7 @@ void	kb_quit(t_envs *envs)
 {
 	rl_clear_history();
 	free_envs(envs);
-	if (isatty(STDIN_FILENO))
+	if (isatty(STDIN_FILENO) && g_exit_codes != 2)
 		write(2, "exit\n", 5);
 	exit(g_exit_codes);
 }
