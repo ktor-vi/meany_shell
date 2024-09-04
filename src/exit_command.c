@@ -12,10 +12,10 @@
 
 #include "../includes/minishell.h"
 
-static int	numeric_exit(char *str)
+static int numeric_exit(char *str)
 {
-	int	i;
-	int	over;
+	int i;
+	int over;
 
 	i = 0;
 	over = ft_atoi(str);
@@ -34,11 +34,11 @@ static int	numeric_exit(char *str)
 	return (0);
 }
 
-static int	exit_atoi(const char *str)
+static int exit_atoi(const char *str)
 {
-	unsigned char	result;
-	int				i;
-	int				sign;
+	unsigned char result;
+	int i;
+	int sign;
 
 	result = 0;
 	i = 0;
@@ -60,30 +60,31 @@ static int	exit_atoi(const char *str)
 	return (result * sign);
 }
 
-void	exitshell_command(t_command *cmd, t_envs *envs)
+void exitshell_command(t_command *cmd, t_envs *envs)
 {
-	char	**lexed;
 
-	lexed = NULL;
-	if (cmd->args[2])
+	if (!cmd->args[1])
 	{
-		ft_printf(2, "exit: too many arguments\n");
-		free_tab(lexed);
-		return;
+		g_exit_codes = 0;
+		kb_quit(envs);
 	}
 	if (cmd->args[1])
 	{
 		if (numeric_exit(cmd->args[1]))
 		{
 			ft_printf(2, "bash: line 1: exit: %s: numeric argument required\n",
-				cmd->args[1]);
+					  cmd->args[1]);
 			g_exit_codes = 255;
 		}
 		else
 		{
-			g_exit_codes = exit_atoi(lexed[0]);
-			free_tab(lexed);
+			g_exit_codes = exit_atoi(cmd->args[1]);
 			kb_quit(envs);
 		}
+	}
+	else if (cmd->args[2])
+	{
+		ft_printf(2, "exit: too many arguments\n");
+		return;
 	}
 }
