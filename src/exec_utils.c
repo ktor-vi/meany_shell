@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:46:58 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/08/19 16:57:37 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:44:35 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,9 @@ void	no_path(t_command *h)
 
 void	last_cmd_child(int prev_pipe, t_command *h, t_envs *envs, int *st)
 {
-	if (prev_pipe != STDIN_FILENO && dup2(prev_pipe, STDIN_FILENO) == -1)
+	if (h->input_fd != 0)
+		input_redir(h);
+	else if (prev_pipe != STDIN_FILENO && dup2(prev_pipe, STDIN_FILENO) == -1)
 		dup2in_error();
 	if (dup2(h->fd, STDOUT_FILENO) == -1)
 		dup2out_error();

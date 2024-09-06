@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:17:57 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/07/25 14:20:10 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:47:29 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ t_command	*build_command(char **split_line, int pos, int fd)
 	}
 	if (ft_equalstr(split_line[i + pos], "<<") && split_line[i + pos + 1])
 		assign_here_doc(new, split_line, i + pos);
+	if (ft_equalstr(split_line[i + pos], "<") && split_line[i + pos + 1])
+		new->input_fd = input_redirect_handle(split_line, i + pos);
 	if (split_line[i + pos] && ft_equalstr(split_line[i + pos], "|"))
 		new->to_pipe = 1;
 	return (new);

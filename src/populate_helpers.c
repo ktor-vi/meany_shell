@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:11:18 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/07/25 14:21:11 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:41:46 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,24 @@ int	redirect_handle(char **split_line, int j, int code)
 			fd = open(true_name, O_WRONLY | O_TRUNC);
 	}
 	free(true_name);
+	return (fd);
+}
+
+int	input_redirect_handle(char **split_line, int j)
+{
+	int		fd;
+	char	*true_name;
+
+	true_name = ft_strqtrim(ft_strdup(split_line[j + 1]));
+	fd = open(true_name, O_RDONLY);
+	if (fd < 0)
+	{
+		perror(true_name);
+		free(true_name);
+		return (-1);
+	}
+	free(true_name);
+	ft_printf(1, "%d\n", fd);
 	return (fd);
 }
 

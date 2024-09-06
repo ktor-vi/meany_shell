@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:12:22 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/08/27 13:49:02 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:47:16 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 	if (h->pid == 0)
 	{
 		close(pfds[0]);
-		if (prev_pipe != STDIN_FILENO && dup2(prev_pipe, STDIN_FILENO) == -1)
+		if (h->input_fd != 0)
+			input_redir(h);
+		else if (prev_pipe != STDIN_FILENO && dup2(prev_pipe,
+				STDIN_FILENO) == -1)
 			dup2in_error();
 		if (dup2(pfds[1], STDOUT_FILENO) == -1)
 			dup2out_error();

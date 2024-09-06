@@ -6,16 +6,16 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 09:29:05 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/08/12 09:29:08 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/06 11:58:08 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int numeric_exit(char *str)
+static int	numeric_exit(char *str)
 {
-	int i;
-	int over;
+	int	i;
+	int	over;
 
 	i = 0;
 	over = ft_atoi(str);
@@ -34,11 +34,11 @@ static int numeric_exit(char *str)
 	return (0);
 }
 
-static int exit_atoi(const char *str)
+static int	exit_atoi(const char *str)
 {
-	unsigned char result;
-	int i;
-	int sign;
+	unsigned char	result;
+	int				i;
+	int				sign;
 
 	result = 0;
 	i = 0;
@@ -60,19 +60,20 @@ static int exit_atoi(const char *str)
 	return (result * sign);
 }
 
-void exitshell_command(t_command *cmd, t_envs *envs)
+void	exitshell_command(t_command *cmd, t_envs *envs)
 {
 	if (!cmd->args[1])
 	{
 		g_exit_codes = 0;
 		kb_quit(envs);
 	}
-	if (cmd->args[1])
+	else if (cmd->args[1] && !cmd->args[2])
 	{
 		if (numeric_exit(cmd->args[1]))
 		{
-			ft_printf(2, "exit\nbash: line 1: exit: %s: numeric argument required\n",
-					  cmd->args[1]);
+			ft_printf(2,
+				"exit\nbash: line 1: exit:%s: numeric argument required\n",
+				cmd->args[1]);
 			g_exit_codes = 2;
 			kb_quit(envs);
 		}
@@ -83,8 +84,5 @@ void exitshell_command(t_command *cmd, t_envs *envs)
 		}
 	}
 	else if (cmd->args[2])
-	{
 		ft_printf(2, "exit: too many arguments\n");
-		return;
-	}
 }

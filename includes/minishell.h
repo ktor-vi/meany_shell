@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/08/12 09:29:41 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:25:19 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 # include "../bigft/get_next_line/get_next_line.h"
 # include "../bigft/libft/libft.h"
 # include <errno.h>
-# include <readline/history.h>
-# include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
@@ -26,6 +24,8 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 
 typedef struct s_lexer_state
 {
@@ -74,6 +74,7 @@ typedef struct s_command
 	t_args				**arg;
 	char				**args;
 	int					args_ct;
+	int					input_fd;
 	pid_t				pid;
 	int					fd;
 	int					failed;
@@ -128,6 +129,7 @@ int						calc_offset(char **split_line, int pos);
 t_command				*build_command(char **split_line, int pos, int fd);
 t_command				*alloc_command(char **split_line, int pos, int fd);
 int						redirect_handle(char **split_line, int j, int code);
+int						input_redirect_handle(char **split_line, int j);
 void					assign_here_doc(t_command *h, char **split_line, int i);
 t_minishell				*populate_cmds(char **split_line, t_envs *envs);
 void					post_parse(t_minishell *minishell);
@@ -198,6 +200,7 @@ char					*get_cmdpath(char *cmd, t_entry *envp);
 void					last_cmd_child(int prev_pipe, t_command *h,
 							t_envs *envs, int *st);
 void					no_path(t_command *h);
+void					input_redir(t_command *h);
 // EXEC HELPERS
 void					pipe_error(void);
 void					dup2in_error(void);

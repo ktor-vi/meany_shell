@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   exec_errors.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:08:00 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/05/27 14:09:00 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:47:42 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,11 @@ void	forkfail_error(void)
 {
 	perror("fork failed");
 	exit(EXIT_FAILURE);
+}
+
+void	input_redir(t_command *h)
+{
+	if (dup2(h->input_fd, STDIN_FILENO) == -1)
+		dup2in_error();
+	close(h->input_fd);
 }
