@@ -6,11 +6,13 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 11:15:11 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/08/27 14:06:39 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/06 16:07:10 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <signal.h>
+#include <unistd.h>
 
 void	handle_sigint(int sig)
 {
@@ -29,4 +31,26 @@ void	handle_sigint2(int sig)
 	{
 		ft_putendl_fd("", 1);
 	}
+}
+
+void	handle_sigquit(int sig)
+{
+	if (sig == SIGQUIT)
+	{
+		ft_printf(STDOUT_FILENO, "Quit: 3\n");
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
+
+void	set_signals_during_cmd(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, handle_sigquit);
+}
+
+void	reset_signals(void)
+{
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
 }

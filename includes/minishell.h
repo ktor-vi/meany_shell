@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/09/06 15:25:19 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/06 16:05:34 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,6 +213,9 @@ void					waits_exit_codes(t_command *h);
 void					handle_sigint(int sig);
 void					handle_sigint2(int sig);
 void					handle_sigquit(int sig);
+void					set_signals_during_cmd(void);
+void					reset_signals(void);
+
 // ERRORS
 int						ft_error(int code, char **split_line, char *line,
 							int i);
