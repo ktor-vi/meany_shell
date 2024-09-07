@@ -66,7 +66,7 @@ void	set_paths(t_command *cmds, t_envs *envs)
 	t_command	*lst;
 
 	lst = cmds;
-	if (lst->arg[0] == NULL)
+	if (!lst->arg[0])
 	{
 		lst->path = NULL;
 		g_exit_codes = 127;
@@ -94,7 +94,7 @@ void	last_cmd_child(int prev_pipe, t_command *h, t_envs *envs, int *st)
 {
 	if (h->input_fd != 0)
 		input_redir(h);
-	else if (prev_pipe != STDIN_FILENO && dup2(prev_pipe, STDIN_FILENO) == -1)
+	if (prev_pipe != STDIN_FILENO && dup2(prev_pipe, STDIN_FILENO) == -1)
 		dup2in_error();
 	if (dup2(h->fd, STDOUT_FILENO) == -1)
 		dup2out_error();

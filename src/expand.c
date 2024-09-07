@@ -73,7 +73,7 @@ char	*ft_expand(char *line, t_lexer_state *state, t_envs *envs)
 		state->i = end;
 		if (res)
 			return (res);
-		else if (line[start] == '?')
+		if (line[start] == '?')
 			return (get_exit_code());
 	}
 	return (NULL);

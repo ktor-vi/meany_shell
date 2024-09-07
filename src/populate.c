@@ -23,6 +23,8 @@ void	init_ints(t_minishell *minishell)
 void	finish_pop(t_minishell *m, t_envs *envs)
 {
 	post_parse(m);
+	if(!m->cmd)
+        return ;
 	set_paths(m->cmd, envs);
 }
 

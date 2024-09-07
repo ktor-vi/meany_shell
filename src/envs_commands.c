@@ -50,7 +50,7 @@ void	printtab(char **exp)
 	i = 0;
 	while (exp[i])
 	{
-		ft_printf(STDOUT_FILENO, "%s\n", exp[i]);
+		ft_printf(STDOUT_FILENO, "|%s|\n", exp[i]);
 		i++;
 	}
 	ft_printf(STDOUT_FILENO, "\n");

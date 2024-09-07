@@ -38,11 +38,14 @@ void	reset(char *line, t_envs *envs)
 void	exec_cmd(t_minishell *minishell, char **split_line, t_envs *envs)
 {
 	minishell = populate_cmds(split_line, envs);
+	if(minishell->cmd)
+	{
 	minishell->st_in = dup(STDIN_FILENO);
 	execute_pipes(minishell, envs);
 	dup2(minishell->st_in, STDIN_FILENO);
 	free_tab(split_line);
 	close(minishell->st_in);
+	}
 	clean_minishell(minishell);
 }
 

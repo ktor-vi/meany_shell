@@ -14,5 +14,5 @@
 
 inline char	*get_exit_code(void)
 {
-	return (ft_itoa(g_exit_codes % 255));
+	return (ft_itoa(g_exit_codes % 256));
 }

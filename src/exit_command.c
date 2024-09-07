@@ -60,21 +60,18 @@ static int	exit_atoi(const char *str)
 	return (result * sign);
 }
 
-void	exitshell_command(t_command *cmd, t_envs *envs)
+void exitshell_command(t_command *cmd, t_envs *envs)
 {
 	if (!cmd->args[1])
-	{
-		g_exit_codes = 0;
 		kb_quit(envs);
-	}
 	else if (cmd->args[1] && !cmd->args[2])
 	{
 		if (numeric_exit(cmd->args[1]))
 		{
-			ft_printf(2,
+			printf(
 				"exit\nbash: line 1: exit:%s: numeric argument required\n",
 				cmd->args[1]);
-			g_exit_codes = 2;
+			g_exit_codes = 255;
 			kb_quit(envs);
 		}
 		else
@@ -84,5 +81,8 @@ void	exitshell_command(t_command *cmd, t_envs *envs)
 		}
 	}
 	else if (cmd->args[2])
+	{
 		ft_printf(2, "exit: too many arguments\n");
+		g_exit_codes = 255;
+	}
 }
