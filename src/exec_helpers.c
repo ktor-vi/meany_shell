@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 14:17:43 by ktorvi            #+#    #+#             */
-/*   Updated: 2024/08/19 17:05:35 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:01:11 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ void	waits_exit_codes(t_command *h)
 {
 	int	status;
 
-	if(!is_builtin(h))
+	if (!is_builtin(h))
 	{
-	waitpid(h->pid, &status, 0);
-	if (WIFEXITED(status))
-		g_exit_codes = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-		g_exit_codes = 128 + WTERMSIG(status);
+		waitpid(h->pid, &status, 0);
+		if (WIFEXITED(status))
+			g_exit_codes = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			g_exit_codes = 128 + WTERMSIG(status);
 	}
 	h = h->prev;
 	while (h)

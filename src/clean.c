@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:37:27 by randre            #+#    #+#             */
-/*   Updated: 2024/06/13 18:20:17 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:42:14 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,18 @@ static void	clean_arg_s(t_command *cmd)
 		free(cmd->arg[i]);
 	}
 	free(cmd->arg);
+}
+
+static void	clean_args(t_command *cmd)
+{
+	int	i;
+
+	i = -1;
+	while (++i < cmd->args_ct)
+	{
+		free(cmd->args[i]);
+	}
+	free(cmd->args);
 }
 
 static void	clean_command(t_command *cmd)
@@ -48,6 +60,7 @@ void	clean_minishell(t_minishell *minishell)
 		{
 			temp_cmd = minishell->cmd->next;
 			clean_command(minishell->cmd);
+			clean_args(minishell->cmd);
 			free(minishell->cmd);
 			minishell->cmd = temp_cmd;
 		}

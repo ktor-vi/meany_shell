@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 11:17:57 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/09/06 15:47:29 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:41:00 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_command	*build_command(char **split_line, int pos, int fd)
 
 	i = 0;
 	new = alloc_command(split_line, pos, fd);
+	new->input_fd = 0;
 	while (split_line[i + pos] && !is_endtok(split_line, pos + i))
 	{
 		if (is_reditok(split_line, pos + i))

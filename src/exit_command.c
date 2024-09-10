@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 09:29:05 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/09/06 11:58:08 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:01:56 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	exit_atoi(const char *str)
 	return (result * sign);
 }
 
-void exitshell_command(t_command *cmd, t_envs *envs)
+void	exitshell_command(t_command *cmd, t_envs *envs)
 {
 	if (!cmd->args[1])
 		kb_quit(envs);
@@ -68,8 +68,7 @@ void exitshell_command(t_command *cmd, t_envs *envs)
 	{
 		if (numeric_exit(cmd->args[1]))
 		{
-			printf(
-				"exit\nbash: line 1: exit:%s: numeric argument required\n",
+			printf("exit\nbash: line 1: exit:%s: numeric argument required\n",
 				cmd->args[1]);
 			g_exit_codes = 255;
 			kb_quit(envs);

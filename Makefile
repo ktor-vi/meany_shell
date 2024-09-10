@@ -43,15 +43,15 @@ SRC =  src/main.c                 \
 	src/clean.c
 
 
-INC = -Iincludes  -I/opt/homebrew/opt/readline/include
+INC = -Iincludes  -I ~/.brew/opt/readline/include
 
 CC = cc
 
-FLAGS = -g -Wall -Wextra -Werror # -arch arm64 -finline-functions -fvectorize -fslp-vectorize -ffast-math -falign-functions -funroll-loops -fstrict-aliasing -fomit-frame-pointer -flto -Ofast -O1 -O2 -Os -O3
+FLAGS = -g -O0 -Wall -Wextra -Werror # -arch arm64 -finline-functions -fvectorize -fslp-vectorize -ffast-math -falign-functions -funroll-loops -fstrict-aliasing -fomit-frame-pointer -flto -Ofast -O1 -O2 -Os -O3
 LIBFT_LIBRARY_DIR = bigft  # Descriptive variable name
 
 
-LIBS =   bigft/libft.a -lreadline -L/opt/homebrew/opt/readline/lib
+LIBS =   bigft/libft.a -lreadline -L ~/.brew/opt/readline/lib
 OBJS := $(patsubst src/%.c, objs/%.o, ${SRC})
 BONUS_OBJS := $(BONUS_SRCS:.c=.o)
 

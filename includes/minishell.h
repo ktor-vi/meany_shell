@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/09/06 16:05:34 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:33:07 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,8 @@ void					last_cmd_child(int prev_pipe, t_command *h,
 							t_envs *envs, int *st);
 void					no_path(t_command *h);
 void					input_redir(t_command *h);
+void					close_st(int *st);
+
 // EXEC HELPERS
 void					pipe_error(void);
 void					dup2in_error(void);

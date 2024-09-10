@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:12:22 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/09/06 15:47:16 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:34:41 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 		close(pfds[0]);
 		if (h->input_fd != 0)
 			input_redir(h);
-		if (prev_pipe != STDIN_FILENO && dup2(prev_pipe,
+		else if (prev_pipe != STDIN_FILENO && dup2(prev_pipe,
 				STDIN_FILENO) == -1)
 			dup2in_error();
 		if (dup2(pfds[1], STDOUT_FILENO) == -1)
@@ -41,6 +41,7 @@ void	execute_child(t_command *h, int prev_pipe, int pfds[2], t_envs *envs)
 		else
 			handle_execve(h, envs);
 		close(prev_pipe);
+		close_st(st);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -57,6 +58,7 @@ void	execute_last_command(t_command *h, int prev_pipe, t_envs *envs)
 		forkfail_error();
 	if (h->pid == 0)
 		last_cmd_child(prev_pipe, h, envs, st);
+	close_st(st);
 	close(prev_pipe);
 }
 

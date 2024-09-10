@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envs_commands.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:49:03 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/06 13:33:04 by randre           ###   ########.fr       */
+/*   Updated: 2024/09/10 14:18:35 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,19 @@ char	**ll_to_tab(t_entry *env)
 	int		i;
 	char	*var;
 	int		ct;
+	char	*tmp;
 
 	if (!env)
 		return (NULL);
 	ct = ll_size(env);
 	i = 0;
-	envp = malloc(sizeof(char *) * ct + 1);
+	envp = malloc(sizeof(char *) * (ct + 1));
 	while (env)
 	{
 		var = ft_strjoin(env->name, "=");
+		tmp = var;
 		var = ft_strjoin(var, env->value);
+		free(tmp);
 		envp[i] = var;
 		env = env->next;
 		i++;

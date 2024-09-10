@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:32:24 by randre            #+#    #+#             */
-/*   Updated: 2024/06/12 17:02:42 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:32:46 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ void	preserve_st(int *st)
 {
 	st[0] = dup(STDIN_FILENO);
 	st[1] = dup(STDOUT_FILENO);
+}
+
+void	close_st(int *st)
+{
+	close(st[0]);
+	close(st[1]);
 }
 
 char	*new_shlvl(char *base)

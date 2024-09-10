@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 18:59:02 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/09/06 15:40:33 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:01:32 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	init_ints(t_minishell *minishell)
 void	finish_pop(t_minishell *m, t_envs *envs)
 {
 	post_parse(m);
-	if(!m->cmd)
-        return ;
+	if (!m->cmd)
+		return ;
 	set_paths(m->cmd, envs);
 }
 

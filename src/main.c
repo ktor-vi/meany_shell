@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:17 by randre            #+#    #+#             */
-/*   Updated: 2024/09/06 15:55:51 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:24:41 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ void	reset(char *line, t_envs *envs)
 void	exec_cmd(t_minishell *minishell, char **split_line, t_envs *envs)
 {
 	minishell = populate_cmds(split_line, envs);
-	if(minishell->cmd)
+	if (minishell->cmd)
 	{
-	minishell->st_in = dup(STDIN_FILENO);
-	execute_pipes(minishell, envs);
-	dup2(minishell->st_in, STDIN_FILENO);
-	free_tab(split_line);
-	close(minishell->st_in);
+		minishell->st_in = dup(STDIN_FILENO);
+		execute_pipes(minishell, envs);
+		dup2(minishell->st_in, STDIN_FILENO);
+		free_tab(split_line);
+		close(minishell->st_in);
 	}
 	clean_minishell(minishell);
 }
