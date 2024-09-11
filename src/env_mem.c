@@ -32,8 +32,10 @@ void	free_envs(t_envs *envs)
 	envs->env = NULL;
 }
 
-void	free_entry(t_entry *entry)
+void	free_entry(t_entry **lst, t_entry *entry)
 {
+	if (*lst == entry)
+        *lst = entry->next;
 	if (entry->prev)
 		entry->prev->next = entry->next;
 	if (entry->next)

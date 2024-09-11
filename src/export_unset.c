@@ -42,9 +42,9 @@ int	export_cases(t_envs *envs, char *var)
 	else if (eq_pos > 0)
 	{
 		if (find_entry(envs->exp, var_name) && var[eq_pos - 1] != '+')
-			free_entry(find_entry(envs->exp, var_name));
+			free_entry(&envs->exp, find_entry(envs->exp, var_name));
 		if (find_entry(envs->env, var_name) && var[eq_pos - 1] != '+')
-			free_entry(find_entry(envs->env, var_name));
+			free_entry(&envs->env, find_entry(envs->env, var_name));
 		ft_entry_addb(&envs->env, newentry(var));
 		ft_entry_addb(&envs->exp, newentry(var));
 	}
@@ -86,9 +86,9 @@ void	unset_cmd(t_envs *envs, char *var)
 	else
 	{
 		if (env)
-			free_entry(env);
+			free_entry(&envs->env, env);
 		if (exp)
-			free_entry(exp);
+			free_entry(&envs->exp, exp);
 		envs->exp_ct--;
 		if (envs->exp_ct == 0)
 			envs->exp = NULL;

@@ -47,7 +47,7 @@ INC = -Iincludes  -I ~/.brew/opt/readline/include
 
 CC = cc
 
-FLAGS = -g -O0 -Wall -Wextra -Werror # -arch arm64 -finline-functions -fvectorize -fslp-vectorize -ffast-math -falign-functions -funroll-loops -fstrict-aliasing -fomit-frame-pointer -flto -Ofast -O1 -O2 -Os -O3
+FLAGS = -g -O0 -fsanitize=address -Wall -Wextra -Werror # -arch arm64 -finline-functions -fvectorize -fslp-vectorize -ffast-math -falign-functions -funroll-loops -fstrict-aliasing -fomit-frame-pointer -flto -Ofast -O1 -O2 -Os -O3
 LIBFT_LIBRARY_DIR = bigft  # Descriptive variable name
 
 

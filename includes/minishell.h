@@ -177,7 +177,7 @@ void					sort_alpha_ll(t_entry **head, int count);
 t_entry					*lastentry(t_entry *lst);
 void					ft_entry_addb(t_entry **lst, t_entry *node);
 t_entry					*newentry(char *var);
-void					free_entry(t_entry *entry);
+void					free_entry(t_entry **lst,t_entry *entry);
 void					free_entry_alone(t_entry *entry_prev);
 void					free_envs(t_envs *envs);
 char					**ll_to_tab(t_entry *env);
