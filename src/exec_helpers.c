@@ -55,8 +55,6 @@ void	waits_exit_codes(t_command *h)
 		waitpid(h->pid, &status, 0);
 		if (WIFEXITED(status))
 			g_exit_codes = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			g_exit_codes = 128 + WTERMSIG(status);
 	}
 	h = h->prev;
 	while (h)

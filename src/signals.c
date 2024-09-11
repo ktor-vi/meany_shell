@@ -45,7 +45,6 @@ void	handle_sigquit(int sig)
 
 void	set_signals_during_cmd(void)
 {
-	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, handle_sigquit);
 }
 

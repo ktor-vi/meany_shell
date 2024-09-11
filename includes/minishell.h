@@ -194,6 +194,8 @@ void					ft_here_doc_last(t_command *h, t_envs *envs);
 void					ft_here_doc_piped(t_command *h, t_envs *envs,
 							int *pfds);
 void					here_doc(t_command *h, t_envs *envs, int *st);
+void	                here_doc_alone(char *eof);
+
 // EXEC UTILS
 void					preserve_st(int *st);
 char					*get_cmdpath(char *cmd, t_entry *envp);
@@ -221,6 +223,9 @@ void					reset_signals(void);
 // ERRORS
 int						ft_error(int code, char **split_line, char *line,
 							int i);
+int                     sl_is_tokens(char **split_line);
+int                     sl_is_heredoc(char **split_line);
+
 
 // FINAL CLEAN
 void					clean_minishell(t_minishell *minishell);

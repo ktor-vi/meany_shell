@@ -14,7 +14,7 @@
 
 void	post_special_increment(char *line, t_lexer_state *st)
 {
-	if ((line[st->i - 2] == '<') && (line[st->i - 1] == '<')
+	if (st->i > 1 && (line[st->i - 2] == '<') && (line[st->i - 1] == '<')
 		&& !ft_isspace(line[st->i - 1]))
 	{
 		st->y = st->i;

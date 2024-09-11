@@ -18,7 +18,9 @@ int	redirect_handle(char **split_line, int j, int code)
 	int		fd;
 	char	*true_name;
 
-	true_name = ft_strqtrim(ft_strdup(split_line[j + 1]));
+	true_name = NULL;
+	if(split_line[j + 1])
+	   true_name = ft_strqtrim(ft_strdup(split_line[j + 1]));
 	if (code == O_APPEND)
 		fd = open(true_name, O_WRONLY | O_APPEND);
 	else

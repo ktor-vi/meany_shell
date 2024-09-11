@@ -39,3 +39,22 @@ void	here_doc(t_command *h, t_envs *envs, int *st)
 	if (!pre_heredoc(h))
 		handle_execve(h, envs);
 }
+
+void	here_doc_alone(char *eof)
+{
+	char	*line;
+
+	while (1)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_IGN);
+		write(1, "> ", 2);
+		line = get_next_line(0);
+		if (line == NULL || (ft_strncmp(line, eof, ft_strlen(eof)) == 0
+				&& ft_strlen(line) == ft_strlen(eof) + 1))
+			break ;
+		free(line);
+	}
+	if (line)
+		free(line);
+}

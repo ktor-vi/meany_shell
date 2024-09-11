@@ -120,5 +120,10 @@ char	**lexer(char *line, t_envs *envs)
 			break ;
 	}
 	free(state.group);
+	if(sl_is_tokens(state.split_line) || sl_is_heredoc(state.split_line))
+    {
+        free_tab(state.split_line);
+        return (NULL);
+    }
 	return (state.split_line);
 }

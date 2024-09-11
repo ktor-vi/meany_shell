@@ -38,3 +38,30 @@ char	*new_shlvl(char *base)
 	free(base);
 	return (incremented);
 }
+
+int sl_is_tokens(char **split_line)
+{
+    int i;
+    int res;
+
+    i = 0;
+    res = 1;
+    while(split_line[i])
+    {
+        if(!is_tok(split_line, i))
+            res = 0;
+        i++;
+    }
+    return (res);
+}
+
+int sl_is_heredoc(char **split_line)
+{
+    if(ft_equalstr(split_line[0], "<") && ft_equalstr(split_line[1], "<") && !split_line[3])
+        {
+            here_doc_alone(split_line[2]);
+            return (1);
+        }
+    else
+        return (0);
+}
