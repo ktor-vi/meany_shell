@@ -29,6 +29,7 @@ static void	clean_args(t_command *cmd)
 	int	i;
 
 	i = -1;
+	free(cmd->path);
 	while (++i < cmd->args_ct)
 	{
 		free(cmd->args[i]);
@@ -43,10 +44,9 @@ static void	clean_command(t_command *cmd)
 		free(cmd->eof);
 		cmd->eof = NULL;
 	}
-	free(cmd->path);
-	cmd->path = NULL;
 	if (cmd->fd != STDOUT_FILENO)
 		close(cmd->fd);
+	clean_args(cmd);
 	clean_arg_s(cmd);
 }
 
@@ -60,7 +60,6 @@ void	clean_minishell(t_minishell *minishell)
 		{
 			temp_cmd = minishell->cmd->next;
 			clean_command(minishell->cmd);
-			clean_args(minishell->cmd);
 			free(minishell->cmd);
 			minishell->cmd = temp_cmd;
 		}

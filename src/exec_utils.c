@@ -76,7 +76,7 @@ void	set_paths(t_command *cmds, t_envs *envs)
 	{
 		if (!is_builtin(lst) && !ft_strchr(lst->args[0], '/'))
 		{
-			lst->path = get_cmdpath(lst->args[0], envs->exp);
+			lst->path = ft_strdup(get_cmdpath(lst->args[0], envs->exp));
 		}
 		else
 			lst->path = ft_strdup(lst->args[0]);

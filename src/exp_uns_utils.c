@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-t_entry	*find_entryprev(t_entry *lst, char *to_find)
+t_entry *find_entryprev(t_entry *lst, char *to_find)
 {
 	if (!lst | !to_find)
 		return (NULL);
@@ -25,7 +25,7 @@ t_entry	*find_entryprev(t_entry *lst, char *to_find)
 	return (NULL);
 }
 
-t_entry	*find_entry(t_entry *lst, char *to_find)
+t_entry *find_entry(t_entry *lst, char *to_find)
 {
 	if (!lst || !to_find || lst->name == NULL)
 		return (NULL);
@@ -38,9 +38,9 @@ t_entry	*find_entry(t_entry *lst, char *to_find)
 	return (NULL);
 }
 
-char	*validate_var(char *var, char *entry)
+char *validate_var(char *var, char *entry)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (ft_isdigit(var[0]))
@@ -62,25 +62,45 @@ char	*validate_var(char *var, char *entry)
 	return (var);
 }
 
-void	append_value(t_envs *envs, char *var, int eq_pos)
+static char *calc_append_varname(t_entry *entry, char *var_name, char *var, int eq_pos)
 {
-	t_entry	*entry;
-	char	*var_name;
-	char	*value;
+	char *value;
+	char *trim;
+	char *eq;
+	char *sub;
+	char *new_varname;
 
+	sub = ft_substr(var, eq_pos + 1, ft_strlen(var) - eq_pos);
+	trim = ft_strtrim(sub, "\"'");
+	value = ft_strjoin(entry->value, trim);
+	eq = ft_strjoin(var_name, "=");
+	new_varname = ft_strjoin(eq, value);
+	free(sub);
+	free(value);
+	free(eq);
+	free(trim);
+	free(var_name);
+	return (new_varname);
+}
+void append_value(t_envs *envs, char *var, int eq_pos)
+{
+	t_entry *entry;
+	char *var_name;
+	char *new_varname;
+
+	new_varname = NULL;
 	var_name = ft_substr(var, 0, eq_pos - 1);
 	entry = find_entry(envs->env, var_name);
 	if (!entry)
 		ft_entry_addb(&envs->env, newentry(var));
 	else
 	{
-		value = ft_strjoin(entry->value, ft_strtrim(ft_strtrim(ft_substr(var,
-							eq_pos + 1, ft_strlen(var) - eq_pos), "\""), "'"));
-		entry->value = value;
-		entry = find_entry(envs->exp, var_name);
+		new_varname = calc_append_varname(entry, var_name, var, eq_pos);
+		ft_entry_addb(&envs->env, newentry(new_varname));
 	}
 	if (!entry)
 		ft_entry_addb(&envs->exp, newentry(var));
 	else
-		entry->value = value;
+		ft_entry_addb(&envs->env, newentry(new_varname));
+	free(new_varname);
 }

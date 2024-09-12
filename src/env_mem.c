@@ -12,19 +12,27 @@
 
 #include "../includes/minishell.h"
 
-void	ft_envclear(t_entry *lst)
+void ft_envclear(t_entry *lst)
 {
+	t_entry *tmp;
+
+	tmp = lastentry(lst);
 	if (lst == NULL)
-		return ;
-	if (lst->next != NULL)
-		ft_envclear(lst->next);
-	free(lst->name);
-	free(lst->value);
-	free(lst);
+		return;
+	while (tmp->prev != NULL)
+	{
+		free(tmp->name);
+		free(tmp->value);
+		tmp = tmp->prev;
+		free(tmp->next);
+	}
+	free(tmp->name);
+	free(tmp->value);
+	free(tmp);
 	lst = NULL;
 }
 
-void	free_envs(t_envs *envs)
+void free_envs(t_envs *envs)
 {
 	ft_envclear(envs->env);
 	ft_envclear(envs->exp);
@@ -32,10 +40,10 @@ void	free_envs(t_envs *envs)
 	envs->env = NULL;
 }
 
-void	free_entry(t_entry **lst, t_entry *entry)
+void free_entry(t_entry **lst, t_entry *entry)
 {
 	if (*lst == entry)
-        *lst = entry->next;
+		*lst = entry->next;
 	if (entry->prev)
 		entry->prev->next = entry->next;
 	if (entry->next)
@@ -51,12 +59,12 @@ void	free_entry(t_entry **lst, t_entry *entry)
 	entry = NULL;
 }
 
-void	ft_entry_addb(t_entry **lst, t_entry *node)
+void ft_entry_addb(t_entry **lst, t_entry *node)
 {
-	t_entry	*last;
+	t_entry *last;
 
 	if (node == NULL)
-		return ;
+		return;
 	last = lastentry(*lst);
 	node->prev = last;
 	if (last != NULL)
