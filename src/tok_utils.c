@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:00:10 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/07/25 14:06:39 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/19 11:22:21 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	is_endtok(char **split_line, int pos)
 
 	i = 0;
 	if ((ft_equalstr(split_line[pos + i], "|") || ft_equalstr(split_line[pos
-					+ i], "<<")))
+				+ i], "<<")))
 		return (1);
 	return (0);
 }

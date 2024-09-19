@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:17 by randre            #+#    #+#             */
-/*   Updated: 2024/09/10 14:24:41 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/19 11:18:45 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	reset(char *line, t_envs *envs)
 void	exec_cmd(t_minishell *minishell, char **split_line, t_envs *envs)
 {
 	minishell = populate_cmds(split_line, envs);
-	if (minishell->cmd)
+	if (minishell->cmd && minishell->failed == 0)
 	{
 		minishell->st_in = dup(STDIN_FILENO);
 		execute_pipes(minishell, envs);

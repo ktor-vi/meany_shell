@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:37:27 by randre            #+#    #+#             */
-/*   Updated: 2024/09/10 14:42:14 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/19 10:17:16 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,12 @@ static void	clean_args(t_command *cmd)
 	int	i;
 
 	i = -1;
-	free(cmd->path);
+	if (cmd->path)
+		free(cmd->path);
 	while (++i < cmd->args_ct)
 	{
-		free(cmd->args[i]);
+		if (cmd->args[i])
+			free(cmd->args[i]);
 	}
 	free(cmd->args);
 }

@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:32:24 by randre            #+#    #+#             */
-/*   Updated: 2024/09/10 14:32:46 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/19 10:26:08 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,29 +39,30 @@ char	*new_shlvl(char *base)
 	return (incremented);
 }
 
-int sl_is_tokens(char **split_line)
+int	sl_is_tokens(char **split_line)
 {
-    int i;
-    int res;
+	int	i;
+	int	res;
 
-    i = 0;
-    res = 1;
-    while(split_line[i])
-    {
-        if(!is_tok(split_line, i))
-            res = 0;
-        i++;
-    }
-    return (res);
+	i = 0;
+	res = 1;
+	while (split_line[i])
+	{
+		if (!is_tok(split_line, i))
+			res = 0;
+		i++;
+	}
+	return (res);
 }
 
-int sl_is_heredoc(char **split_line)
+int	sl_is_heredoc(char **split_line)
 {
-    if(ft_equalstr(split_line[0], "<") && ft_equalstr(split_line[1], "<") && !split_line[3])
-        {
-            here_doc_alone(split_line[2]);
-            return (1);
-        }
-    else
-        return (0);
+	if (ft_equalstr(split_line[0], "<") && ft_equalstr(split_line[1], "<")
+		&& !split_line[3])
+	{
+		here_doc_alone(split_line[2]);
+		return (1);
+	}
+	else
+		return (0);
 }

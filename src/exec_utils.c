@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:46:58 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/09/10 14:39:35 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/19 10:28:13 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,10 @@ void	set_paths(t_command *cmds, t_envs *envs)
 	{
 		if (!is_builtin(lst) && !ft_strchr(lst->args[0], '/'))
 		{
-			lst->path = ft_strdup(get_cmdpath(lst->args[0], envs->exp));
+			if (get_cmdpath(lst->args[0], envs->exp) != NULL)
+				lst->path = ft_strdup(get_cmdpath(lst->args[0], envs->exp));
+			else
+				lst->path = NULL;
 		}
 		else
 			lst->path = ft_strdup(lst->args[0]);

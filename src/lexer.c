@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: randre <randre@student.s19.be>             +#+  +:+       +#+        */
+/*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:45:22 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/18 14:07:45 by randre           ###   ########.fr       */
+/*   Updated: 2024/09/19 10:26:30 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,10 +120,10 @@ char	**lexer(char *line, t_envs *envs)
 			break ;
 	}
 	free(state.group);
-	if(sl_is_tokens(state.split_line) || sl_is_heredoc(state.split_line))
-    {
-        free_tab(state.split_line);
-        return (NULL);
-    }
+	if (sl_is_tokens(state.split_line) || sl_is_heredoc(state.split_line))
+	{
+		free_tab(state.split_line);
+		return (NULL);
+	}
 	return (state.split_line);
 }

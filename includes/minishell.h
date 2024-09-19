@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 13:36:11 by randre            #+#    #+#             */
-/*   Updated: 2024/09/10 14:33:07 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/19 11:16:45 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <unistd.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <unistd.h>
 
 typedef struct s_lexer_state
 {
@@ -93,6 +93,7 @@ typedef struct s_minishell
 	t_command			*cmd;
 	int					fd;
 	int					pos;
+	int					failed;
 	int					cmd_pos;
 }						t_minishell;
 
@@ -177,7 +178,7 @@ void					sort_alpha_ll(t_entry **head, int count);
 t_entry					*lastentry(t_entry *lst);
 void					ft_entry_addb(t_entry **lst, t_entry *node);
 t_entry					*newentry(char *var);
-void					free_entry(t_entry **lst,t_entry *entry);
+void					free_entry(t_entry **lst, t_entry *entry);
 void					free_entry_alone(t_entry *entry_prev);
 void					free_envs(t_envs *envs);
 char					**ll_to_tab(t_entry *env);
@@ -194,7 +195,7 @@ void					ft_here_doc_last(t_command *h, t_envs *envs);
 void					ft_here_doc_piped(t_command *h, t_envs *envs,
 							int *pfds);
 void					here_doc(t_command *h, t_envs *envs, int *st);
-void	                here_doc_alone(char *eof);
+void					here_doc_alone(char *eof);
 
 // EXEC UTILS
 void					preserve_st(int *st);
@@ -223,9 +224,8 @@ void					reset_signals(void);
 // ERRORS
 int						ft_error(int code, char **split_line, char *line,
 							int i);
-int                     sl_is_tokens(char **split_line);
-int                     sl_is_heredoc(char **split_line);
-
+int						sl_is_tokens(char **split_line);
+int						sl_is_heredoc(char **split_line);
 
 // FINAL CLEAN
 void					clean_minishell(t_minishell *minishell);

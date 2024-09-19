@@ -6,19 +6,19 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:05:46 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/06/12 17:31:34 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/19 10:27:05 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void ft_envclear(t_entry *lst)
+void	ft_envclear(t_entry *lst)
 {
-	t_entry *tmp;
+	t_entry	*tmp;
 
 	tmp = lastentry(lst);
 	if (lst == NULL)
-		return;
+		return ;
 	while (tmp->prev != NULL)
 	{
 		free(tmp->name);
@@ -32,7 +32,7 @@ void ft_envclear(t_entry *lst)
 	lst = NULL;
 }
 
-void free_envs(t_envs *envs)
+void	free_envs(t_envs *envs)
 {
 	ft_envclear(envs->env);
 	ft_envclear(envs->exp);
@@ -40,7 +40,7 @@ void free_envs(t_envs *envs)
 	envs->env = NULL;
 }
 
-void free_entry(t_entry **lst, t_entry *entry)
+void	free_entry(t_entry **lst, t_entry *entry)
 {
 	if (*lst == entry)
 		*lst = entry->next;
@@ -59,12 +59,12 @@ void free_entry(t_entry **lst, t_entry *entry)
 	entry = NULL;
 }
 
-void ft_entry_addb(t_entry **lst, t_entry *node)
+void	ft_entry_addb(t_entry **lst, t_entry *node)
 {
-	t_entry *last;
+	t_entry	*last;
 
 	if (node == NULL)
-		return;
+		return ;
 	last = lastentry(*lst);
 	node->prev = last;
 	if (last != NULL)

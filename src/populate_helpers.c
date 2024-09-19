@@ -6,7 +6,7 @@
 /*   By: vphilipp <vphilipp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 14:11:18 by vphilipp          #+#    #+#             */
-/*   Updated: 2024/09/06 16:20:19 by vphilipp         ###   ########.fr       */
+/*   Updated: 2024/09/19 10:25:41 by vphilipp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	redirect_handle(char **split_line, int j, int code)
 	char	*true_name;
 
 	true_name = NULL;
-	if(split_line[j + 1])
-	   true_name = ft_strqtrim(ft_strdup(split_line[j + 1]));
+	if (split_line[j + 1])
+		true_name = ft_strqtrim(ft_strdup(split_line[j + 1]));
 	if (code == O_APPEND)
 		fd = open(true_name, O_WRONLY | O_APPEND);
 	else
